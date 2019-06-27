@@ -23,8 +23,6 @@ public class RpcService {
                 Socket socket =serverSocket.accept();
                 executorService.execute(new ProcessorHandler(socket,service));
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }finally {

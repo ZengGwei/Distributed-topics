@@ -12,6 +12,5 @@ public class ServiceDemo {
         RpcService rpcService = new RpcService();
         rpcService.publisher(weather,8888 );
 
-
     }
 }
