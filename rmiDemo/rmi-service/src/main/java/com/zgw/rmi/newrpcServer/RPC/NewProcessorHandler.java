@@ -23,10 +23,12 @@ public class NewProcessorHandler implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("收到请求，正在处理....");
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
-            RcpRequest rcpRequest =(RcpRequest) objectInputStream.readObject();
-            Object res =  invoke(rcpRequest);
+            Object o = objectInputStream.readObject();
+            NewRcpRequest req= (NewRcpRequest) o;
+            Object res =  invoke(req);
 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
             objectOutputStream.writeObject(res);
@@ -42,7 +44,7 @@ public class NewProcessorHandler implements Runnable {
         }
     }
 
-    private Object invoke(RcpRequest rcpRequest) {
+    private Object invoke(NewRcpRequest rcpRequest) {
         String serverName = rcpRequest.getServerName();
         if (null == serverName){
             throw  new IllegalArgumentException("服务类为null");

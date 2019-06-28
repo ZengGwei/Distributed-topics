@@ -1,5 +1,7 @@
 package com.zgw.rmi.rpc;
 
+import com.zgw.rmi.newrpcServer.RPC.NewRcpRequest;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,7 +34,8 @@ public class TCPTransport {
         }
     }
 
-    public Object send(RpcRequest rpcRequest){
+    public Object send(NewRcpRequest rpcRequest){
+        System.out.println("发送请求 request："+rpcRequest);
         Socket socket=null;
         try {
             socket = newSocket();
@@ -46,6 +49,7 @@ public class TCPTransport {
             Object result = inputStream.readObject();
             outputStream.close();
             inputStream.close();
+            System.out.println(" 处理完毕 ："+rpcRequest);
             return result;
 
         }catch (Exception e){

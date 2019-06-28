@@ -1,4 +1,4 @@
-package com.zgw.rmi.newrpcClient;
+package com.zgw.rmi.newrpcServer;
 
 import java.io.Serializable;
 

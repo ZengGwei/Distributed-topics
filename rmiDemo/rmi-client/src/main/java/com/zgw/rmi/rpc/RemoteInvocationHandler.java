@@ -1,5 +1,7 @@
 package com.zgw.rmi.rpc;
 
+import com.zgw.rmi.newrpcServer.RPC.NewRcpRequest;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -18,10 +20,10 @@ public class RemoteInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        RpcRequest rpcRequest=new RpcRequest();
-        rpcRequest.setClassName(method.getDeclaringClass().getName());
+        NewRcpRequest rpcRequest=new NewRcpRequest();
+        rpcRequest.setServerName(method.getDeclaringClass().getName());
         rpcRequest.setMethodName(method.getName());
-        rpcRequest.setParameters(args);
+        rpcRequest.setPrams(args);
 
         TCPTransport tcpTransport = new TCPTransport(this.host,this.port );
         Object send = tcpTransport.send(rpcRequest);

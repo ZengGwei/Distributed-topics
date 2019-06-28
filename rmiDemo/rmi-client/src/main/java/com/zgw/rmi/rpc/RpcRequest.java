@@ -1,6 +1,7 @@
 package com.zgw.rmi.rpc;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * create by Guangwei.Zeng on 2019/2019/4/23
@@ -33,5 +34,14 @@ public class RpcRequest implements Serializable {
 
     public void setParameters(Object[] parameters) {
         this.parameters = parameters;
+    }
+
+    @Override
+    public String toString() {
+        return "RpcRequest{" +
+                "className='" + className + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", parameters=" + Arrays.toString(parameters) +
+                '}';
     }
 }

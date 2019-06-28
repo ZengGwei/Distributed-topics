@@ -1,5 +1,7 @@
 package com.zgw.rmi.newrpcServer.RPC;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -27,6 +29,7 @@ public class ServerPublish {
     服务对外发布//BIO
      */
     public void  publish(){
+        System.out.println("启动一个服务...");
         ServerSocket serverSocket =null;
         try {
               serverSocket = new ServerSocket(port);

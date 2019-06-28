@@ -1,6 +1,7 @@
 package com.zgw.rmi.newrpcServer.RPC;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * 请求参数
@@ -8,8 +9,8 @@ import java.io.Serializable;
  * @create 2019/6/27
  * @since 1.0.0
  */
-public class RcpRequest implements Serializable {
-    private static final long serialVersionUID = -5670285704940480605L;
+public class NewRcpRequest implements Serializable {
+    private static long serialVersionUID = -4402454311696246199L;
 
     private  String serverName;
 
@@ -17,10 +18,10 @@ public class RcpRequest implements Serializable {
 
     private Object[] prams;
 
-    public RcpRequest() {
+    public NewRcpRequest() {
     }
 
-    public RcpRequest(String serverName, String methodName, Object[] prams) {
+    public NewRcpRequest(String serverName, String methodName, Object[] prams) {
         this.serverName = serverName;
         this.methodName = methodName;
         this.prams = prams;
@@ -48,5 +49,14 @@ public class RcpRequest implements Serializable {
 
     public void setPrams(Object[] prams) {
         this.prams = prams;
+    }
+
+    @Override
+    public String toString() {
+        return "NewRcpRequest{" +
+                "serverName='" + serverName + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", prams=" + Arrays.toString(prams) +
+                '}';
     }
 }
