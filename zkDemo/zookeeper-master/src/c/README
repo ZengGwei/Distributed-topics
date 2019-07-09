@@ -4,7 +4,7 @@
 This package provides a C client interface to Zookeeper server.
 
 For the latest information about ZooKeeper, please visit our website at:
-   http://zookeeper.apache.org/
+   com.cat.core.http://zookeeper.apache.org/
 and our wiki, at:
    https://cwiki.apache.org/confluence/display/ZOOKEEPER
 

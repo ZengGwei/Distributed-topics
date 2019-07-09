@@ -6,7 +6,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
-"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+"com.cat.core.http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
 <article id="bk_Admin">
   <title>ZooKeeper Administrator's Guide</title>
 
@@ -26,7 +26,7 @@
       <para>Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License. You may
       obtain a copy of the License at <ulink
-      url="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</ulink>.</para>
+      url="com.cat.core.http://www.apache.org/licenses/LICENSE-2.0">com.cat.core.http://www.apache.org/licenses/LICENSE-2.0</ulink>.</para>
 
       <para>Unless required by applicable law or agreed to in writing,
       software distributed under the License is distributed on an "AS IS"
@@ -218,7 +218,7 @@
           for your system, or download the JDK from:</para>
 
           <para><ulink
-          url="http://java.sun.com/javase/downloads/index.jsp">http://java.sun.com/javase/downloads/index.jsp</ulink></para>
+          url="com.cat.core.http://java.sun.com/javase/downloads/index.jsp">com.cat.core.http://java.sun.com/javase/downloads/index.jsp</ulink></para>
         </listitem>
 
         <listitem>
@@ -235,8 +235,8 @@
             from:
           </para>
           <para>
-            <ulink url="http://zookeeper.apache.org/releases.html">
-              http://zookeeper.apache.org/releases.html
+            <ulink url="com.cat.core.http://zookeeper.apache.org/releases.html">
+              com.cat.core.http://zookeeper.apache.org/releases.html
             </ulink>
           </para>
         </listitem>
@@ -296,7 +296,7 @@ server.3=zoo3:2888:3888</programlisting>
           </computeroutput></para>
           
           <para>QuorumPeerMain starts a ZooKeeper server,
-            <ulink url="http://java.sun.com/javase/technologies/core/mntr-mgmt/javamanagement/">JMX</ulink>
+            <ulink url="com.cat.core.http://java.sun.com/javase/technologies/core/mntr-mgmt/javamanagement/">JMX</ulink>
             management beans are also registered which allows
             management through a JMX management console. 
             The <ulink url="zookeeperJMX.html">ZooKeeper JMX
@@ -590,9 +590,9 @@ server.3=zoo3:2888:3888</programlisting>
       interaction.</para>
 
       <para>Having a supervisory process such as <ulink
-      url="http://cr.yp.to/daemontools.html">daemontools</ulink> or
+      url="com.cat.core.http://cr.yp.to/daemontools.html">daemontools</ulink> or
       <ulink
-      url="http://en.wikipedia.org/wiki/Service_Management_Facility">SMF</ulink>
+      url="com.cat.core.http://en.wikipedia.org/wiki/Service_Management_Facility">SMF</ulink>
       (other options for supervisory process are also available, it's
       up to you which one you would like to use, these are just two
       examples) managing your ZooKeeper server ensures that if the
@@ -626,10 +626,10 @@ server.3=zoo3:2888:3888</programlisting>
       <title>Logging</title>
 
     <para>
-        ZooKeeper uses <emphasis role="bold"><ulink url="http://www.slf4j.org">SLF4J</ulink></emphasis>
+        ZooKeeper uses <emphasis role="bold"><ulink url="com.cat.core.http://www.slf4j.org">SLF4J</ulink></emphasis>
         version 1.7.5 as its logging infrastructure. For backward compatibility it is bound to
         <emphasis role="bold">LOG4J</emphasis> but you can use
-        <emphasis role="bold"><ulink url="http://logback.qos.ch/">LOGBack</ulink></emphasis>
+        <emphasis role="bold"><ulink url="com.cat.core.http://logback.qos.ch/">LOGBack</ulink></emphasis>
         or any other supported logging framework of your choice.
     </para>
     <para>
@@ -640,10 +640,10 @@ server.3=zoo3:2888:3888</programlisting>
     </para>
 
     <para>For more information about SLF4J, see
-      <ulink url="http://www.slf4j.org/manual.html">its manual</ulink>.</para>
+      <ulink url="com.cat.core.http://www.slf4j.org/manual.html">its manual</ulink>.</para>
 
     <para>For more information about LOG4J, see
-      <ulink url="http://logging.apache.org/log4j/1.2/manual.html#defaultInit">Log4j Default Initialization Procedure</ulink> 
+      <ulink url="com.cat.core.http://logging.apache.org/log4j/1.2/manual.html#defaultInit">Log4j Default Initialization Procedure</ulink>
       of the log4j manual.</para>
       
     </section>
@@ -1604,7 +1604,7 @@ server.3=zoo3:2888:3888</programlisting>
       <section>
         <title>Communication using the Netty framework</title>
 
-        <para><ulink url="http://netty.io">Netty</ulink>
+        <para><ulink url="com.cat.core.http://netty.io">Netty</ulink>
             is an NIO based client/server communication framework, it
             simplifies (over NIO being used directly) many of the
             complexities of network level communication for java
@@ -2023,12 +2023,12 @@ server.3=zoo3:2888:3888</programlisting>
         an embedded Jetty server that provides an HTTP interface to the four
         letter word commands.  By default, the server is started on port 8080,
         and commands are issued by going to the URL "/commands/[command name]",
-        e.g., http://localhost:8080/commands/stat.  The command response is
+        e.g., com.cat.core.http://localhost:8080/commands/stat.  The command response is
         returned as JSON.  Unlike the original protocol, commands are not
         restricted to four-letter names, and commands can have multiple names;
         for instance, "stmk" can also be referred to as "set_trace_mask".  To
         view a list of all available commands, point a browser to the URL
-        /commands (e.g., http://localhost:8080/commands).  See the <ulink
+        /commands (e.g., com.cat.core.http://localhost:8080/commands).  See the <ulink
         url="#sc_adminserver_config">AdminServer configuration options</ulink>
         for how to change the port and URLs.</para>
 

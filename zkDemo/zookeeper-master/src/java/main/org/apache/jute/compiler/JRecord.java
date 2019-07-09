@@ -414,7 +414,7 @@ public class JRecord extends JCompType {
             jj.write("* \"License\"); you may not use this file except in compliance\n");
             jj.write("* with the License.  You may obtain a copy of the License at\n");
             jj.write("*\n");
-            jj.write("*     http://www.apache.org/licenses/LICENSE-2.0\n");
+            jj.write("*     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0\n");
             jj.write("*\n");
             jj.write("* Unless required by applicable law or agreed to in writing, software\n");
             jj.write("* distributed under the License is distributed on an \"AS IS\" BASIS,\n");
@@ -587,7 +587,7 @@ public class JRecord extends JCompType {
             cs.write("* \"License\"); you may not use this file except in compliance\n");
             cs.write("* with the License.  You may obtain a copy of the License at\n");
             cs.write("*\n");
-            cs.write("*     http://www.apache.org/licenses/LICENSE-2.0\n");
+            cs.write("*     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0\n");
             cs.write("*\n");
             cs.write("* Unless required by applicable law or agreed to in writing, software\n");
             cs.write("* distributed under the License is distributed on an \"AS IS\" BASIS,\n");

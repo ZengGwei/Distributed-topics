@@ -23,7 +23,7 @@ Package build command
 The ZooKeeper project publishes releases as tarballs.  For ZooKeeper packages
 specific to your OS (such as rpm and deb), consider using Apache Bigtop:
 
-http://bigtop.apache.org/
+com.cat.core.http://bigtop.apache.org/
 
 Command to build tarball package: ant tar
 

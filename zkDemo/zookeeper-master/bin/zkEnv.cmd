@@ -6,7 +6,7 @@ REM The ASF licenses this file to You under the Apache License, Version 2.0
 REM (the "License"); you may not use this file except in compliance with
 REM the License.  You may obtain a copy of the License at
 REM
-REM     http://www.apache.org/licenses/LICENSE-2.0
+REM     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 REM
 REM Unless required by applicable law or agreed to in writing, software
 REM distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,7 @@ set ZOO_LOG_DIR=%~dp0%..\logs
 set ZOO_LOG4J_PROP=INFO,CONSOLE
 
 REM for sanity sake assume Java 1.6
-REM see: http://java.sun.com/javase/6/docs/technotes/tools/windows/java.html
+REM see: com.cat.core.http://java.sun.com/javase/6/docs/technotes/tools/windows/java.html
 
 REM add the zoocfg dir to classpath
 set CLASSPATH=%ZOOCFGDIR%

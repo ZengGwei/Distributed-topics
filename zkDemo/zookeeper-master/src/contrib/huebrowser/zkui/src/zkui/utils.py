@@ -6,7 +6,7 @@
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
 
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
 
 from zkui import settings
 
-from django.http import Http404
+from django.com.cat.core.http import Http404
 
 def get_cluster_or_404(id):
   try:

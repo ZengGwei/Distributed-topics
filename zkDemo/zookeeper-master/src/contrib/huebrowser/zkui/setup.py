@@ -6,7 +6,7 @@
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
 
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 setup(
   name = "zkui",
   version = "0.1",
-  url = 'http://zookeeper.apache.org/',
+  url = 'com.cat.core.http://zookeeper.apache.org/',
   description = 'ZooKeeper Browser',
   packages = find_packages('src'),
   package_dir = {'': 'src'},

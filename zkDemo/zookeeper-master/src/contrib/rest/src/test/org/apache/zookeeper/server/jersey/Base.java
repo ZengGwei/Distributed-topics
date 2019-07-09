@@ -46,7 +46,7 @@ public class Base {
    protected static final String CONTEXT_PATH = "/zk";
    protected static final int GRIZZLY_PORT = 10104;
    protected static final String BASEURI = String.format(
-           "http://localhost:%d%s", GRIZZLY_PORT, CONTEXT_PATH);
+           "com.cat.core.http://localhost:%d%s", GRIZZLY_PORT, CONTEXT_PATH);
    protected static final String ZKHOSTPORT = "localhost:22182";
    protected Client client;
    protected WebResource znodesr, sessionsr;

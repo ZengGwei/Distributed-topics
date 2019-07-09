@@ -6,7 +6,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
 -->
 
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
-"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+"com.cat.core.http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
 <article id="ar_ZooKeeperInternals">
   <title>ZooKeeper Internals</title>
 
@@ -25,7 +25,7 @@
       <para>Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License. You may
       obtain a copy of the License at <ulink
-      url="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</ulink>.</para>
+      url="com.cat.core.http://www.apache.org/licenses/LICENSE-2.0">com.cat.core.http://www.apache.org/licenses/LICENSE-2.0</ulink>.</para>
 
       <para>Unless required by applicable law or agreed to in writing,
       software distributed under the License is distributed on an "AS IS"
@@ -398,8 +398,8 @@ hierarchy of groups.
 <title>Logging</title>
 <para>
 Zookeeper uses 
-<ulink url="http://www.slf4j.org/index.html">slf4j</ulink> as an abstraction layer for logging. 
-<ulink url="http://logging.apache.org/log4j">log4j</ulink> in version 1.2 is chosen as the final logging implementation for now.
+<ulink url="com.cat.core.http://www.slf4j.org/index.html">slf4j</ulink> as an abstraction layer for logging.
+<ulink url="com.cat.core.http://logging.apache.org/log4j">log4j</ulink> in version 1.2 is chosen as the final logging implementation for now.
 For better embedding support, it is planned in the future to leave the decision of choosing the final logging implementation to the end user.
 Therefore, always use the slf4j api to write log statements in the code, but configure log4j for how to log at runtime.
 Note that slf4j has no FATAL level, former messages at FATAL level have been moved to ERROR level. 
@@ -412,9 +412,9 @@ of the <ulink url="zookeeperAdmin.html">ZooKeeper Administrator's Guide.</ulink>
 <section id="sc_developerGuidelines"><title>Developer Guidelines</title>
 
 <para>Please follow the  
-<ulink url="http://www.slf4j.org/manual.html">slf4j manual</ulink> when creating log statements within code.
+<ulink url="com.cat.core.http://www.slf4j.org/manual.html">slf4j manual</ulink> when creating log statements within code.
 Also read the
-<ulink url="http://www.slf4j.org/faq.html#logging_performance">FAQ on performance</ulink>
+<ulink url="com.cat.core.http://www.slf4j.org/faq.html#logging_performance">FAQ on performance</ulink>
 , when creating log statements. Patch reviewers will look for the following:</para>
 <section id="sc_rightLevel"><title>Logging at the Right Level</title>
 <para>

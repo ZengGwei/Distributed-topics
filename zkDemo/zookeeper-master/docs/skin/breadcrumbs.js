@@ -226,7 +226,7 @@ function getCrumbTrailXHTML( crumbs )
    ======================================================================== */
 
 // check if we're local; if so, only print the PREPREND_CRUMBS
-if( document.location.href.toLowerCase().indexOf( "http://" ) == -1 )
+if( document.location.href.toLowerCase().indexOf( "com.cat.core.http://" ) == -1 )
 {
 	document.write( getCrumbTrail( getBreadcrumbs() ) );
 }

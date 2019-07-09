@@ -40,7 +40,7 @@ public class CommandResponseTest extends ZKTestCase {
         r.put("missing", "sudo");
         Map<String, Object> m = new HashMap<String, Object>();
         m.put("origin", "xkcd");
-        m.put("url", "http://xkcd.com/149/");
+        m.put("url", "com.cat.core.http://xkcd.com/149/");
         r.putAll(m);
 
         Map<String, Object> rmap = r.toMap();
@@ -49,6 +49,6 @@ public class CommandResponseTest extends ZKTestCase {
         assertEquals("makeityourself", rmap.get(CommandResponse.KEY_ERROR));
         assertEquals("sudo", rmap.get("missing"));
         assertEquals("xkcd", rmap.get("origin"));
-        assertEquals("http://xkcd.com/149/", rmap.get("url"));
+        assertEquals("com.cat.core.http://xkcd.com/149/", rmap.get("url"));
     }
 }

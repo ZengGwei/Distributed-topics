@@ -143,7 +143,7 @@ public class RestMain {
            }
 
            System.out.println(String.format(
-                   "Started %s - WADL: http://localhost:%d%sapplication.wadl",
+                   "Started %s - WADL: com.cat.core.http://localhost:%d%sapplication.wadl",
                    context, port, context));
        }
    }

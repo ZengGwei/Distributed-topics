@@ -22,7 +22,7 @@ Quickstart:
 
 3) use a REST client to access the data (see below for more details)
 
-  curl http://localhost:9998/znodes/v1/
+  curl com.cat.core.http://localhost:9998/znodes/v1/
 
 or use the provided src/python scripts 
 
@@ -41,32 +41,32 @@ Examples Using CURL
 First review the spec SPEC.txt in this directory.
 
 #get the root node data
-curl http://localhost:9998/znodes/v1/
+curl com.cat.core.http://localhost:9998/znodes/v1/
 
 #get children of the root node
-curl http://localhost:9998/znodes/v1/?view=children
+curl com.cat.core.http://localhost:9998/znodes/v1/?view=children
 
 #get "/cluster1/leader" as xml (default is json)
-curl -H'Accept: application/xml' http://localhost:9998/znodes/v1/cluster1/leader
+curl -H'Accept: application/xml' com.cat.core.http://localhost:9998/znodes/v1/cluster1/leader
 
 #get the data as text
-curl -w "\n%{http_code}\n" "http://localhost:9998/znodes/v1/cluster1/leader?dataformat=utf8"
+curl -w "\n%{http_code}\n" "com.cat.core.http://localhost:9998/znodes/v1/cluster1/leader?dataformat=utf8"
 
 #set a node (data.txt contains the ascii text you want to set on the node)
-curl -T data.txt -w "\n%{http_code}\n" "http://localhost:9998/znodes/v1/cluster1/leader?dataformat=utf8"
+curl -T data.txt -w "\n%{http_code}\n" "com.cat.core.http://localhost:9998/znodes/v1/cluster1/leader?dataformat=utf8"
 
 #create a node
-curl -d "data1" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "http://localhost:9998/znodes/v1/?op=create&name=cluster2&dataformat=utf8"
+curl -d "data1" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "com.cat.core.http://localhost:9998/znodes/v1/?op=create&name=cluster2&dataformat=utf8"
 
-curl -d "data2" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "http://localhost:9998/znodes/v1/cluster2?op=create&name=leader&dataformat=utf8"
+curl -d "data2" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "com.cat.core.http://localhost:9998/znodes/v1/cluster2?op=create&name=leader&dataformat=utf8"
 
 #create a new session
-curl -d "" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "http://localhost:9998/sessions/v1/?op=create&expire=10"
+curl -d "" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "com.cat.core.http://localhost:9998/sessions/v1/?op=create&expire=10"
 
 #session heartbeat
-curl -X "PUT" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "http://localhost:9998/sessions/v1/02dfdcc8-8667-4e53-a6f8-ca5c2b495a72"
+curl -X "PUT" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "com.cat.core.http://localhost:9998/sessions/v1/02dfdcc8-8667-4e53-a6f8-ca5c2b495a72"
 
 #delete a session
-curl -X "DELETE" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "http://localhost:9998/sessions/v1/02dfdcc8-8667-4e53-a6f8-ca5c2b495a72"
+curl -X "DELETE" -H'Content-Type: application/octet-stream' -w "\n%{http_code}\n" "com.cat.core.http://localhost:9998/sessions/v1/02dfdcc8-8667-4e53-a6f8-ca5c2b495a72"
 
 

@@ -1,6 +1,6 @@
 For the latest information about Apache ZooKeeper, please visit our website at:
 
-   http://zookeeper.apache.org/
+   com.cat.core.http://zookeeper.apache.org/
 
 and our wiki, at:
 

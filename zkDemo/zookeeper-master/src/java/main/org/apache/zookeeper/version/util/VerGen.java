@@ -63,7 +63,7 @@ public class VerGen {
             w.write("* \"License\"); you may not use this file except in compliance\n");
             w.write("* with the License.  You may obtain a copy of the License at\n");
             w.write("*\n");
-            w.write("*     http://www.apache.org/licenses/LICENSE-2.0\n");
+            w.write("*     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0\n");
             w.write("*\n");
             w.write("* Unless required by applicable law or agreed to in writing, software\n");
             w.write("* distributed under the License is distributed on an \"AS IS\" BASIS,\n");

@@ -27,7 +27,7 @@ import javax.swing.ImageIcon;
 import org.apache.zookeeper.inspector.logger.LoggerFactory;
 
 /**
- * @see http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+ * @see com.cat.core.http ://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
  * I tried to take icons that are available in the Tango icon set
  */
 public class IconResource {

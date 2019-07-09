@@ -6,7 +6,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,12 +24,12 @@ This file contains an outline of the site's information content.  It is used to:
 <link href="site:changes"> links to changes.html (or ../changes.html if in
   subdir).
 - Provide aliases for external URLs in the external-refs section.  Eg, <link
-  href="ext:cocoon"> links to http://xml.apache.org/cocoon/
+  href="ext:cocoon"> links to com.cat.core.http://xml.apache.org/cocoon/
 
-See http://forrest.apache.org/docs/linking.html for more info.
+See com.cat.core.http://forrest.apache.org/docs/linking.html for more info.
 -->
 
-<site label="ZooKeeper" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
+<site label="ZooKeeper" href="" xmlns="com.cat.core.http://apache.org/forrest/linkmap/1.0">
 
   <docs label="Overview"> 
     <welcome   label="Welcome"                href="index.html" />
@@ -68,19 +68,19 @@ See http://forrest.apache.org/docs/linking.html for more info.
   
 
   <external-refs>
-    <site      href="http://zookeeper.apache.org/"/>
-    <lists     href="http://zookeeper.apache.org/mailing_lists.html"/>
-    <releases  href="http://zookeeper.apache.org/releases.html">
+    <site      href="com.cat.core.http://zookeeper.apache.org/"/>
+    <lists     href="com.cat.core.http://zookeeper.apache.org/mailing_lists.html"/>
+    <releases  href="com.cat.core.http://zookeeper.apache.org/releases.html">
       <download href="#Download" />
     </releases>
-    <jira      href="http://zookeeper.apache.org/issue_tracking.html"/>
+    <jira      href="com.cat.core.http://zookeeper.apache.org/issue_tracking.html"/>
     <wiki      href="https://cwiki.apache.org/confluence/display/ZOOKEEPER" />
     <faq       href="https://cwiki.apache.org/confluence/display/ZOOKEEPER/FAQ" />
-    <zlib      href="http://www.zlib.net/" />
-    <lzo       href="http://www.oberhumer.com/opensource/lzo/" />
-    <gzip      href="http://www.gzip.org/" />
-    <cygwin    href="http://www.cygwin.com/" />
-    <osx       href="http://www.apple.com/macosx" />
+    <zlib      href="com.cat.core.http://www.zlib.net/" />
+    <lzo       href="com.cat.core.http://www.oberhumer.com/opensource/lzo/" />
+    <gzip      href="com.cat.core.http://www.gzip.org/" />
+    <cygwin    href="com.cat.core.http://www.cygwin.com/" />
+    <osx       href="com.cat.core.http://www.apple.com/macosx" />
     <relnotes  href="releasenotes.html" />
     <api href="api/">
       <started href="overview-summary.html#overview_description" />

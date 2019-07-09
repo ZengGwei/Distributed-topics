@@ -74,7 +74,7 @@ class CGenerator {
             h.write("* \"License\"); you may not use this file except in compliance\n");
             h.write("* with the License.  You may obtain a copy of the License at\n");
             h.write("*\n");
-            h.write("*     http://www.apache.org/licenses/LICENSE-2.0\n");
+            h.write("*     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0\n");
             h.write("*\n");
             h.write("* Unless required by applicable law or agreed to in writing, software\n");
             h.write("* distributed under the License is distributed on an \"AS IS\" BASIS,\n");
@@ -93,7 +93,7 @@ class CGenerator {
             c.write("* \"License\"); you may not use this file except in compliance\n");
             c.write("* with the License.  You may obtain a copy of the License at\n");
             c.write("*\n");
-            c.write("*     http://www.apache.org/licenses/LICENSE-2.0\n");
+            c.write("*     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0\n");
             c.write("*\n");
             c.write("* Unless required by applicable law or agreed to in writing, software\n");
             c.write("* distributed under the License is distributed on an \"AS IS\" BASIS,\n");

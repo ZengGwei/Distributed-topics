@@ -5,7 +5,7 @@
 # (the "License"); you may not use this file except in compliance with
 # the License.  You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,7 +77,7 @@ bound to the root of the HTTP servers namespace. This may not be the
 case in practice however, the gateway may bind to some prefix, for
 example the URL for accessing /a/b/c may be:
 
-  http://localhost/zookeeper/znodes/v1/a/b/c
+  com.cat.core.http://localhost/zookeeper/znodes/v1/a/b/c
 
 This is perfectly valid. Users of the REST service should be aware of
 this fact and code their clients to support any root (in this case
@@ -248,7 +248,7 @@ CHILD
   znodes, not the full path.
 
   child_uri_template is a template for URI of child znodes as seen by the
-  REST server. e.g. "http://localhost:9998/znodes/v1/foo/{child}", where
+  REST server. e.g. "com.cat.core.http://localhost:9998/znodes/v1/foo/{child}", where
   foo is the parent node, and {child} can be substituted with the name
   of each child in the children array in order to access that resource.
   This template is provided to simplify child access.

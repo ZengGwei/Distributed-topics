@@ -6,7 +6,7 @@
    (the "License"); you may not use this file except in compliance with
    the License.  You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+       com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,6 @@ this directory. For compiling the c libarary go to src/c and read
 the INSTALLATION instructions. 
 Please report any bugs on the jira 
 
-http://issues.apache.org/jira/browse/ZOOKEEPER
+com.cat.core.http://issues.apache.org/jira/browse/ZOOKEEPER
 
   

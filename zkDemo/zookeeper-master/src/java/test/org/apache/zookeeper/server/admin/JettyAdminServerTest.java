@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 public class JettyAdminServerTest extends ZKTestCase{
     protected static final Logger LOG = LoggerFactory.getLogger(JettyAdminServerTest.class);
 
-    private static final String URL_FORMAT = "http://localhost:%d/commands";
+    private static final String URL_FORMAT = "com.cat.core.http://localhost:%d/commands";
     private static final int jettyAdminPort = PortAssignment.unique();
 
     @Before

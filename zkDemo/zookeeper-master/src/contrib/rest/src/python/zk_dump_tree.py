@@ -8,7 +8,7 @@
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -87,7 +87,7 @@ if __name__ == '__main__':
         print str(err) # will print something like "option -a not recognized"
         usage()
         sys.exit(2)
-    url ='http://localhost:9998'
+    url ='com.cat.core.http://localhost:9998'
     root = '/'
     for o, a in opts:
         if o in ("-d", "--data"):

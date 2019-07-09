@@ -74,7 +74,7 @@ class CppGenerator {
             hh.write("* \"License\"); you may not use this file except in compliance\n");
             hh.write("* with the License.  You may obtain a copy of the License at\n");
             hh.write("*\n");
-            hh.write("*     http://www.apache.org/licenses/LICENSE-2.0\n");
+            hh.write("*     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0\n");
             hh.write("*\n");
             hh.write("* Unless required by applicable law or agreed to in writing, software\n");
             hh.write("* distributed under the License is distributed on an \"AS IS\" BASIS,\n");
@@ -93,7 +93,7 @@ class CppGenerator {
             cc.write("* \"License\"); you may not use this file except in compliance\n");
             cc.write("* with the License.  You may obtain a copy of the License at\n");
             cc.write("*\n");
-            cc.write("*     http://www.apache.org/licenses/LICENSE-2.0\n");
+            cc.write("*     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0\n");
             cc.write("*\n");
             cc.write("* Unless required by applicable law or agreed to in writing, software\n");
             cc.write("* distributed under the License is distributed on an \"AS IS\" BASIS,\n");

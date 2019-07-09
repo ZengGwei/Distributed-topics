@@ -7,7 +7,7 @@ SKIP_LINE  * to you under the Apache License, Version 2.0 (the
 SKIP_LINE  * "License"); you may not use this file except in compliance
 SKIP_LINE  * with the License.  You may obtain a copy of the License at
 SKIP_LINE  * 
-SKIP_LINE  *   http://www.apache.org/licenses/LICENSE-2.0
+SKIP_LINE  *   com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 SKIP_LINE  * 
 SKIP_LINE  * Unless required by applicable law or agreed to in writing,
 SKIP_LINE  * software distributed under the License is distributed on an
@@ -19,8 +19,8 @@ SKIP_LINE  ***************************************************************
 <?xml version="1.0" encoding="UTF-8"?>
 ${ivy.pom.license}
 ${ivy.pom.header}
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="com.cat.core.http://maven.apache.org/POM/4.0.0" xmlns:xsi="com.cat.core.http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="com.cat.core.http://maven.apache.org/POM/4.0.0 com.cat.core.http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>${ivy.pom.groupId}</groupId>
@@ -34,7 +34,7 @@ ${ivy.pom.header}
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>com.cat.core.http://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
    </license>
   </licenses>

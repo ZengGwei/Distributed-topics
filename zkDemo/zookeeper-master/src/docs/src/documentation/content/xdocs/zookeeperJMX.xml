@@ -6,7 +6,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
 -->
 
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
-"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+"com.cat.core.http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
 <article id="bk_zookeeperjmx">
   <title>ZooKeeper JMX</title>
 
@@ -25,7 +25,7 @@
       <para>Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License. You may
       obtain a copy of the License at <ulink
-      url="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</ulink>.</para>
+      url="com.cat.core.http://www.apache.org/licenses/LICENSE-2.0">com.cat.core.http://www.apache.org/licenses/LICENSE-2.0</ulink>.</para>
 
       <para>Unless required by applicable law or agreed to in writing,
       software distributed under the License is distributed on an "AS IS"
@@ -46,12 +46,12 @@
 
     <para>This document assumes that you have basic knowledge of
     JMX. See <ulink
-    url="http://java.sun.com/javase/technologies/core/mntr-mgmt/javamanagement/">
+    url="com.cat.core.http://java.sun.com/javase/technologies/core/mntr-mgmt/javamanagement/">
     Sun JMX Technology</ulink> page to get started with JMX.
     </para>
 
     <para>See the <ulink
-    url="http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html">
+    url="com.cat.core.http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html">
     JMX Management Guide</ulink> for details on setting up local and
     remote management of VM instances. By default the included
     <emphasis>zkServer.sh</emphasis> supports only local management -
@@ -81,7 +81,7 @@
       <emphasis>jconsole</emphasis>.</para>
 
     <para>The Java JDK ships with a simple JMX console
-      named <ulink url="http://java.sun.com/developer/technicalArticles/J2SE/jconsole.html">jconsole</ulink>
+      named <ulink url="com.cat.core.http://java.sun.com/developer/technicalArticles/J2SE/jconsole.html">jconsole</ulink>
       which can be used to connect to ZooKeeper and inspect a running
       server. Once you've started ZooKeeper using QuorumPeerMain
       start <emphasis>jconsole</emphasis>, which typically resides in

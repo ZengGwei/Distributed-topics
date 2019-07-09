@@ -40,7 +40,7 @@ Like <div id="published"/>
 -- the footer do not have the color profile! Enable it!
 -> DONE
 -- the footer should as well contain a feedback link. 
-See http://issues.apache.org/eyebrowse/ReadMsg?listName=forrest-user@xml.apache.org&msgNo=71
+See com.cat.core.http://issues.apache.org/eyebrowse/ReadMsg?listName=forrest-user@xml.apache.org&msgNo=71
 -> DONE
 
 - introduce credits alternativ location

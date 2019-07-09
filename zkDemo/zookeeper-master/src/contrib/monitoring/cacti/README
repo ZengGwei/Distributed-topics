@@ -6,7 +6,7 @@ to you under the Apache License, Version 2.0 (the
 "License"); you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,11 +19,11 @@ Recipes for ZooKeeper monitoring using Cacti
 
 Cacti install guide: https://help.ubuntu.com/community/Cacti
 
-Cacti Manual: http://www.cacti.net/downloads/docs/html/
-PDF version: http://www.cacti.net/downloads/docs/pdf/manual.pdf 
+Cacti Manual: com.cat.core.http://www.cacti.net/downloads/docs/html/
+PDF version: com.cat.core.http://www.cacti.net/downloads/docs/pdf/manual.pdf
 
 Check Chapter 16: Simplest Method of Going from Script to Graph
-    http://www.cacti.net/downloads/docs/html/how_to.html#SCRIPT_TO_GRAPH
+    com.cat.core.http://www.cacti.net/downloads/docs/html/how_to.html#SCRIPT_TO_GRAPH
 
 WARNING: I have wrote these instructions while installing and configuring the plugin on my desktop computer running Ubuntu 9.10. I've installed Cacti using apt-get.
 

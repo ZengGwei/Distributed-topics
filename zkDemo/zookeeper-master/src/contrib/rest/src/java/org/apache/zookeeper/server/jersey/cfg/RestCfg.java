@@ -46,8 +46,8 @@ public class RestCfg {
    }
 
    private void extractCredentials() {
-       if (cfg.containsKey("rest.http.auth")) {
-           credentials = new Credentials(cfg.getProperty("rest.http.auth", ""));
+       if (cfg.containsKey("rest.com.cat.core.http.auth")) {
+           credentials = new Credentials(cfg.getProperty("rest.com.cat.core.http.auth", ""));
        }
    }
 
@@ -68,7 +68,7 @@ public class RestCfg {
            Endpoint point = new Endpoint(parts[0], parts[1]);
            
            String c = cfg.getProperty(String.format(
-                   "rest.endpoint.%d.http.auth", count), "");
+                   "rest.endpoint.%d.com.cat.core.http.auth", count), "");
            point.setCredentials(c);
            
            String digest = cfg.getProperty(String.format(

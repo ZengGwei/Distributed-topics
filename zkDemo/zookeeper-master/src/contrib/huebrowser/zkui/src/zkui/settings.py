@@ -6,7 +6,7 @@
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
 
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@ REQUIRES_HADOOP = False
 CLUSTERS = [{
         'nice_name': 'Default',
         'hostport': 'localhost:2181,localhost:2182,localhost:2183',
-        'rest_gateway': 'http://localhost:9998'
+        'rest_gateway': 'com.cat.core.http://localhost:9998'
     }
 ]
 

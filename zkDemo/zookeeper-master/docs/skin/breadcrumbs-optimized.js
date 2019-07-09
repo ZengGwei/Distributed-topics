@@ -83,7 +83,7 @@ function gettrailXHTML( c )
 	return h+DISPLAY_POSTPREND+'</span>';
 }
 
-if(document.location.href.toLowerCase().indexOf("http://")==-1)
+if(document.location.href.toLowerCase().indexOf("com.cat.core.http://")==-1)
 	document.write(gettrail(getcrumbs()));
 else
 	document.write(gettrail(getcrumbs(getdirs())));

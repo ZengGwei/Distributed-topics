@@ -3,7 +3,7 @@
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
 #
-#       http://www.apache.org/licenses/LICENSE-2.0
+#       com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 #
 #   Unless required by applicable law or agreed to in writing, software
 #   distributed under the License is distributed on an "AS IS" BASIS,
@@ -108,7 +108,7 @@ checkout () {
   echo ""
   echo ""
   ### When run by a developer, if the workspace contains modifications, do not continue
-  # Ref http://stackoverflow.com/a/2659808 for details on checking dirty status
+  # Ref com.cat.core.http://stackoverflow.com/a/2659808 for details on checking dirty status
   ${GIT} diff-index --quiet HEAD
   if [[ $? -ne 0 ]] ; then
     uncommitted=`${GIT} diff --name-only HEAD`
@@ -141,13 +141,13 @@ checkout () {
 setup () {
   ### Download latest patch file (ignoring .htm and .html) when run from patch process
   if [[ $HUDSON == "true" ]] ; then
-    $WGET -q -O $PATCH_DIR/jira http://issues.apache.org/jira/browse/$defect
+    $WGET -q -O $PATCH_DIR/jira com.cat.core.http://issues.apache.org/jira/browse/$defect
     if [[ `$GREP -c 'Patch Available' $PATCH_DIR/jira` == 0 ]] ; then
       echo "$defect is not \"Patch Available\".  Exiting."
       cleanupAndExit 0
     fi
     relativePatchURL=`$GREP -o '"/jira/secure/attachment/[0-9]*/[^"]*' $PATCH_DIR/jira | $GREP -v -e 'htm[l]*$' | sort | tail -1 | $GREP -o '/jira/secure/attachment/[0-9]*/[^"]*'`
-    patchURL="http://issues.apache.org${relativePatchURL}"
+    patchURL="com.cat.core.http://issues.apache.org${relativePatchURL}"
     patchNum=`echo $patchURL | $GREP -o '[0-9]*/' | $GREP -o '[0-9]*'`
     echo "$defect patch is being downloaded at `date` from"
     echo "$patchURL"

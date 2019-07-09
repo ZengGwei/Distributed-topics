@@ -8,7 +8,7 @@
    (the "License"); you may not use this file except in compliance with
    the License.  You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+       com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -97,7 +97,7 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
     <property name="docs.dir" value="${basedir}/docs"/>
     <property name="docs.src" value="${basedir}/src/docs"/>
     <property name="javadoc.link.java"
-              value="http://docs.oracle.com/javase/6/docs/api/" />
+              value="com.cat.core.http://docs.oracle.com/javase/6/docs/api/" />
     <property name="javadoc.packages" value="org.apache.*" />
 
     <property name="dist.dir" value="${build.dir}/${final.name}"/>
@@ -165,7 +165,7 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
     <property name="jdiff.xml.dir" value="${lib.dir}/jdiff"/>
     <property name="jdiff.stable" value="3.1.1"/>
     <property name="jdiff.stable.javadoc" 
-            value="http://hadoop.apache.org/zookeeper/docs/r${jdiff.stable}/api/"/>
+            value="com.cat.core.http://hadoop.apache.org/zookeeper/docs/r${jdiff.stable}/api/"/>
 
     <!-- eclipse property set -->
     <property name="build.dir.eclipse" value=".eclipse"/>
@@ -178,7 +178,7 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
 
     <!-- artifact publishing property set -->
     <property name="staging_repo_id" value="apache.staging.https"/>
-    <property name="wagon-http.version" value="2.4"/>
+    <property name="wagon-com.cat.core.http.version" value="2.4"/>
     <property name="snapshots_repo_id" value="apache.snapshots.https"/>
     <property name="asfrepo" value="https://repository.apache.org"/> 
     <property name="snapshots_repo_url" 
@@ -588,14 +588,14 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
             	
             	<!-- The following are OSGi manifest headers -->
             	<!-- currently hardcoded, when things get more complicated we could use BND 
-            	http://www.aqute.biz/Code/Bnd to generate them -->
+            	com.cat.core.http://www.aqute.biz/Code/Bnd to generate them -->
                 <attribute name="Bundle-Vendor" value="The Apache Software Foundation"/>
                 <attribute name="Bundle-Name" value="ZooKeeper Bundle"/>
                 <attribute name="Bundle-SymbolicName" value="org.apache.hadoop.zookeeper"/>
                 <attribute name="Bundle-ManifestVersion" value="2"/>
                 <attribute name="Bundle-Version" value="${version}"/>
-                <attribute name="Bundle-License" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-                <attribute name="Bundle-DocURL" value="http://hadoop.apache.org/zookeeper"/>
+                <attribute name="Bundle-License" value="com.cat.core.http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+                <attribute name="Bundle-DocURL" value="com.cat.core.http://hadoop.apache.org/zookeeper"/>
                 <attribute name="Import-Package" value='javax.management;resolution:=optional,javax.security.auth.callback,javax.security.auth.login,javax.security.sasl,org.slf4j;version="[1.6,2)",org.jboss.netty.buffer;resolution:=optional;version="[3.2,4)",org.jboss.netty.channel;resolution:=optional;version="[3.2,4)",org.jboss.netty.channel.group;resolution:=optional;version="[3.2,4)",org.jboss.netty.channel.socket.nio;resolution:=optional;version="[3.2,4)",org.osgi.framework;resolution:=optional;version="[1.5,2)",org.osgi.util.tracker;resolution:=optional;version="[1.4,2)",org.ietf.jgss'/>
                 <attribute name="Export-Package" value='org.apache.zookeeper;version="${version}",org.apache.zookeeper.client;version="${version}",org.apache.zookeeper.data;version="${version}",org.apache.zookeeper.version;version="${version}",org.apache.zookeeper.server;version="${version}",org.apache.zookeeper.server.auth;version="${version}",org.apache.zookeeper.server.persistence;version="${version}",org.apache.zookeeper.server.quorum;version="${version}",org.apache.zookeeper.common;version="${version}"'/>
             </manifest>
@@ -629,14 +629,14 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
             	
             	<!-- The following are OSGi manifest headers -->
             	<!-- currently hardcoded, when things get more complicated we could use BND 
-            	http://www.aqute.biz/Code/Bnd to generate them -->
+            	com.cat.core.http://www.aqute.biz/Code/Bnd to generate them -->
                 <attribute name="Bundle-Vendor" value="The Apache Software Foundation"/>
                 <attribute name="Bundle-Name" value="ZooKeeper Bundle"/>
                 <attribute name="Bundle-SymbolicName" value="org.apache.hadoop.zookeeper"/>
                 <attribute name="Bundle-ManifestVersion" value="2"/>
                 <attribute name="Bundle-Version" value="${version}"/>
-                <attribute name="Bundle-License" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-                <attribute name="Bundle-DocURL" value="http://hadoop.apache.org/zookeeper"/>
+                <attribute name="Bundle-License" value="com.cat.core.http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+                <attribute name="Bundle-DocURL" value="com.cat.core.http://hadoop.apache.org/zookeeper"/>
                 <attribute name="Import-Package" value='javax.management;resolution:=optional,javax.security.auth.callback,javax.security.auth.login,javax.security.sasl,org.slf4j;version="[1.6,2)",org.jboss.netty.buffer;resolution:=optional;version="[3.2,4)",org.jboss.netty.channel;resolution:=optional;version="[3.2,4)",org.jboss.netty.channel.group;resolution:=optional;version="[3.2,4)",org.jboss.netty.channel.socket.nio;resolution:=optional;version="[3.2,4)",org.osgi.framework;resolution:=optional;version="[1.5,2)",org.osgi.util.tracker;resolution:=optional;version="[1.4,2)",org.ietf.jgss'/>
                 <attribute name="Export-Package" value='org.apache.zookeeper;version="${version}",org.apache.zookeeper.client;version="${version}",org.apache.zookeeper.data;version="${version}",org.apache.zookeeper.version;version="${version}",org.apache.zookeeper.server;version="${version}",org.apache.zookeeper.server.auth;version="${version}",org.apache.zookeeper.server.persistence;version="${version}",org.apache.zookeeper.server.quorum;version="${version}",org.apache.zookeeper.common;version="${version}"'/>
             </manifest>
@@ -1726,7 +1726,7 @@ xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
      </condition>
 
      <target name="ant-eclipse-download" unless="ant-eclipse.jar.exists">
-       <get src="http://downloads.sourceforge.net/project/ant-eclipse/ant-eclipse/1.0/ant-eclipse-1.0.bin.tar.bz2"
+       <get src="com.cat.core.http://downloads.sourceforge.net/project/ant-eclipse/ant-eclipse/1.0/ant-eclipse-1.0.bin.tar.bz2"
             dest="${src.dir}/java/ant-eclipse-1.0.bin.tar.bz2" usetimestamp="false" />
 
        <bunzip2 src="${src.dir}/java/ant-eclipse-1.0.bin.tar.bz2"/>

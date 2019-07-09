@@ -6,7 +6,7 @@
    (the "License"); you may not use this file except in compliance with
    the License.  You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+       com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 
 1) This queue interface recipe implements the queue recipe
 mentioned in ../../../docs/recipes.[html,pdf].
-A more detailed explanation is at http://www.cloudera.com/blog/2009/05/28/building-a-distributed-concurrent-queue-with-apache-zookeeper/
+A more detailed explanation is at com.cat.core.http://www.cloudera.com/blog/2009/05/28/building-a-distributed-concurrent-queue-with-apache-zookeeper/
 
 2) This recipe does not handle KeeperException.ConnectionLossException or ZCONNECTIONLOSS. It will only work correctly once ZOOKEEPER-22 https://issues.apache.org/jira/browse/ZOOKEEPER-22 is resolved.
 
@@ -25,6 +25,6 @@ A more detailed explanation is at http://www.cloudera.com/blog/2009/05/28/buildi
 this directory. 
 Please report any bugs on the jira 
 
-http://issues.apache.org/jira/browse/ZOOKEEPER
+com.cat.core.http://issues.apache.org/jira/browse/ZOOKEEPER
 
   

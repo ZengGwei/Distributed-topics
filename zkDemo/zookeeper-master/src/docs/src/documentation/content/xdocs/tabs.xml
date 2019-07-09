@@ -6,7 +6,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      com.cat.core.http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,12 +16,12 @@
 -->
 
 <!DOCTYPE tabs PUBLIC "-//APACHE//DTD Cocoon Documentation Tab V1.0//EN" 
-          "http://forrest.apache.org/dtd/tab-cocoon-v10.dtd">
+          "com.cat.core.http://forrest.apache.org/dtd/tab-cocoon-v10.dtd">
 
 <tabs software="ZooKeeper"
       title="ZooKeeper"
       copyright="The Apache Software Foundation"
-      xmlns:xlink="http://www.w3.org/1999/xlink">
+      xmlns:xlink="com.cat.core.http://www.w3.org/1999/xlink">
 
   <!-- The rules are:
     @dir will always have /index.html added.
@@ -29,7 +29,7 @@
     directory (ends in '/'), in which case /index.html will be added
   -->
 
-  <tab label="Project" href="http://zookeeper.apache.org/" />
+  <tab label="Project" href="com.cat.core.http://zookeeper.apache.org/" />
   <tab label="Wiki" href="https://cwiki.apache.org/confluence/display/ZOOKEEPER/" />
   <tab label="ZooKeeper 3.6 Documentation" dir="" />
   

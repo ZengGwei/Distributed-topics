@@ -57,11 +57,11 @@ Raphael = (function () {
         toFloat = parseFloat,
         toInt = parseInt,
         upperCase = String[proto].toUpperCase,
-        availableAttrs = {blur: 0, "clip-rect": "0 0 1e9 1e9", cursor: "default", cx: 0, cy: 0, fill: "#fff", "fill-opacity": 1, font: '10px "Arial"', "font-family": '"Arial"', "font-size": "10", "font-style": "normal", "font-weight": 400, gradient: 0, height: 0, href: "http://raphaeljs.com/", opacity: 1, path: "M0,0", r: 0, rotation: 0, rx: 0, ry: 0, scale: "1 1", src: "", stroke: "#000", "stroke-dasharray": "", "stroke-linecap": "butt", "stroke-linejoin": "butt", "stroke-miterlimit": 0, "stroke-opacity": 1, "stroke-width": 1, target: "_blank", "text-anchor": "middle", title: "Raphael", translation: "0 0", width: 0, x: 0, y: 0},
+        availableAttrs = {blur: 0, "clip-rect": "0 0 1e9 1e9", cursor: "default", cx: 0, cy: 0, fill: "#fff", "fill-opacity": 1, font: '10px "Arial"', "font-family": '"Arial"', "font-size": "10", "font-style": "normal", "font-weight": 400, gradient: 0, height: 0, href: "com.cat.core.http://raphaeljs.com/", opacity: 1, path: "M0,0", r: 0, rotation: 0, rx: 0, ry: 0, scale: "1 1", src: "", stroke: "#000", "stroke-dasharray": "", "stroke-linecap": "butt", "stroke-linejoin": "butt", "stroke-miterlimit": 0, "stroke-opacity": 1, "stroke-width": 1, target: "_blank", "text-anchor": "middle", title: "Raphael", translation: "0 0", width: 0, x: 0, y: 0},
         availableAnimAttrs = {along: "along", blur: nu, "clip-rect": "csv", cx: nu, cy: nu, fill: "colour", "fill-opacity": nu, "font-size": nu, height: nu, opacity: nu, path: "path", r: nu, rotation: "csv", rx: nu, ry: nu, scale: "csv", stroke: "colour", "stroke-opacity": nu, "stroke-width": nu, translation: "csv", width: nu, x: nu, y: nu},
         rp = "replace";
     R.version = "1.3.2";
-    R.type = (win.SVGAngle || doc.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") ? "SVG" : "VML");
+    R.type = (win.SVGAngle || doc.implementation.hasFeature("com.cat.core.http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") ? "SVG" : "VML");
     if (R.type == "VML") {
         var d = doc.createElement("div");
         d.innerHTML = '<!--[if vml]><br><br><![endif]-->';
@@ -925,8 +925,8 @@ Raphael = (function () {
  
     // SVG
     if (R.svg) {
-        Paper[proto].svgns = "http://www.w3.org/2000/svg";
-        Paper[proto].xlink = "http://www.w3.org/1999/xlink";
+        Paper[proto].svgns = "com.cat.core.http://www.w3.org/2000/svg";
+        Paper[proto].xlink = "com.cat.core.http://www.w3.org/1999/xlink";
         round = function (num) {
             return +num + (~~num === num) * .5;
         };
@@ -1618,7 +1618,7 @@ Raphael = (function () {
             width = width || 512;
             height = height || 342;
             $(cnvs, {
-                xmlns: "http://www.w3.org/2000/svg",
+                xmlns: "com.cat.core.http://www.w3.org/2000/svg",
                 version: 1.1,
                 width: width,
                 height: height
