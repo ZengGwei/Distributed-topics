@@ -45,10 +45,10 @@ public class ReconfigExceptionTest extends ZKTestCase {
             .getLogger(ReconfigExceptionTest.class);
     private static String authProvider = "zookeeper.DigestAuthenticationProvider.superDigest";
     // Use DigestAuthenticationProvider.base64Encode or
-    // run ZooKeeper jar with org.apache.zookeeper.server.auth.DigestAuthenticationProvider to generate password.
+    // run ZooKeeper jar with org.apache.zookeeper.provider.auth.DigestAuthenticationProvider to generate password.
     // An example:
     // java -cp zookeeper-3.6.0-SNAPSHOT.jar:lib/log4j-1.2.17.jar:lib/slf4j-log4j12-1.7.5.jar:
-    // lib/slf4j-api-1.7.5.jar org.apache.zookeeper.server.auth.DigestAuthenticationProvider super:test
+    // lib/slf4j-api-1.7.5.jar org.apache.zookeeper.provider.auth.DigestAuthenticationProvider super:test
     // The password here is 'test'.
     private static String superDigest = "super:D/InIHSb7yEEbrWz8b9l71RjZJU=";
     private QuorumUtil qu;
@@ -59,7 +59,7 @@ public class ReconfigExceptionTest extends ZKTestCase {
         System.setProperty(authProvider, superDigest);
         QuorumPeerConfig.setReconfigEnabled(true);
 
-        // Get a three server quorum.
+        // Get a three provider quorum.
         qu = new QuorumUtil(1);
         qu.disableJMXTest = true;
 
@@ -193,7 +193,7 @@ public class ReconfigExceptionTest extends ZKTestCase {
         try {
             watcher.waitForConnected(ClientBase.CONNECTION_TIMEOUT);
         } catch (InterruptedException | TimeoutException e) {
-            Assert.fail("ZooKeeper admin client can not connect to " + cnxString);
+            Assert.fail("ZooKeeper admin consumer can not connect to " + cnxString);
         }
     }
 
@@ -203,10 +203,10 @@ public class ReconfigExceptionTest extends ZKTestCase {
         while (qu.getPeer(leaderId).peer.leader == null)
             leaderId++;
         int followerId = leaderId == 1 ? 2 : 1;
-        joiningServers.add("server." + followerId + "=localhost:"
+        joiningServers.add("provider." + followerId + "=localhost:"
                 + qu.getPeer(followerId).peer.getQuorumAddress().getPort() /*quorum port*/
                 + ":" + qu.getPeer(followerId).peer.getElectionAddress().getPort() /*election port*/
-                + ":participant;localhost:" + PortAssignment.unique()/* new client port */);
+                + ":participant;localhost:" + PortAssignment.unique()/* new consumer port */);
         zkAdmin.reconfigure(joiningServers, null, null, -1, new Stat());
         return true;
     }

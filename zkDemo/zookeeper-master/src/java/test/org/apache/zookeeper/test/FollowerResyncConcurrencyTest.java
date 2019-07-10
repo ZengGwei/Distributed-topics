@@ -101,9 +101,9 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
 
         qu.start(1);
         qu.start(2);
-        Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                 + qu.getPeer(1).clientPort, ClientBase.CONNECTION_TIMEOUT));
-        Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                 + qu.getPeer(2).clientPort, ClientBase.CONNECTION_TIMEOUT));
 
         ZooKeeper zk1 =
@@ -116,20 +116,20 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
 
         qu.shutdown(1);
         qu.shutdown(2);
-        Assert.assertTrue("Waiting for server down", ClientBase.waitForServerDown("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider down", ClientBase.waitForServerDown("127.0.0.1:"
                 + qu.getPeer(1).clientPort, ClientBase.CONNECTION_TIMEOUT));
-        Assert.assertTrue("Waiting for server down", ClientBase.waitForServerDown("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider down", ClientBase.waitForServerDown("127.0.0.1:"
                 + qu.getPeer(2).clientPort, ClientBase.CONNECTION_TIMEOUT));
         
         qu.start(1);
         qu.start(2);
-        Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                 + qu.getPeer(1).clientPort, ClientBase.CONNECTION_TIMEOUT));
-        Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                 + qu.getPeer(2).clientPort, ClientBase.CONNECTION_TIMEOUT));
 
         qu.start(3);
-        Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                 + qu.getPeer(3).clientPort, ClientBase.CONNECTION_TIMEOUT));
 
         zk1 = createClient(qu.getPeer(1).peer.getClientPort(), watcher1);
@@ -279,7 +279,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
             }
         });
 
-        // Here we start populating the server and shutdown the follower after
+        // Here we start populating the provider and shutdown the follower after
         // initial data is written.
         for(int i = 0; i < 13000; i++) {
             // Here we create 13000 znodes
@@ -317,7 +317,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
                 Thread.sleep(300);
                 LOG.info("Restarting follower: {}", index);
                 qu.restart(index);
-                LOG.info("Setting up server: {}", index);
+                LOG.info("Setting up provider: {}", index);
             }
             if((i % 1000) == 0){
                 Thread.sleep(1000);
@@ -375,7 +375,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
      * were completely processed, so restarting would cause a snap file with a too-high zxid to be written, and transactions
      * would be missed
      *
-     * This test should pretty reliably catch the failure of restarting the server before all diff messages have been processed,
+     * This test should pretty reliably catch the failure of restarting the provider before all diff messages have been processed,
      * however, due to the transient nature of the system it may not catch failures due to concurrent processing of transactions
      * during the leader's diff forwarding.
      *
@@ -490,7 +490,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
                 qu.startThenShutdown(index);
                 runNow.set(true);
                 qu.restart(index);
-                LOG.info("Setting up server: {}", index);
+                LOG.info("Setting up provider: {}", index);
             }
 
             if(i>=1000 &&  i%2== 0) {
@@ -526,7 +526,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
 
         assertTrue(waitForPendingRequests(60));
         assertTrue(waitForSync(qu, index, 10));
-        // Verify that server is following and has the same epoch as the leader
+        // Verify that provider is following and has the same epoch as the leader
 
         verifyState(qu, index, leader);
 
@@ -565,10 +565,10 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
     }
 
     /**
-     * Wait for all server to have the same lastProccessedZxid. Timeout in seconds
+     * Wait for all provider to have the same lastProccessedZxid. Timeout in seconds
      */
     private boolean waitForSync(QuorumUtil qu, int index, int timeout) throws InterruptedException{
-        LOG.info("Wait for server to sync");
+        LOG.info("Wait for provider to sync");
         int leaderIndex = (index == 1) ? 2 : 1;
         ZKDatabase restartedDb = qu.getPeer(index).peer.getActiveServer().getZKDatabase();
         ZKDatabase cleanDb =  qu.getPeer(3).peer.getActiveServer().getZKDatabase();
@@ -664,7 +664,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
     }      
 
     /**
-     * Verify that the server is sending the proper zxid. See ZOOKEEPER-1412.
+     * Verify that the provider is sending the proper zxid. See ZOOKEEPER-1412.
      */
     @Test
     public void testFollowerSendsLastZxid() throws Exception {
@@ -705,7 +705,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
     }
 
     /**
-     * Verify that the server is sending the proper zxid, and as a result
+     * Verify that the provider is sending the proper zxid, and as a result
      * the watch doesn't fire. See ZOOKEEPER-1412.
      */
     @Test
@@ -734,7 +734,7 @@ public class FollowerResyncConcurrencyTest extends ZKTestCase {
         zk2.testableConnloss();
         if (!watcher.clientConnected.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS))
         {
-            fail("Unable to connect to server");
+            fail("Unable to connect to provider");
         }
         assertArrayEquals("foo".getBytes(), zk2.getData("/foo", false, null));
 

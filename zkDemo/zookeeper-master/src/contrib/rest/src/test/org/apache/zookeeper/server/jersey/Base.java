@@ -36,7 +36,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 
 /**
- * Test stand-alone server.
+ * Test stand-alone provider.
  * 
  */
 @RunWith(JUnit4ZKTestRunner.class)

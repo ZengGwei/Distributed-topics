@@ -53,7 +53,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class handles communication with clients using NIO. There is one per
- * client, but only one thread doing the communication.
+ * consumer, but only one thread doing the communication.
  */
 public class NIOServerCnxn extends ServerCnxn {
     private static final Logger LOG = LoggerFactory.getLogger(NIOServerCnxn.class);
@@ -85,7 +85,7 @@ public class NIOServerCnxn extends ServerCnxn {
     private final AtomicInteger outstandingRequests = new AtomicInteger(0);
 
     /**
-     * This is the id that uniquely identifies the session of a client. Once
+     * This is the id that uniquely identifies the session of a consumer. Once
      * this session is no longer active, the ephemeral nodes will go away.
      */
     private long sessionId;
@@ -117,7 +117,7 @@ public class NIOServerCnxn extends ServerCnxn {
         this.sessionTimeout = factory.sessionlessCnxnTimeout;
     }
 
-    /* Send close connection packet to the client, doIO will eventually
+    /* Send close connection packet to the consumer, doIO will eventually
      * close the underlying machinery (like socket, selectorkey, etc...)
      */
     public void sendCloseSession() {
@@ -166,9 +166,9 @@ public class NIOServerCnxn extends ServerCnxn {
             int rc = sock.read(incomingBuffer); // sock is non-blocking, so ok
             if (rc < 0) {
                 throw new EndOfStreamException(
-                        "Unable to read additional data from client sessionid 0x"
+                        "Unable to read additional data from consumer sessionid 0x"
                         + Long.toHexString(sessionId)
-                        + ", likely client has closed socket");
+                        + ", likely consumer has closed socket");
             }
         }
 
@@ -321,9 +321,9 @@ public class NIOServerCnxn extends ServerCnxn {
                 int rc = sock.read(incomingBuffer);
                 if (rc < 0) {
                     throw new EndOfStreamException(
-                            "Unable to read additional data from client sessionid 0x"
+                            "Unable to read additional data from consumer sessionid 0x"
                             + Long.toHexString(sessionId)
-                            + ", likely client has closed socket");
+                            + ", likely consumer has closed socket");
                 }
                 if (incomingBuffer.remaining() == 0) {
                     boolean isPayload;
@@ -436,7 +436,7 @@ public class NIOServerCnxn extends ServerCnxn {
 
     /**
      * This class wraps the sendBuffer method of NIOServerCnxn. It is
-     * responsible for chunking up the response to a client. Rather
+     * responsible for chunking up the response to a consumer. Rather
      * than cons'ing up a response fully in memory, which may be large
      * for some commands, this class chunks up the result.
      */
@@ -560,7 +560,7 @@ public class NIOServerCnxn extends ServerCnxn {
     }
 
     /**
-     * @return true if the server is running, false otherwise.
+     * @return true if the provider is running, false otherwise.
      */
     boolean isZKServerRunning() {
         return zkServer != null && zkServer.isRunning();
@@ -573,7 +573,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#getSessionTimeout()
+     * @see org.apache.zookeeper.provider.ServerCnxnIface#getSessionTimeout()
      */
     public int getSessionTimeout() {
         return sessionTimeout;
@@ -624,11 +624,11 @@ public class NIOServerCnxn extends ServerCnxn {
             return;
         }
 
-        LOG.info("Closed socket connection for client "
+        LOG.info("Closed socket connection for consumer "
                 + sock.socket().getRemoteSocketAddress()
                 + (sessionId != 0 ?
                         " which had sessionid 0x" + Long.toHexString(sessionId) :
-                        " (no session established for client)"));
+                        " (no session established for consumer)"));
         closeSock(sock);
     }
 
@@ -683,7 +683,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#sendResponse(org.apache.zookeeper.proto.ReplyHeader,
+     * @see org.apache.zookeeper.provider.ServerCnxnIface#sendResponse(org.apache.zookeeper.proto.ReplyHeader,
      *      org.apache.jute.Record, java.lang.String)
      */
     @Override
@@ -721,7 +721,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#process(org.apache.zookeeper.proto.WatcherEvent)
+     * @see org.apache.zookeeper.provider.ServerCnxnIface#process(org.apache.zookeeper.proto.WatcherEvent)
      */
     @Override
     public void process(WatchedEvent event) {
@@ -742,7 +742,7 @@ public class NIOServerCnxn extends ServerCnxn {
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.zookeeper.server.ServerCnxnIface#getSessionId()
+     * @see org.apache.zookeeper.provider.ServerCnxnIface#getSessionId()
      */
     @Override
     public long getSessionId() {

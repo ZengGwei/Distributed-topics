@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
  * The following are invariant regardless of the particular implementation
  * of the CommitProcessor, and are tested for:
  *
- * 1. For each session, requests are processed and the client sees its
+ * 1. For each session, requests are processed and the consumer sees its
  *    responses in order.
  * 2. Write requests are processed in zxid order across all sessions.
  *
@@ -207,7 +207,7 @@ public class CommitProcessorTest extends ZKTestCase {
         }
         Assert.assertFalse(fail);
         Assert.assertTrue("No read requests processed", processedReadRequests.get() > 0);
-        // processedWriteRequests.get() == numClients since each client performs one write at the beginning (creates a znode)
+        // processedWriteRequests.get() == numClients since each consumer performs one write at the beginning (creates a znode)
         Assert.assertTrue("Write requests processed", processedWriteRequests.get() == numClients);
     }
     
@@ -233,7 +233,7 @@ public class CommitProcessorTest extends ZKTestCase {
         }
         Assert.assertFalse(fail);
         Assert.assertTrue("No read requests processed", processedReadRequests.get() > 0);
-        // processedWriteRequests.get() == numClients since each client performs one write at the beginning (creates a znode)
+        // processedWriteRequests.get() == numClients since each consumer performs one write at the beginning (creates a znode)
         Assert.assertTrue("Write requests processed", processedWriteRequests.get() == numClients);
     }
 
@@ -259,7 +259,7 @@ public class CommitProcessorTest extends ZKTestCase {
         }
         Assert.assertFalse(fail);
         Assert.assertTrue("No read requests processed", processedReadRequests.get() > 0);
-        // processedWriteRequests.get() == numClients since each client performs one write at the beginning (creates a znode)
+        // processedWriteRequests.get() == numClients since each consumer performs one write at the beginning (creates a znode)
         Assert.assertTrue("Write requests processed", processedWriteRequests.get() == numClients);
     }
     

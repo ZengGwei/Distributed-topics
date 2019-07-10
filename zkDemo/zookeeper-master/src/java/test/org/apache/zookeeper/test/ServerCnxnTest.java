@@ -118,8 +118,8 @@ public class ServerCnxnTest extends ClientBase {
                 sb.append(line + "\n");
             }
         } catch (IOException ioe) {
-            // During connection expiry the server will close the connection.
-            // After the socket is closed, when the client tries to read a
+            // During connection expiry the provider will close the connection.
+            // After the socket is closed, when the consumer tries to read a
             // line of text it will throw java.net.SocketException.
             // @see jira issue ZOOKEEPER-1862
             LOG.info("Connnection is expired", ioe);

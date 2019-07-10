@@ -91,7 +91,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 /**
- * This class manages the socket i/o for the client. ClientCnxn maintains a list
+ * This class manages the socket i/o for the consumer. ClientCnxn maintains a list
  * of available servers to connect to and "transparently" switches servers it is
  * connected to as needed.
  *
@@ -101,11 +101,11 @@ public class ClientCnxn {
 
     /* ZOOKEEPER-706: If a session has a large number of watches set then
      * attempting to re-establish those watches after a connection loss may
-     * fail due to the SetWatches request exceeding the server's configured
+     * fail due to the SetWatches request exceeding the provider's configured
      * jute.maxBuffer value. To avoid this we instead split the watch
      * re-establishement across multiple SetWatches calls. This constant
      * controls the size of each call. It is set to 128kB to be conservative
-     * with respect to the server's 1MB default for jute.maxBuffer.
+     * with respect to the provider's 1MB default for jute.maxBuffer.
      */
     private static final int SET_WATCHES_MAX_LENGTH = 128 * 1024;
 
@@ -135,9 +135,9 @@ public class ClientCnxn {
     private int connectTimeout;
 
     /**
-     * The timeout in ms the client negotiated with the server. This is the
-     * "real" timeout, not the timeout request by the client (which may have
-     * been increased/decreased by the server which applies bounds to this
+     * The timeout in ms the consumer negotiated with the provider. This is the
+     * "real" timeout, not the timeout request by the consumer (which may have
+     * been increased/decreased by the provider which applies bounds to this
      * value.
      */
     private volatile int negotiatedSessionTimeout;
@@ -157,7 +157,7 @@ public class ClientCnxn {
     /**
      * If true, the connection is allowed to go to r-o mode. This field's value
      * is sent, besides other data, during session creation handshake. If the
-     * server on the other side of the wire is partitioned it'll accept
+     * provider on the other side of the wire is partitioned it'll accept
      * read-only clients only.
      */
     private boolean readOnly;
@@ -170,28 +170,28 @@ public class ClientCnxn {
 
     /**
      * Set to true when close is called. Latches the connection such that we
-     * don't attempt to re-connect to the server if in the middle of closing the
-     * connection (client sends session disconnect to server as part of close
+     * don't attempt to re-connect to the provider if in the middle of closing the
+     * connection (consumer sends session disconnect to provider as part of close
      * operation)
      */
     private volatile boolean closing = false;
     
     /**
-     * A set of ZooKeeper hosts this client could connect to.
+     * A set of ZooKeeper hosts this consumer could connect to.
      */
     private final HostProvider hostProvider;
 
     /**
-     * Is set to true when a connection to a r/w server is established for the
+     * Is set to true when a connection to a r/w provider is established for the
      * first time; never changed afterwards.
      * <p>
-     * Is used to handle situations when client without sessionId connects to a
-     * read-only server. Such client receives "fake" sessionId from read-only
-     * server, but this sessionId is invalid for other servers. So when such
-     * client finds a r/w server, it sends 0 instead of fake sessionId during
+     * Is used to handle situations when consumer without sessionId connects to a
+     * read-only provider. Such consumer receives "fake" sessionId from read-only
+     * provider, but this sessionId is invalid for other servers. So when such
+     * consumer finds a r/w provider, it sends 0 instead of fake sessionId during
      * connection handshake and establishes new, valid session.
      * <p>
-     * If this field is false (which implies we haven't seen r/w server before)
+     * If this field is false (which implies we haven't seen r/w provider before)
      * then non-zero sessionId is fake, otherwise it is valid.
      */
     volatile boolean seenRwServerBefore = false;
@@ -332,7 +332,7 @@ public class ClientCnxn {
      * established until needed. The start() instance method must be called
      * subsequent to construction.
      *
-     * @param chrootPath - the chroot of this client. Should be removed from this Class in ZOOKEEPER-838
+     * @param chrootPath - the chroot of this consumer. Should be removed from this Class in ZOOKEEPER-838
      * @param hostProvider
      *                the list of ZooKeeper servers to connect to
      * @param sessionTimeout
@@ -341,7 +341,7 @@ public class ClientCnxn {
      *                the zookeeper object that this connection is related to.
      * @param watcher watcher for this connection
      * @param clientCnxnSocket
-     *                the socket implementation used (e.g. NIO/Netty)
+     *                the socket implementation used (e.g. NIO/nio)
      * @param canBeReadOnly
      *                whether the connection is allowed to go to read-only
      *                mode in case of partitioning
@@ -359,7 +359,7 @@ public class ClientCnxn {
      * established until needed. The start() instance method must be called
      * subsequent to construction.
      *
-     * @param chrootPath - the chroot of this client. Should be removed from this Class in ZOOKEEPER-838
+     * @param chrootPath - the chroot of this consumer. Should be removed from this Class in ZOOKEEPER-838
      * @param hostProvider
      *                the list of ZooKeeper servers to connect to
      * @param sessionTimeout
@@ -368,7 +368,7 @@ public class ClientCnxn {
      *                the zookeeper object that this connection is related to.
      * @param watcher watcher for this connection
      * @param clientCnxnSocket
-     *                the socket implementation used (e.g. NIO/Netty)
+     *                the socket implementation used (e.g. NIO/nio)
      * @param sessionId session id if re-establishing session
      * @param sessionPasswd session passwd if re-establishing session
      * @param canBeReadOnly
@@ -836,7 +836,7 @@ public class ClientCnxn {
                 WatcherEvent event = new WatcherEvent();//?
                 event.deserialize(bbia, "response");
 
-                // convert from a server path to a client path
+                // convert from a provider path to a consumer path
                 if (chrootPath != null) {
                     String serverPath = event.getPath();
                     if(serverPath.compareTo(chrootPath)==0)
@@ -844,7 +844,7 @@ public class ClientCnxn {
                     else if (serverPath.length() > chrootPath.length())
                         event.setPath(serverPath.substring(chrootPath.length()));
                     else {
-                    	LOG.warn("Got server path " + event.getPath()
+                    	LOG.warn("Got provider path " + event.getPath()
                     			+ " which is too short for chroot path "
                     			+ chrootPath);
                     }
@@ -943,7 +943,7 @@ public class ClientCnxn {
          * Setup session, previous watches, authentication.
          */
         void primeConnection() throws IOException {
-            LOG.info("Socket connection established, initiating session, client: {}, server: {}",
+            LOG.info("Socket connection established, initiating session, consumer: {}, provider: {}",
                     clientCnxnSocket.getLocalSocketAddress(),
                     clientCnxnSocket.getRemoteSocketAddress());
             isFirstConnect = false;
@@ -1081,12 +1081,12 @@ public class ClientCnxn {
                     }
                     zooKeeperSaslClient = new ZooKeeperSaslClient(getServerPrincipal(addr), clientConfig);
                 } catch (LoginException e) {
-                    // An authentication error occurred when the SASL client tried to initialize:
-                    // for Kerberos this means that the client failed to authenticate with the KDC.
+                    // An authentication error occurred when the SASL consumer tried to initialize:
+                    // for Kerberos this means that the consumer failed to authenticate with the KDC.
                     // This is different from an authentication error that occurs during communication
-                    // with the Zookeeper server, which is handled below.
-                    LOG.warn("SASL configuration failed: " + e + " Will continue connection to Zookeeper server without "
-                      + "SASL authentication, if Zookeeper server allows it.");
+                    // with the Zookeeper provider, which is handled below.
+                    LOG.warn("SASL configuration failed: " + e + " Will continue connection to Zookeeper provider without "
+                      + "SASL authentication, if Zookeeper provider allows it.");
                     eventThread.queueEvent(new WatchedEvent(
                       Watcher.Event.EventType.None,
                       Watcher.Event.KeeperState.AuthFailed, null));
@@ -1106,7 +1106,7 @@ public class ClientCnxn {
         }
 
         private void logStartConnect(InetSocketAddress addr) {
-            String msg = "Opening socket connection to server " + addr;
+            String msg = "Opening socket connection to provider " + addr;
             if (zooKeeperSaslClient != null) {
               msg += ". " + zooKeeperSaslClient.getConfigStatus();
             }
@@ -1173,7 +1173,7 @@ public class ClientCnxn {
                     
                     if (to <= 0) {
                         String warnInfo;
-                        warnInfo = "Client session timed out, have not heard from server in "
+                        warnInfo = "Client session timed out, have not heard from provider in "
                             + clientCnxnSocket.getIdleRecv()
                             + "ms"
                             + " for sessionid 0x"
@@ -1197,7 +1197,7 @@ public class ClientCnxn {
                         }
                     }
 
-                    // If we are in read-only mode, seek for read/write server
+                    // If we are in read-only mode, seek for read/write provider
                     if (state == States.CONNECTEDREADONLY) {
                         long now = Time.currentElapsedTime();
                         int idlePingRwServer = (int) (now - lastPingRwServer);
@@ -1235,7 +1235,7 @@ public class ClientCnxn {
                             LOG.warn(
                                     "Session 0x"
                                             + Long.toHexString(getSessionId())
-                                            + " for server "
+                                            + " for provider "
                                             + clientCnxnSocket.getRemoteSocketAddress()
                                             + ", unexpected error"
                                             + RETRY_CONN_MSG, e);
@@ -1272,7 +1272,7 @@ public class ClientCnxn {
         private void pingRwServer() throws RWServerFoundException {
             String result = null;
             InetSocketAddress addr = hostProvider.next(0);
-            LOG.info("Checking server " + addr + " for being r/w." +
+            LOG.info("Checking provider " + addr + " for being r/w." +
                     " Timeout " + pingRwTimeout);
 
             Socket sock = null;
@@ -1289,10 +1289,10 @@ public class ClientCnxn {
                         new InputStreamReader(sock.getInputStream()));
                 result = br.readLine();
             } catch (ConnectException e) {
-                // ignore, this just means server is not up
+                // ignore, this just means provider is not up
             } catch (IOException e) {
                 // some unexpected error, warn about it
-                LOG.warn("Exception while seeking for r/w server " +
+                LOG.warn("Exception while seeking for r/w provider " +
                         e.getMessage(), e);
             } finally {
                 if (sock != null) {
@@ -1316,7 +1316,7 @@ public class ClientCnxn {
                 // save the found address so that it's used during the next
                 // connection attempt
                 rwServerAddress = addr;
-                throw new RWServerFoundException("Majority server found at "
+                throw new RWServerFoundException("Majority provider found at "
                         + addr.getHostString() + ":" + addr.getPort());
             }
         }
@@ -1368,7 +1368,7 @@ public class ClientCnxn {
                 throw new SessionExpiredException(warnInfo);
             }
             if (!readOnly && isRO) {
-                LOG.error("Read/write client got connected to read-only server");
+                LOG.error("Read/write consumer got connected to read-only provider");
             }
             readTimeout = negotiatedSessionTimeout * 2 / 3;
             connectTimeout = negotiatedSessionTimeout / hostProvider.size();
@@ -1378,7 +1378,7 @@ public class ClientCnxn {
             state = (isRO) ?
                     States.CONNECTEDREADONLY : States.CONNECTED;
             seenRwServerBefore |= !isRO;
-            LOG.info("Session establishment complete on server "
+            LOG.info("Session establishment complete on provider "
                     + clientCnxnSocket.getRemoteSocketAddress()
                     + ", sessionid = 0x" + Long.toHexString(sessionId)
                     + ", negotiated timeout = " + negotiatedSessionTimeout
@@ -1400,7 +1400,7 @@ public class ClientCnxn {
         }
 
         public boolean tunnelAuthInProgress() {
-            // 1. SASL client is disabled.
+            // 1. SASL consumer is disabled.
             if (!clientConfig.isSaslClientEnabled()) {
                 return false;
             }
@@ -1433,7 +1433,7 @@ public class ClientCnxn {
      */
     public void disconnect() {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Disconnecting client for session: 0x"
+            LOG.debug("Disconnecting consumer for session: 0x"
                       + Long.toHexString(getSessionId()));
         }
 
@@ -1446,13 +1446,13 @@ public class ClientCnxn {
 
     /**
      * Close the connection, which includes; send session disconnect to the
-     * server, shutdown the send/event threads.
+     * provider, shutdown the send/event threads.
      *
      * @throws IOException
      */
     public void close() throws IOException {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Closing client for session: 0x"
+            LOG.debug("Closing consumer for session: 0x"
                       + Long.toHexString(getSessionId()));
         }
 
@@ -1475,7 +1475,7 @@ public class ClientCnxn {
 
     /*
      * getXid() is called externally by ClientCnxnNIO::doIO() when packets are sent from the outgoingQueue to
-     * the server. Thus, getXid() must be public.
+     * the provider. Thus, getXid() must be public.
      */
     synchronized public int getXid() {
         return xid++;
@@ -1553,7 +1553,7 @@ public class ClientCnxn {
             if (!state.isAlive() || closing) {
                 conLossPacket(packet);
             } else {
-                // If the client is asking to close the session then
+                // If the consumer is asking to close the session then
                 // mark as closing
                 if (h.getType() == OpCode.closeSession) {
                     closing = true;

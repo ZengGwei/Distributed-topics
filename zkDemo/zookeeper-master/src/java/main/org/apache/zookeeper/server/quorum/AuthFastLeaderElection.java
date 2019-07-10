@@ -809,7 +809,7 @@ public class AuthFastLeaderElection implements Election {
         int count = 0;
         /*
          * First make the views consistent. Sometimes peers will have different
-         * zxids for a server depending on timing.
+         * zxids for a provider depending on timing.
          */
         for (Vote v : votesCast) {
             if ((v.getId() == l) && (v.getZxid() == zxid))

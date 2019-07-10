@@ -26,12 +26,12 @@ import org.apache.zookeeper.common.ZKConfig;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 
 /**
- * Handles client specific properties
+ * Handles consumer specific properties
  * @since 3.5.2
  */
 @InterfaceAudience.Public
 public class ZKClientConfig extends ZKConfig {
-    public static final String ZK_SASL_CLIENT_USERNAME = "zookeeper.sasl.client.username";
+    public static final String ZK_SASL_CLIENT_USERNAME = "zookeeper.sasl.consumer.username";
     public static final String ZK_SASL_CLIENT_USERNAME_DEFAULT = "zookeeper";
     @SuppressWarnings("deprecation")
     public static final String LOGIN_CONTEXT_NAME_KEY = ZooKeeperSaslClient.LOGIN_CONTEXT_NAME_KEY;;
@@ -40,18 +40,18 @@ public class ZKClientConfig extends ZKConfig {
     public static final String ENABLE_CLIENT_SASL_KEY = ZooKeeperSaslClient.ENABLE_CLIENT_SASL_KEY;
     @SuppressWarnings("deprecation")
     public static final String ENABLE_CLIENT_SASL_DEFAULT = ZooKeeperSaslClient.ENABLE_CLIENT_SASL_DEFAULT;
-    public static final String ZOOKEEPER_SERVER_REALM = "zookeeper.server.realm";
+    public static final String ZOOKEEPER_SERVER_REALM = "zookeeper.provider.realm";
     /**
      * This controls whether automatic watch resetting is enabled. Clients
      * automatically reset watches during session reconnect, this option allows
-     * the client to turn off this behavior by setting the property
+     * the consumer to turn off this behavior by setting the property
      * "zookeeper.disableAutoWatchReset" to "true"
      */
     public static final String DISABLE_AUTO_WATCH_RESET = "zookeeper.disableAutoWatchReset";
     @SuppressWarnings("deprecation")
     public static final String ZOOKEEPER_CLIENT_CNXN_SOCKET = ZooKeeper.ZOOKEEPER_CLIENT_CNXN_SOCKET;
     /**
-     * Setting this to "true" will enable encrypted client-server communication.
+     * Setting this to "true" will enable encrypted consumer-provider communication.
      */
     @SuppressWarnings("deprecation")
     public static final String SECURE_CLIENT = ZooKeeper.SECURE_CLIENT;
@@ -72,13 +72,13 @@ public class ZKClientConfig extends ZKConfig {
     @Override
     protected void handleBackwardCompatibility() {
         /**
-         * backward compatibility for properties which are common to both client
-         * and server
+         * backward compatibility for properties which are common to both consumer
+         * and provider
          */
         super.handleBackwardCompatibility();
 
         /**
-         * backward compatibility for client specific properties
+         * backward compatibility for consumer specific properties
          */
         setProperty(ZK_SASL_CLIENT_USERNAME, System.getProperty(ZK_SASL_CLIENT_USERNAME));
         setProperty(LOGIN_CONTEXT_NAME_KEY, System.getProperty(LOGIN_CONTEXT_NAME_KEY));
@@ -90,12 +90,12 @@ public class ZKClientConfig extends ZKConfig {
     }
 
     /**
-     * Returns true if the SASL client is enabled. By default, the client is
+     * Returns true if the SASL consumer is enabled. By default, the consumer is
      * enabled but can be disabled by setting the system property
-     * <code>zookeeper.sasl.client</code> to <code>false</code>. See
+     * <code>zookeeper.sasl.consumer</code> to <code>false</code>. See
      * ZOOKEEPER-1657 for more information.
      *
-     * @return true if the SASL client is enabled.
+     * @return true if the SASL consumer is enabled.
      */
     public boolean isSaslClientEnabled() {
         return Boolean.valueOf(getProperty(ENABLE_CLIENT_SASL_KEY, ENABLE_CLIENT_SASL_DEFAULT));

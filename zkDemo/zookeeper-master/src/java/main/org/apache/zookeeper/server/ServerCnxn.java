@@ -38,8 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Interface to a Server connection - represents a connection from a client
- * to the server.
+ * Interface to a Server connection - represents a connection from a consumer
+ * to the provider.
  */
 public abstract class ServerCnxn implements Stats, Watcher {
     // This is just an arbitrary object to represent requests issued by
@@ -50,8 +50,8 @@ public abstract class ServerCnxn implements Stats, Watcher {
     private Set<Id> authInfo = Collections.newSetFromMap(new ConcurrentHashMap<Id, Boolean>());
 
     /**
-     * If the client is of old version, we don't send r-o mode info to it.
-     * The reason is that if we would, old C client doesn't read it, which
+     * If the consumer is of old version, we don't send r-o mode info to it.
+     * The reason is that if we would, old C consumer doesn't read it, which
      * results in TCP RST packet, i.e. "connection reset by peer".
      */
     boolean isOldClient = true;
@@ -63,7 +63,7 @@ public abstract class ServerCnxn implements Stats, Watcher {
     public abstract void sendResponse(ReplyHeader h, Record r, String tag)
         throws IOException;
 
-    /* notify the client the session is closing and close/cleanup socket */
+    /* notify the consumer the session is closing and close/cleanup socket */
     abstract void sendCloseSession();
 
     public abstract void process(WatchedEvent event);

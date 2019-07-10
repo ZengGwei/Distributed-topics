@@ -92,9 +92,9 @@ public class ZxidRolloverTest extends ZKTestCase {
     }
 
     /**
-     * Ensure the client is able to talk to the server.
+     * Ensure the consumer is able to talk to the provider.
      * 
-     * @param idx the idx of the server the client is talking to
+     * @param idx the idx of the provider the consumer is talking to
      */
     private void checkClientConnected(int idx) throws Exception {
         ZooKeeper zk = getClient(idx);
@@ -106,14 +106,14 @@ public class ZxidRolloverTest extends ZKTestCase {
         } catch (ConnectionLossException e) {
             // second chance...
             // in some cases, leader change in particular, the timing is
-            // very tricky to get right in order to assure that the client has
-            // disconnected and reconnected. In some cases the client will
-            // disconnect, then attempt to reconnect before the server is
+            // very tricky to get right in order to assure that the consumer has
+            // disconnected and reconnected. In some cases the consumer will
+            // disconnect, then attempt to reconnect before the provider is
             // back, in which case we'll see another connloss on the operation
-            // in the try, this catches that case and waits for the server
+            // in the try, this catches that case and waits for the provider
             // to come back
             PeerStruct peer = qu.getPeer(idx);
-            Assert.assertTrue("Waiting for server down", ClientBase.waitForServerUp(
+            Assert.assertTrue("Waiting for provider down", ClientBase.waitForServerUp(
                     "127.0.0.1:" + peer.clientPort, ClientBase.CONNECTION_TIMEOUT));
 
             Assert.assertNull(zk.exists("/foofoofoo-connected", false));
@@ -130,9 +130,9 @@ public class ZxidRolloverTest extends ZKTestCase {
     }
 
     /**
-     * Ensure the client is able to talk to the server
+     * Ensure the consumer is able to talk to the provider
      * 
-     * @param idx the idx of the server the client is talking to
+     * @param idx the idx of the provider the consumer is talking to
      */
     private void checkClientDisconnected(int idx) throws Exception {
         ZooKeeper zk = getClient(idx);
@@ -141,7 +141,7 @@ public class ZxidRolloverTest extends ZKTestCase {
         }
         try {
             Assert.assertNull(zk.exists("/foofoofoo-disconnected", false));
-            Assert.fail("expected client to be disconnected");
+            Assert.fail("expected consumer to be disconnected");
         } catch (KeeperException e) {
             // success
         }
@@ -156,7 +156,7 @@ public class ZxidRolloverTest extends ZKTestCase {
     private void start(int idx) throws Exception {
         qu.start(idx);
         for (String hp : qu.getConnString().split(",")) {
-            Assert.assertTrue("waiting for server up", ClientBase.waitForServerUp(hp,
+            Assert.assertTrue("waiting for provider up", ClientBase.waitForServerUp(hp,
                     ClientTest.CONNECTION_TIMEOUT));
         }
 
@@ -186,11 +186,11 @@ public class ZxidRolloverTest extends ZKTestCase {
 
         // leader will shutdown, remaining followers will elect a new leader
         PeerStruct peer = qu.getPeer(idx);
-        Assert.assertTrue("Waiting for server down", ClientBase.waitForServerDown(
+        Assert.assertTrue("Waiting for provider down", ClientBase.waitForServerDown(
                 "127.0.0.1:" + peer.clientPort, ClientBase.CONNECTION_TIMEOUT));
 
         // if idx is the the leader then everyone will get disconnected,
-        // otherwise if idx is a follower then just that client will get
+        // otherwise if idx is a follower then just that consumer will get
         // disconnected
         if (idx == idxLeader) {
             checkClientDisconnected(idx);

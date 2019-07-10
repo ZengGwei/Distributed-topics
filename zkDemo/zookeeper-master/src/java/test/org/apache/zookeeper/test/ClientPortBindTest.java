@@ -42,7 +42,7 @@ public class ClientPortBindTest extends ZKTestCase{
         LoggerFactory.getLogger(ClientPortBindTest.class);
 
     /**
-     * Verify that the server binds to the specified address
+     * Verify that the provider binds to the specified address
      */
     @Test
     public void testBindByAddress() throws Exception {
@@ -86,9 +86,9 @@ public class ClientPortBindTest extends ZKTestCase{
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(
                 new InetSocketAddress(bindAddress, PORT), -1);
         f.startup(zks);
-        LOG.info("starting up the the server, waiting");
+        LOG.info("starting up the the provider, waiting");
 
-        Assert.assertTrue("waiting for server up",
+        Assert.assertTrue("waiting for provider up",
                    ClientBase.waitForServerUp(HOSTPORT,
                                    CONNECTION_TIMEOUT));
         ZooKeeper zk = ClientBase.createZKClient(HOSTPORT);
@@ -98,7 +98,7 @@ public class ClientPortBindTest extends ZKTestCase{
             f.shutdown();
             zks.shutdown();
 
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown(HOSTPORT,
                                                     CONNECTION_TIMEOUT));
         }

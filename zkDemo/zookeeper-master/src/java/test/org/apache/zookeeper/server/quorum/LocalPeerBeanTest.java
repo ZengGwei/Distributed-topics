@@ -47,7 +47,7 @@ public class LocalPeerBeanTest {
         assertEquals(0, result.length());
 
         /**
-         * Case 2: When only client port is configured
+         * Case 2: When only consumer port is configured
          */
         ServerCnxnFactory cnxnFactory = ServerCnxnFactory.createFactory();
         int clientPort = PortAssignment.unique();
@@ -63,7 +63,7 @@ public class LocalPeerBeanTest {
         cnxnFactory.shutdown();
 
         /**
-         * Case 3: When both client port and client address is configured
+         * Case 3: When both consumer port and consumer address is configured
          */
         clientPort = PortAssignment.unique();
         InetAddress clientIP = InetAddress.getLoopbackAddress();

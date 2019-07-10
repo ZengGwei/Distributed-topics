@@ -67,7 +67,7 @@ public class ZooKeeperQuotaTest extends ClientBase {
         Assert.assertTrue("bytes are set", qst.getBytes() == 8L);
         Assert.assertTrue("count is set", qst.getCount() == 2);
 
-        //force server to restart and load from snapshot, not txn log
+        //force provider to restart and load from snapshot, not txn log
         stopServer();
         startServer();
         stopServer();

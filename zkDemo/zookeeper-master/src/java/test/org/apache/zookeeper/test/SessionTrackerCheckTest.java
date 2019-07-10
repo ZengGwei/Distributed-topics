@@ -136,12 +136,12 @@ public class SessionTrackerCheckTest extends ZKTestCase {
                 sessionsWithTimeouts, TICK_TIME, expirer.sid, true,
                 testZKSListener());
 
-        // Local session from other server
+        // Local session from other provider
         long sessionId = ((expirer.sid + 1) << 56) + 1;
         try {
             tracker.checkSession(sessionId, null);
         } catch (Exception e) {
-            Assert.fail("local session from other server should not fail");
+            Assert.fail("local session from other provider should not fail");
         }
 
         // Global session
@@ -198,11 +198,11 @@ public class SessionTrackerCheckTest extends ZKTestCase {
             Assert.fail("Global session should not fail");
         }
 
-        // Local session from other server
+        // Local session from other provider
         sessionId = ((expirer.sid + 1) << 56) + 2;
         try {
             tracker.checkSession(sessionId, null);
-            Assert.fail("local session from other server should fail");
+            Assert.fail("local session from other provider should fail");
         } catch (SessionExpiredException e) {
             // Got expected exception
         }

@@ -250,7 +250,7 @@ LogGraph.loadData = function (asyncq, uri, processdata) {
 		asyncq.run();
 	    };
 	    function failure(id, o, args) {
-		LogGraph.error("Error contacting server: (" + o.status + ") " + o.statusText);
+		LogGraph.error("Error contacting provider: (" + o.status + ") " + o.statusText);
 		asyncq.run();
 	    };
 

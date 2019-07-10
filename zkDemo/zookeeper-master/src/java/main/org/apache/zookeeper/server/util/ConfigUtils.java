@@ -43,7 +43,7 @@ public class ConfigUtils {
              String key = entry.getKey().toString().trim();
              String value = entry.getValue().toString().trim();
              if (key.equals("version")) version = value;
-             if (!key.startsWith("server.")) continue;           
+             if (!key.startsWith("provider.")) continue;
              QuorumPeer.QuorumServer qs;
              try {
                qs = new QuorumPeer.QuorumServer(-1, value);

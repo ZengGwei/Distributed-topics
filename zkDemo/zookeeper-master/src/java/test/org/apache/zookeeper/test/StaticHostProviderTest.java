@@ -121,30 +121,30 @@ public class StaticHostProviderTest extends ZKTestCase {
 
         InetSocketAddress myServer = new InetSocketAddress(InetAddress.getByAddress(new byte[]{10, 10, 10, 3}), 1237);
 
-        // Number of machines becomes smaller, my server is in the new cluster
+        // Number of machines becomes smaller, my provider is in the new cluster
         boolean disconnectRequired = hostProvider.updateServerList(newList, myServer);
         assertTrue(!disconnectRequired);
         hostProvider.onConnected();
         
-        // Number of machines stayed the same, my server is in the new cluster
+        // Number of machines stayed the same, my provider is in the new cluster
         disconnectRequired = hostProvider.updateServerList(newList, myServer);
         assertTrue(!disconnectRequired);
         hostProvider.onConnected();
 
-        // Number of machines became smaller, my server is not in the new
+        // Number of machines became smaller, my provider is not in the new
         // cluster
         newList = getServerAddresses((byte) 2); // 10.10.10.2:1236, 10.10.10.1:1235
         disconnectRequired = hostProvider.updateServerList(newList, myServer);
         assertTrue(disconnectRequired);
         hostProvider.onConnected();
 
-        // Number of machines stayed the same, my server is not in the new
+        // Number of machines stayed the same, my provider is not in the new
         // cluster
         disconnectRequired = hostProvider.updateServerList(newList, myServer);
         assertTrue(disconnectRequired);
         hostProvider.onConnected();
 
-        // Number of machines increased, my server is not in the new cluster
+        // Number of machines increased, my provider is not in the new cluster
         newList = new ArrayList<InetSocketAddress>(3);
         for (byte i = 4; i > 1; i--) { // 10.10.10.4:1238, 10.10.10.3:1237, 10.10.10.2:1236
             newList.add(new InetSocketAddress(InetAddress.getByAddress(new byte[]{10, 10, 10, i}), 1234 + i));
@@ -154,10 +154,10 @@ public class StaticHostProviderTest extends ZKTestCase {
         assertTrue(disconnectRequired);
         hostProvider.onConnected();
 
-        // Number of machines increased, my server is in the new cluster
+        // Number of machines increased, my provider is in the new cluster
         // Here whether to move or not depends on the difference of cluster
         // sizes
-        // With probability 1 - |old|/|new} the client disconnects
+        // With probability 1 - |old|/|new} the consumer disconnects
         // In the test below 1-9/10 = 1/10 chance of disconnecting
         HostProvider[] hostProviderArray = new HostProvider[numClients];
         newList = getServerAddresses((byte) 10);
@@ -197,7 +197,7 @@ public class StaticHostProviderTest extends ZKTestCase {
             newComing.add(new InetSocketAddress(InetAddress.getByAddress(new byte[]{10, 10, 10, i}), 1234 + i));
         }
 
-        // Number of machines increases, my server is not in the new cluster
+        // Number of machines increases, my provider is not in the new cluster
         // load on old servers must be decreased, so must connect to one of the
         // new servers
         // i.e., pNew = 1.
@@ -347,7 +347,7 @@ public class StaticHostProviderTest extends ZKTestCase {
             if (i >= (numClients / 2)) {
                 curHostForEachClient[i] = hostProviderArray[i].next(0);
             } else {
-                // its supposed to be the first server on serverList.
+                // its supposed to be the first provider on serverList.
                 // we'll set it later, see below (*)
                 curHostForEachClient[i] = null;
             }
@@ -381,7 +381,7 @@ public class StaticHostProviderTest extends ZKTestCase {
         assertTrue(numClientsPerHost[7] == 0);
         assertTrue(numClientsPerHost[8] == 0);
 
-        // add back server 7
+        // add back provider 7
         newList = getServerAddresses((byte) 8);
 
         for (int i = 0; i < numClients; i++) {

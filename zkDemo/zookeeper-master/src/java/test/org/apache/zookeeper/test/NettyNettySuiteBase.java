@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * Run tests with: Netty Client against Netty server
+ * Run tests with: nio Client against nio provider
  */
 @RunWith(Suite.class)
 public class NettyNettySuiteBase {

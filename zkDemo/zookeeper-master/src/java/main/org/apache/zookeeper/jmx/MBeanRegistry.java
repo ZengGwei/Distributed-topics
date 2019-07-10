@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class provides a unified interface for registering/unregistering of
- * zookeeper MBeans with the platform MBean server. It builds a hierarchy of MBeans
+ * zookeeper MBeans with the platform MBean provider. It builds a hierarchy of MBeans
  * where each MBean represented by a filesystem-like path. Eventually, this hierarchy
  * will be stored in the zookeeper data tree instance as a virtual data tree.
  */
@@ -85,7 +85,7 @@ public class MBeanRegistry {
     }
 
     /**
-     * Registers a new MBean with the platform MBean server. 
+     * Registers a new MBean with the platform MBean provider.
      * @param bean the bean being registered
      * @param parent if not null, the new bean will be registered as a child
      * node of this parent.
@@ -200,7 +200,7 @@ public class MBeanRegistry {
      * Builds an MBean path and creates an ObjectName instance using the path. 
      * @param path MBean path
      * @param bean the MBean instance
-     * @return ObjectName to be registered with the platform MBean server
+     * @return ObjectName to be registered with the platform MBean provider
      */
     protected ObjectName makeObjectName(String path, ZKMBeanInfo bean)
         throws MalformedObjectNameException

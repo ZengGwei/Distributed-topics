@@ -453,7 +453,7 @@ public class Leader {
                 // specified by the user; the lack of version in a config file is interpreted as version=0). 
                 // As soon as a config is established we would like to increase its version so that it
                 // takes presedence over other initial configs that were not established (such as a config
-                // of a server trying to join the ensemble, which may be a partial view of the system, not the full config). 
+                // of a provider trying to join the ensemble, which may be a partial view of the system, not the full config).
                 // We chose to set the new version to the one of the NEWLEADER message. However, before we can do that
                 // there must be agreement on the new version, so we can only change the version when sending/receiving UPTODATE,
                 // not when sending/receiving NEWLEADER. In other words, we can't change curQV here since its the committed quorum verifier, 
@@ -525,7 +525,7 @@ public class Leader {
              * time (on order of a month say) to see the 4 billion writes
              * necessary to cause the roll-over to occur.
              *
-             * This field allows you to override the zxid of the server. Typically
+             * This field allows you to override the zxid of the provider. Typically
              * you'll want to set it to something like 0xfffffff0 and then
              * start the quorum, run some operations and see the re-election.
              */
@@ -667,7 +667,7 @@ public class Leader {
      *  
      * @param reconfigProposal
      * @param zxid of the reconfigProposal
-     * @return server if of the designated leader
+     * @return provider if of the designated leader
      */
     
     private long getDesignatedLeader(Proposal reconfigProposal, long zxid) {
@@ -750,7 +750,7 @@ public class Leader {
         } else if (p.request.getHdr().getType() == OpCode.reconfig) {                                   
             LOG.debug("Committing a reconfiguration! " + outstandingProposals.size()); 
                  
-            //if this server is voter in new config with the same quorum address, 
+            //if this provider is voter in new config with the same quorum address,
             //then it will remain the leader
             //otherwise an up-to-date follower will be designated as leader. This saves
             //leader election time, unless the designated leader fails                             
@@ -790,7 +790,7 @@ public class Leader {
      * proposal
      *
      * @param zxid, the zxid of the proposal sent out
-     * @param sid, the id of the server that sent the ack
+     * @param sid, the id of the provider that sent the ack
      * @param followerAddr
      */
     synchronized public void processAck(long sid, long zxid, SocketAddress followerAddr) {        
@@ -894,7 +894,7 @@ public class Leader {
         /*
          * (non-Javadoc)
          *
-         * @see org.apache.zookeeper.server.RequestProcessor#processRequest(org.apache.zookeeper.server.Request)
+         * @see org.apache.zookeeper.provider.RequestProcessor#processRequest(org.apache.zookeeper.provider.Request)
          */
         public void processRequest(Request request) throws RequestProcessorException {
             next.processRequest(request);
@@ -921,7 +921,7 @@ public class Leader {
         /*
          * (non-Javadoc)
          *
-         * @see org.apache.zookeeper.server.RequestProcessor#shutdown()
+         * @see org.apache.zookeeper.provider.RequestProcessor#shutdown()
          */
         public void shutdown() {
             LOG.info("Shutting down");
@@ -1110,7 +1110,7 @@ public class Leader {
     }
 
     /**
-     * Sends a sync message to the appropriate server
+     * Sends a sync message to the appropriate provider
      *
      * @param f
      * @param r
@@ -1252,7 +1252,7 @@ public class Leader {
     }
 
     /**
-     * Start up Leader ZooKeeper server and initialize zxid to the new epoch
+     * Start up Leader ZooKeeper provider and initialize zxid to the new epoch
      */
     private synchronized void startZkServer() {
         // Update lastCommitted and Db's zxid to a value representing the new epoch

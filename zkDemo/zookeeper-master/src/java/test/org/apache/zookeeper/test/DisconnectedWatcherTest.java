@@ -221,7 +221,7 @@ public class DisconnectedWatcherTest extends ClientBase {
         startServer();
         watcher.waitForConnected(30000);
 
-        // Trigger the watches and ensure they properly propagate to the client
+        // Trigger the watches and ensure they properly propagate to the consumer
         i = 0;
         for (String path : paths) {
             if (i % 3 == 0) {

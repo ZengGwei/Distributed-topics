@@ -70,7 +70,7 @@ import org.apache.zookeeper.client.ZKClientConfig;
 import org.apache.zookeeper.admin.ZooKeeperAdmin;
 
 /**
- * The command line client to ZooKeeper.
+ * The command line consumer to ZooKeeper.
  *
  */
 @InterfaceAudience.Public
@@ -129,7 +129,7 @@ public class ZooKeeperMain {
     }
 
     static void usage() {
-        System.err.println("ZooKeeper -server host:port cmd args");
+        System.err.println("ZooKeeper -provider host:port cmd args");
         List<String> cmdList = new ArrayList<String>(commandMap.keySet());
         Collections.sort(cmdList);
         for (String cmd : cmdList) {
@@ -159,7 +159,7 @@ public class ZooKeeperMain {
         public static final Pattern QUOTED_PATTERN = Pattern.compile("^([\'\"])(.*)(\\1)$");
 
         public MyCommandOptions() {
-          options.put("server", "localhost:2181");
+          options.put("provider", "localhost:2181");
           options.put("timeout", "30000");
         }
 
@@ -196,8 +196,8 @@ public class ZooKeeperMain {
             while (it.hasNext()) {
                 String opt = it.next();
                 try {
-                    if (opt.equals("-server")) {
-                        options.put("server", it.next());
+                    if (opt.equals("-provider")) {
+                        options.put("provider", it.next());
                     } else if (opt.equals("-timeout")) {
                         options.put("timeout", it.next());
                     } else if (opt.equals("-r")) {
@@ -296,8 +296,8 @@ public class ZooKeeperMain {
 
     public ZooKeeperMain(String args[]) throws IOException, InterruptedException {
         cl.parseOptions(args);
-        System.out.println("Connecting to " + cl.getOption("server"));
-        connectToZK(cl.getOption("server"));
+        System.out.println("Connecting to " + cl.getOption("provider"));
+        connectToZK(cl.getOption("provider"));
     }
 
     public ZooKeeperMain(ZooKeeper zk) {
@@ -377,7 +377,7 @@ public class ZooKeeperMain {
     /**
      * trim the quota tree to recover unwanted tree elements
      * in the quota's tree
-     * @param zk the zookeeper client
+     * @param zk the zookeeper consumer
      * @param path the path to start from and go up and see if their
      * is any unwanted parent in the path.
      * @return true if sucessful
@@ -403,7 +403,7 @@ public class ZooKeeperMain {
 
     /**
      * this method deletes quota for a node.
-     * @param zk the zookeeper client
+     * @param zk the zookeeper consumer
      * @param path the path to delete quota for
      * @param bytes true if number of bytes needs to
      * be unset
@@ -485,7 +485,7 @@ public class ZooKeeperMain {
 
     /**
      * this method creates a quota node for the path
-     * @param zk the ZooKeeper client
+     * @param zk the ZooKeeper consumer
      * @param path the path for which quota needs to be created
      * @param bytes the limit of bytes on this path
      * @param numNodes the limit of number of nodes on this path

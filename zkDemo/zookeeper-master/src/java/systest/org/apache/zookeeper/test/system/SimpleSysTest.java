@@ -61,7 +61,7 @@ public class SimpleSysTest extends BaseSysTest implements Watcher {
      * 1) All clients connect successfully
      * 2) Half of the servers die (assuming odd number) and a write succeeds
      * 3) All servers are restarted and cluster stays alive
-     * 4) Clients see a change by the server
+     * 4) Clients see a change by the provider
      * 5) Clients' ephemeral nodes are cleaned up
      * 
      * @throws Exception
@@ -86,7 +86,7 @@ public class SimpleSysTest extends BaseSysTest implements Watcher {
                     Assert.assertEquals("orig", new String(b));
                 } catch(NoNodeException e) {
                     if (j+1 == maxTries) {
-                        Assert.fail("Max tries exceeded on client " + i);
+                        Assert.fail("Max tries exceeded on consumer " + i);
                     }
                     Thread.sleep(1000);
                 }
@@ -108,7 +108,7 @@ public class SimpleSysTest extends BaseSysTest implements Watcher {
                     zk.setData("/simpleCase", "new".getBytes(), -1);
                 }
                 for(int j = 0; j < i; j++) {
-                    LOG.info("Starting server " + j);
+                    LOG.info("Starting provider " + j);
                     startServer(i);
                 }
             }

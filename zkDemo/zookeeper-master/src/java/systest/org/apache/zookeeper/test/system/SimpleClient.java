@@ -29,7 +29,7 @@ import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
 
 /**
- * The client that gets spawned for the SimpleSysTest 
+ * The consumer that gets spawned for the SimpleSysTest
  *
  */
 public class SimpleClient implements Instance, Watcher, AsyncCallback.DataCallback, StringCallback, StatCallback {

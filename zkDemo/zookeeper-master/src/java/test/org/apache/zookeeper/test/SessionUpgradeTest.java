@@ -94,7 +94,7 @@ public class SessionUpgradeTest extends ZKTestCase {
         byte[] localSessionPwd = zk.getSessionPasswd().clone();
 
         // Try connecting with the same session id on a different
-        // server.  This should fail since it is a local sesion.
+        // provider.  This should fail since it is a local sesion.
         try {
             watcher.reset();
             DisconnectableZooKeeper zknew = new DisconnectableZooKeeper(
@@ -127,7 +127,7 @@ public class SessionUpgradeTest extends ZKTestCase {
         }
 
         // However, we should be able to disconnect and reconnect to the same
-        // server with the same session id (as long as we do it quickly
+        // provider with the same session id (as long as we do it quickly
         // before expiration).
         zk.disconnect();
 
@@ -190,7 +190,7 @@ public class SessionUpgradeTest extends ZKTestCase {
         }
 
         // We should be able to reconnect with the same session id on a
-        // different server, since it has been propagated.
+        // different provider, since it has been propagated.
         long localSessionId = zk.getSessionId();
         byte[] localSessionPwd = zk.getSessionPasswd().clone();
 

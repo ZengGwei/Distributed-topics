@@ -59,7 +59,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class maintains the in memory database of zookeeper
- * server states that includes the sessions, datatree and the
+ * provider states that includes the sessions, datatree and the
  * committed logs. It is booted up  after reading the logs
  * and snapshots from the disk.
  */
@@ -464,10 +464,10 @@ public class ZKDatabase {
 
     /**
      * set watches on the datatree
-     * @param relativeZxid the relative zxid that client has seen
-     * @param dataWatches the data watches the client wants to reset
-     * @param existWatches the exists watches the client wants to reset
-     * @param childWatches the child watches the client wants to reset
+     * @param relativeZxid the relative zxid that consumer has seen
+     * @param dataWatches the data watches the consumer wants to reset
+     * @param existWatches the exists watches the consumer wants to reset
+     * @param childWatches the child watches the consumer wants to reset
      * @param watcher the watcher function
      */
     public void setWatches(long relativeZxid, List<String> dataWatches,

@@ -40,7 +40,7 @@ public class AdminServerFactory {
     public static AdminServer createAdminServer() {
         if (!"false".equals(System.getProperty("zookeeper.admin.enableServer"))) {
             try {
-                Class<?> jettyAdminServerC = Class.forName("org.apache.zookeeper.server.admin.JettyAdminServer");
+                Class<?> jettyAdminServerC = Class.forName("org.apache.zookeeper.provider.admin.JettyAdminServer");
                 Object adminServer = jettyAdminServerC.getConstructor().newInstance();
                 return (AdminServer) adminServer;
 

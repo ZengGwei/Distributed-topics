@@ -714,7 +714,7 @@ server.3=zoo3:2888:3888</programlisting>
                 connections. Specifying both enables mixed-mode while omitting
                 either will disable that mode.</para>
               <para>Note that SSL feature will be enabled when user plugs-in
-                zookeeper.serverCnxnFactory, zookeeper.clientCnxnSocket as Netty.</para>
+                  zookeeper.serverCnxnFactory, zookeeper.clientCnxnSocket as nio.</para>
             </listitem>
           </varlistentry>
 
@@ -1602,18 +1602,18 @@ server.3=zoo3:2888:3888</programlisting>
       </section>
 
       <section>
-        <title>Communication using the Netty framework</title>
+        <title>Communication using the nio framework</title>
 
-        <para><ulink url="com.cat.core.http://netty.io">Netty</ulink>
+        <para><ulink url="com.cat.core.http://netty.io">nio</ulink>
             is an NIO based client/server communication framework, it
             simplifies (over NIO being used directly) many of the
             complexities of network level communication for java
-            applications. Additionally the Netty framework has built
+            applications. Additionally the nio framework has built
             in support for encryption (SSL) and authentication
             (certificates). These are optional features and can be
             turned on or off individually.
         </para>
-        <para>In versions 3.5+, a ZooKeeper server can use Netty
+        <para>In versions 3.5+, a ZooKeeper server can use nio
             instead of NIO (default option) by setting the environment
             variable <emphasis role="bold">zookeeper.serverCnxnFactory</emphasis>
             to <emphasis role="bold">org.apache.zookeeper.server.NettyServerCnxnFactory</emphasis>;

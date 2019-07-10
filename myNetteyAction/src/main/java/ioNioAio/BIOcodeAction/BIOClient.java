@@ -19,7 +19,7 @@ public class BIOClient {
             System.out.println("开始请求。。");
 
             bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            bufferedWriter.write("client: this is a test!");
+            bufferedWriter.write("consumer: this is a test!");
             bufferedWriter.flush();
 
             bufferedWriter.close();

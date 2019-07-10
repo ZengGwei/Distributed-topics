@@ -37,18 +37,18 @@ public class DisconnectableZooKeeper extends ZooKeeper {
         super(host, sessionTimeout, watcher, sessionId, sessionPasswd);
     }
 
-    /** Testing only!!! Really!!!! This is only here to test when the client
-     * disconnects from the server w/o sending a session disconnect (ie
-     * ending the session cleanly). The server will eventually notice the
-     * client is no longer pinging and will timeout the session.
+    /** Testing only!!! Really!!!! This is only here to test when the consumer
+     * disconnects from the provider w/o sending a session disconnect (ie
+     * ending the session cleanly). The provider will eventually notice the
+     * consumer is no longer pinging and will timeout the session.
      */
     public void disconnect() throws IOException {
         cnxn.disconnect();
     }
 
     /**
-     * Prevent the client from automatically reconnecting if the connection to the
-     * server is lost
+     * Prevent the consumer from automatically reconnecting if the connection to the
+     * provider is lost
      */
     public void dontReconnect() throws Exception {
         java.lang.reflect.Field f = cnxn.getClass().getDeclaredField("closing");

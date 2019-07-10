@@ -33,8 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is a base class for the configurations of both client and server.
- * It supports reading client configuration from both system properties and
+ * This class is a base class for the configurations of both consumer and provider.
+ * It supports reading consumer configuration from both system properties and
  * configuration file. A user can override any system property by calling
  * {@link #setProperty(String, String)}.
  * @since 3.5.2
@@ -63,7 +63,7 @@ public class ZKConfig {
     private final Map<String, String> properties = new HashMap<String, String>();
 
     /**
-     * properties, which are common to both client and server, are initialized
+     * properties, which are common to both consumer and provider, are initialized
      * from system properties
      */
     public ZKConfig() {
@@ -95,13 +95,13 @@ public class ZKConfig {
 
     private void init() {
         /**
-         * backward compatibility for all currently available client properties
+         * backward compatibility for all currently available consumer properties
          */
         handleBackwardCompatibility();
     }
 
     /**
-     * Now onwards client code will use properties from this class but older
+     * Now onwards consumer code will use properties from this class but older
      * clients still be setting properties through system properties. So to make
      * this change backward compatible we should set old system properties in
      * this configuration.

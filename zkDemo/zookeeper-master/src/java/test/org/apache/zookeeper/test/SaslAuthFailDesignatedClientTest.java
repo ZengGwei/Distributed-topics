@@ -33,7 +33,7 @@ import org.junit.Test;
 
 public class SaslAuthFailDesignatedClientTest extends ClientBase {
     static {
-        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
+        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.provider.auth.SASLAuthenticationProvider");
         System.setProperty(ZKClientConfig.LOGIN_CONTEXT_NAME_KEY,
                 "MyZookeeperClient");
 
@@ -44,18 +44,18 @@ public class SaslAuthFailDesignatedClientTest extends ClientBase {
 
             fwriter.write("" +
                 "Server {\n" +
-                "          org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "          org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "          user_myuser=\"mypassword\";\n" +
                 "};\n" +
                 "Client {\n" + /* this 'Client' section has the correct password, but we're not configured
                                   to  use it (we're configured by the above System.setProperty(...LOGIN_CONTEXT_NAME_KEY...) to 
                                   use the 'MyZookeeperClient' section, which has an incorrect password).*/
-                "       org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "       org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "       username=\"myuser\"\n" +
                 "       password=\"mypassword\";\n" +
                 "};" +
                 "MyZookeeperClient {\n" +
-                "       org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "       org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "       username=\"myuser\"\n" +
                 "       password=\"wrongpassword\";\n" +
                 "};" + "\n");
@@ -70,13 +70,13 @@ public class SaslAuthFailDesignatedClientTest extends ClientBase {
 
     @Test
     public void testAuth() throws Exception {
-        // Cannot use createClient here because server may close session before 
+        // Cannot use createClient here because provider may close session before
         // JMXEnv.ensureAll is called which will fail the test case
         CountdownWatcher watcher = new CountdownWatcher();
         TestableZooKeeper zk = new TestableZooKeeper(hostPort, CONNECTION_TIMEOUT, watcher);
         if (!watcher.clientConnected.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS))
         {
-            Assert.fail("Unable to connect to server");
+            Assert.fail("Unable to connect to provider");
         }
         try {
             zk.create("/path1", null, Ids.CREATOR_ALL_ACL, CreateMode.PERSISTENT);

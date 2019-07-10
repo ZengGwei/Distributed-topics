@@ -36,7 +36,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test stand-alone server.
+ * Test stand-alone provider.
  *
  */
 public class InvalidSnapCountTest extends ZKTestCase implements Watcher {
@@ -48,7 +48,7 @@ public class InvalidSnapCountTest extends ZKTestCase implements Watcher {
         final TestMain main;
 
         public MainThread(int clientPort) throws IOException {
-            super("Standalone server with clientPort:" + clientPort);
+            super("Standalone provider with clientPort:" + clientPort);
             File tmpDir = ClientBase.createTmpDir();
             confFile = new File(tmpDir, "zoo.cfg");
 
@@ -97,7 +97,7 @@ public class InvalidSnapCountTest extends ZKTestCase implements Watcher {
     }
 
     /**
-     * Verify the ability to start a standalone server instance.
+     * Verify the ability to start a standalone provider instance.
      */
     @Test
     public void testInvalidSnapCount() throws Exception {
@@ -107,7 +107,7 @@ public class InvalidSnapCountTest extends ZKTestCase implements Watcher {
         MainThread main = new MainThread(CLIENT_PORT);
         main.start();
 
-        Assert.assertTrue("waiting for server being up",
+        Assert.assertTrue("waiting for provider being up",
                 ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT,
                         CONNECTION_TIMEOUT));
 

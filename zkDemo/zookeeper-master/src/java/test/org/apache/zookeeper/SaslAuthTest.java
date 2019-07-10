@@ -43,7 +43,7 @@ public class SaslAuthTest extends ClientBase {
     @BeforeClass
     public static void init() {
         System.setProperty("zookeeper.authProvider.1",
-                "org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
+                "org.apache.zookeeper.provider.auth.SASLAuthenticationProvider");
         try {
             File tmpDir = createTmpDir();
             File saslConfFile = new File(tmpDir, "jaas.conf");
@@ -63,7 +63,7 @@ public class SaslAuthTest extends ClientBase {
         String newLine = System.getProperty("line.separator");
         jaasContent.append("Server {");
         jaasContent.append(newLine);
-        jaasContent.append("org.apache.zookeeper.server.auth.DigestLoginModule required");
+        jaasContent.append("org.apache.zookeeper.provider.auth.DigestLoginModule required");
         jaasContent.append(newLine);
         jaasContent.append("user_super=\"test\";");
         jaasContent.append(newLine);
@@ -71,7 +71,7 @@ public class SaslAuthTest extends ClientBase {
         jaasContent.append(newLine);
         jaasContent.append("Client {");
         jaasContent.append(newLine);
-        jaasContent.append("org.apache.zookeeper.server.auth.DigestLoginModule required");
+        jaasContent.append("org.apache.zookeeper.provider.auth.DigestLoginModule required");
         jaasContent.append(newLine);
         jaasContent.append("username=\"super\"");
         jaasContent.append(newLine);
@@ -146,7 +146,7 @@ public class SaslAuthTest extends ClientBase {
         ZooKeeper zk = createClient();
 
         List<String> invalidIds = new ArrayList<String>();
-        invalidIds.add("user@KERB.REALM/server.com");
+        invalidIds.add("user@KERB.REALM/provider.com");
         invalidIds.add("user@KERB.REALM1@KERB.REALM2");
 
         int i = 0;

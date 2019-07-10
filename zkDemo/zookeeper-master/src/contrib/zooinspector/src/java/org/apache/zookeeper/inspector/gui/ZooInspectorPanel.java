@@ -163,13 +163,13 @@ public class ZooInspectorPanel extends JPanel implements
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while connecting to ZooKeeper server",
+                                    "Error occurred while connecting to ZooKeeper provider",
                                     e);
                 } catch (ExecutionException e) {
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while connecting to ZooKeeper server",
+                                    "Error occurred while connecting to ZooKeeper provider",
                                     e);
                 }
             }
@@ -209,13 +209,13 @@ public class ZooInspectorPanel extends JPanel implements
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while disconnecting from ZooKeeper server",
+                                    "Error occurred while disconnecting from ZooKeeper provider",
                                     e);
                 } catch (ExecutionException e) {
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while disconnecting from ZooKeeper server",
+                                    "Error occurred while disconnecting from ZooKeeper provider",
                                     e);
                 }
             }
@@ -230,7 +230,7 @@ public class ZooInspectorPanel extends JPanel implements
                     LoggerFactory
                             .getLogger()
                             .error(
-                                    "Error occurred while disconnecting from ZooKeeper server",
+                                    "Error occurred while disconnecting from ZooKeeper provider",
                                     e);
                 }
             }

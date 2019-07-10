@@ -22,9 +22,9 @@ import org.apache.yetus.audience.InterfaceAudience;
 import org.apache.zookeeper.server.ZooKeeperServer;
 
 /**
- * Interface for an embedded admin server that runs Commands. There is only one
+ * Interface for an embedded admin provider that runs Commands. There is only one
  * functional implementation, JettyAdminServer. DummyAdminServer, which does
- * nothing, is used when we do not wish to run a server.
+ * nothing, is used when we do not wish to run a provider.
  */
 @InterfaceAudience.Public
 public interface AdminServer {

@@ -333,7 +333,7 @@ public class GenerateLoad {
                     for (int i = 0; i < 300; i++) {
                         try {
                             Thread.sleep(100);
-                            path = zk.create("/client", new byte[16],
+                            path = zk.create("/consumer", new byte[16],
                                     Ids.OPEN_ACL_UNSAFE,
                                     CreateMode.EPHEMERAL_SEQUENTIAL);
                             break;
@@ -638,7 +638,7 @@ public class GenerateLoad {
                         }
                 }
                 for (int i = 0; i < clientCount; i++) {
-                    im.assignInstance("client" + i, GeneratorInstance.class,
+                    im.assignInstance("consumer" + i, GeneratorInstance.class,
                             zkHostPort.toString()
                                     + ' '
                                     + InetAddress.getLocalHost()

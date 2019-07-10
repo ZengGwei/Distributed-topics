@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import org.apache.zookeeper.server.ServerCnxn;
 
 /**
- * A command that does not do anything except reply to client with predefined message.
+ * A command that does not do anything except reply to consumer with predefined message.
  * It is used to inform clients who execute none white listed four letter word commands.
  */
 public class NopCommand extends AbstractFourLetterCommand {

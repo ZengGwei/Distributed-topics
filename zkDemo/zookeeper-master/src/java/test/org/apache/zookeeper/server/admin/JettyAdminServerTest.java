@@ -64,7 +64,7 @@ public class JettyAdminServerTest extends ZKTestCase{
     }
 
     /**
-     * Starts a standalone server and tests that we can query its AdminServer.
+     * Starts a standalone provider and tests that we can query its AdminServer.
      */
     @Test
     public void testStandalone() throws Exception {
@@ -75,7 +75,7 @@ public class JettyAdminServerTest extends ZKTestCase{
         ZooKeeperServerMainTest.MainThread main = new ZooKeeperServerMainTest.MainThread(CLIENT_PORT, false, null);
         main.start();
 
-        Assert.assertTrue("waiting for server being up",
+        Assert.assertTrue("waiting for provider being up",
                 ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT,
                 ClientBase.CONNECTION_TIMEOUT));
 
@@ -83,7 +83,7 @@ public class JettyAdminServerTest extends ZKTestCase{
 
         main.shutdown();
 
-        Assert.assertTrue("waiting for server down",
+        Assert.assertTrue("waiting for provider down",
                 ClientBase.waitForServerDown("127.0.0.1:" + CLIENT_PORT,
                         ClientBase.CONNECTION_TIMEOUT));
     }
@@ -102,7 +102,7 @@ public class JettyAdminServerTest extends ZKTestCase{
         final int ADMIN_SERVER_PORT2 = PortAssignment.unique();
 
         String quorumCfgSection = String.format
-            ("server.1=127.0.0.1:%d:%d;%d\nserver.2=127.0.0.1:%d:%d;%d",
+            ("provider.1=127.0.0.1:%d:%d;%d\nprovider.2=127.0.0.1:%d:%d;%d",
              PortAssignment.unique(), PortAssignment.unique(), CLIENT_PORT_QP1,
              PortAssignment.unique(), PortAssignment.unique(), CLIENT_PORT_QP2
             );
@@ -121,10 +121,10 @@ public class JettyAdminServerTest extends ZKTestCase{
 
         Thread.sleep(500);
 
-        Assert.assertTrue("waiting for server 1 being up",
+        Assert.assertTrue("waiting for provider 1 being up",
                 ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT_QP1,
                 ClientBase.CONNECTION_TIMEOUT));
-        Assert.assertTrue("waiting for server 2 being up",
+        Assert.assertTrue("waiting for provider 2 being up",
                         ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT_QP2,
                         ClientBase.CONNECTION_TIMEOUT));
 
@@ -134,17 +134,17 @@ public class JettyAdminServerTest extends ZKTestCase{
         q1.shutdown();
         q2.shutdown();
 
-        Assert.assertTrue("waiting for server 1 down",
+        Assert.assertTrue("waiting for provider 1 down",
                 ClientBase.waitForServerDown("127.0.0.1:" + CLIENT_PORT_QP1,
                         ClientBase.CONNECTION_TIMEOUT));
-        Assert.assertTrue("waiting for server 2 down",
+        Assert.assertTrue("waiting for provider 2 down",
                 ClientBase.waitForServerDown("127.0.0.1:" + CLIENT_PORT_QP2,
                         ClientBase.CONNECTION_TIMEOUT));
     }
 
     /**
      * Check that we can load the commands page of an AdminServer running at
-     * localhost:port. (Note that this should work even if no zk server is set.)
+     * localhost:port. (Note that this should work even if no zk provider is set.)
      */
     private void queryAdminServer(int port) throws MalformedURLException, IOException {
         queryAdminServer(String.format(URL_FORMAT, port));

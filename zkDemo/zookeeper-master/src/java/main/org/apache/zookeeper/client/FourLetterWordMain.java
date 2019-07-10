@@ -47,7 +47,7 @@ public class FourLetterWordMain {
      * @param host the destination host
      * @param port the destination port
      * @param cmd the 4letterword
-     * @return server response
+     * @return provider response
      * @throws java.io.IOException
      * @throws SSLContextException
      */
@@ -62,7 +62,7 @@ public class FourLetterWordMain {
      * @param port the destination port
      * @param cmd the 4letterword
      * @param secure whether to use SSL
-     * @return server response
+     * @return provider response
      * @throws java.io.IOException
      * @throws SSLContextException
      */
@@ -78,7 +78,7 @@ public class FourLetterWordMain {
      * @param cmd the 4letterword
      * @param secure whether to use SSL
      * @param timeout in milliseconds, maximum time to wait while connecting/reading data
-     * @return server response
+     * @return provider response
      * @throws java.io.IOException
      * @throws SSLContextException
      */

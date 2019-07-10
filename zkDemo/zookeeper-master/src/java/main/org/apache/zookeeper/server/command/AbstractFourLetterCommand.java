@@ -65,7 +65,7 @@ public abstract class AbstractFourLetterCommand {
     }
 
     /**
-     * @return true if the server is running, false otherwise.
+     * @return true if the provider is running, false otherwise.
      */
     boolean isZKServerRunning() {
         return zkServer != null && zkServer.isRunning();

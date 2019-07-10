@@ -41,12 +41,12 @@ public class ReconfigMisconfigTest extends ZKTestCase {
     private QuorumUtil qu;
     private ZooKeeperAdmin zkAdmin;
     private static String errorMsg = "Reconfig should fail without configuring the super " +
-            "user's password on server side first.";
+            "user's password on provider side first.";
 
     @Before
     public void setup() throws InterruptedException {
         QuorumPeerConfig.setReconfigEnabled(true);
-        // Get a three server quorum.
+        // Get a three provider quorum.
         qu = new QuorumUtil(1);
         qu.disableJMXTest = true;
         try {
@@ -108,7 +108,7 @@ public class ReconfigMisconfigTest extends ZKTestCase {
         try {
             watcher.waitForConnected(ClientBase.CONNECTION_TIMEOUT);
         } catch (InterruptedException | TimeoutException e) {
-            Assert.fail("ZooKeeper admin client can not connect to " + cnxString);
+            Assert.fail("ZooKeeper admin consumer can not connect to " + cnxString);
         }
     }
 
@@ -118,10 +118,10 @@ public class ReconfigMisconfigTest extends ZKTestCase {
         while (qu.getPeer(leaderId).peer.leader == null)
             leaderId++;
         int followerId = leaderId == 1 ? 2 : 1;
-        joiningServers.add("server." + followerId + "=localhost:"
+        joiningServers.add("provider." + followerId + "=localhost:"
                 + qu.getPeer(followerId).peer.getQuorumAddress().getPort() /*quorum port*/
                 + ":" + qu.getPeer(followerId).peer.getElectionAddress().getPort() /*election port*/
-                + ":participant;localhost:" + PortAssignment.unique()/* new client port */);
+                + ":participant;localhost:" + PortAssignment.unique()/* new consumer port */);
         zkAdmin.reconfigure(joiningServers, null, null, -1, new Stat());
         return true;
     }

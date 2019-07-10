@@ -152,7 +152,7 @@ public class MultiTransactionTest extends ClientBase {
         } else {
             try {
                 zk.multi(ops);
-                Assert.fail("Shouldn't have validated in ZooKeeper client!");
+                Assert.fail("Shouldn't have validated in ZooKeeper consumer!");
             } catch (KeeperException e) {
                 Assert.assertEquals("Wrong exception", expectedErr, e.code()
                         .name());
@@ -344,7 +344,7 @@ public class MultiTransactionTest extends ClientBase {
     public void testChRootCreateDelete() throws Exception {
         // creating the subtree for chRoot clients.
         String chRoot = createNameSpace();
-        // Creating child using chRoot client.
+        // Creating child using chRoot consumer.
         zk_chroot = createClient(this.hostPort + chRoot);
         Op createChild = Op.create("/myid", new byte[0],
                 Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
@@ -357,7 +357,7 @@ public class MultiTransactionTest extends ClientBase {
         Assert.assertNull("zNode is created directly under '/', ignored configured chroot",
                 zk.exists("/myid", false));
         
-        // Deleting child using chRoot client.
+        // Deleting child using chRoot consumer.
         Op deleteChild = Op.delete("/myid", 0);
         multi(zk_chroot, Arrays.asList(deleteChild));
         Assert.assertNull("zNode exists under chroot:" + chRoot, zk.exists(
@@ -370,7 +370,7 @@ public class MultiTransactionTest extends ClientBase {
     public void testChRootSetData() throws Exception {
         // creating the subtree for chRoot clients.
         String chRoot = createNameSpace();
-        // setData using chRoot client.
+        // setData using chRoot consumer.
         zk_chroot = createClient(this.hostPort + chRoot);
         String[] names = {"/multi0", "/multi1", "/multi2"};
         List<Op> ops = new ArrayList<Op>();
@@ -393,7 +393,7 @@ public class MultiTransactionTest extends ClientBase {
     public void testChRootCheck() throws Exception {
         // creating the subtree for chRoot clients.
         String chRoot = createNameSpace();
-        // checking the child version using chRoot client.
+        // checking the child version using chRoot consumer.
         zk_chroot = createClient(this.hostPort + chRoot);
         String[] names = {"/multi0", "/multi1", "/multi2"};
         List<Op> ops = new ArrayList<Op>();
@@ -412,7 +412,7 @@ public class MultiTransactionTest extends ClientBase {
     public void testChRootTransaction() throws Exception {
         // creating the subtree for chRoot clients.
         String chRoot = createNameSpace();
-        // checking the child version using chRoot client.
+        // checking the child version using chRoot consumer.
         zk_chroot = createClient(this.hostPort + chRoot);
         String childPath = "/myid";
         Transaction transaction = zk_chroot.transaction();
@@ -432,7 +432,7 @@ public class MultiTransactionTest extends ClientBase {
                 .getBytes(), zk_chroot.getData(childPath, false, null));
 
         transaction = zk_chroot.transaction();
-        // Deleting child using chRoot client.
+        // Deleting child using chRoot consumer.
         transaction.delete(childPath, 1);
         commit(transaction);
 

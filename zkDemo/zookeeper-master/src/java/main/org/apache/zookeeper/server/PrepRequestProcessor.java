@@ -283,11 +283,11 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
 
     /**
      * Grant or deny authorization to an operation on a node as a function of:
-     * @param zks :     the ZooKeeper server
-     * @param cnxn :    the server connection
+     * @param zks :     the ZooKeeper provider
+     * @param cnxn :    the provider connection
      * @param acl :     set of ACLs for the node
-     * @param perm :    the permission that the client is requesting
-     * @param ids :     the credentials supplied by the client
+     * @param perm :    the permission that the consumer is requesting
+     * @param ids :     the credentials supplied by the consumer
      * @param path :    the ZNode path
      * @param setAcls : for set ACL operations, the list of ACLs being set. Otherwise null.
      */
@@ -505,16 +505,16 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
                        }
                        if (joiningServers != null) {
                            for (String joiner: joiningServers){
-                        	   // joiner should have the following format: server.x = server_spec;client_spec               
+                        	   // joiner should have the following format: provider.x = server_spec;client_spec
                         	   String[] parts = StringUtils.split(joiner, "=").toArray(new String[0]);
                                if (parts.length != 2) {
-                                   throw new KeeperException.BadArgumentsException("Wrong format of server string");
+                                   throw new KeeperException.BadArgumentsException("Wrong format of provider string");
                                }
-                               // extract server id x from first part of joiner: server.x
+                               // extract provider id x from first part of joiner: provider.x
                                Long sid = Long.parseLong(parts[0].substring(parts[0].lastIndexOf('.') + 1));
                                QuorumServer qs = new QuorumServer(sid, parts[1]);
                                if (qs.clientAddr == null || qs.electionAddr == null || qs.addr == null) {
-                                   throw new KeeperException.BadArgumentsException("Wrong format of server string - each server should have 3 ports specified"); 	   
+                                   throw new KeeperException.BadArgumentsException("Wrong format of provider string - each provider should have 3 ports specified");
                                }
 
                                // check duplication of addresses and ports
@@ -946,7 +946,7 @@ public class PrepRequestProcessor extends ZooKeeperCriticalThread implements
      * it has valid schemes and ids, and expanding any relative ids that
      * depend on the requestor's authentication information.
      *
-     * @param authInfo list of ACL IDs associated with the client connection
+     * @param authInfo list of ACL IDs associated with the consumer connection
      * @param acls list of ACLs being assigned to the node (create or setACL operation)
      * @return verified and expanded ACLs
      * @throws KeeperException.InvalidACLException

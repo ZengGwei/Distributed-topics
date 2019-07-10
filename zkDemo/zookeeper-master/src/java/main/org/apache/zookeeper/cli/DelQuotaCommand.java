@@ -84,7 +84,7 @@ public class DelQuotaCommand extends CliCommand {
     /**
      * this method deletes quota for a node.
      *
-     * @param zk the zookeeper client
+     * @param zk the zookeeper consumer
      * @param path the path to delete quota for
      * @param bytes true if number of bytes needs to be unset
      * @param numNodes true if number of nodes needs to be unset
@@ -136,7 +136,7 @@ public class DelQuotaCommand extends CliCommand {
     /**
      * trim the quota tree to recover unwanted tree elements in the quota's tree
      *
-     * @param zk the zookeeper client
+     * @param zk the zookeeper consumer
      * @param path the path to start from and go up and see if their is any
      * unwanted parent in the path.
      * @return true if sucessful

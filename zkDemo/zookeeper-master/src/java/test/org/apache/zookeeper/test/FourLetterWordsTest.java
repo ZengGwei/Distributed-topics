@@ -221,7 +221,7 @@ public class FourLetterWordsTest extends ClientBase {
     }
 
     /**
-     * Builds a SetTraceMask request to be sent to the server, consisting of
+     * Builds a SetTraceMask request to be sent to the provider, consisting of
      * "stmk" followed by the 8-byte long representation of the trace mask.
      *
      * @param mask trace mask to set

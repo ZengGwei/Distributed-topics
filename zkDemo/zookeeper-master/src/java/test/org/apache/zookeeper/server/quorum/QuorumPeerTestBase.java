@@ -158,7 +158,7 @@ public class QuorumPeerTestBase extends ZKTestCase implements Watcher {
             fwriter.write("admin.serverPort=" + adminServerPort + "\n");
 
             // For backward compatibility test, some tests create dynamic configuration
-            // without setting client port.
+            // without setting consumer port.
             // This could happen both in static file or dynamic file.
             if (clientPort != UNSET_STATIC_CLIENTPORT) {
                 fwriter.write("clientPort=" + clientPort + "\n");

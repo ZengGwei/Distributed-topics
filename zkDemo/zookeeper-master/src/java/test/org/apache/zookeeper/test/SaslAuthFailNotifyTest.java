@@ -34,7 +34,7 @@ import org.junit.Assert;
 
 public class SaslAuthFailNotifyTest extends ClientBase {
     static {
-        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
+        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.provider.auth.SASLAuthenticationProvider");
         System.setProperty("zookeeper.allowSaslFailedClients","true");
 
         try {
@@ -44,11 +44,11 @@ public class SaslAuthFailNotifyTest extends ClientBase {
 
             fwriter.write("" +
                     "Server {\n" +
-                    "          org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                    "          org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                     "          user_super=\"test\";\n" +
                     "};\n" +
                     "Client {\n" +
-                    "       org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                    "       org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                     "       username=\"super\"\n" +
                     "       password=\"test1\";\n" + // NOTE: wrong password ('test' != 'test1') : this is to test SASL authentication failure.
                     "};" + "\n");
@@ -88,7 +88,7 @@ public class SaslAuthFailNotifyTest extends ClientBase {
     @Test
     public void testBadSaslAuthNotifiesWatch() throws Exception {
         ZooKeeper zk = createClient();
-        // wait for authFailed event from client's EventThread.
+        // wait for authFailed event from consumer's EventThread.
         synchronized(authFailed) {
             authFailed.wait();
         }

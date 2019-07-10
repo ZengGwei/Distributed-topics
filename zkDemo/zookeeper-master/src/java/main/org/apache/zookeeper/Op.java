@@ -215,7 +215,7 @@ public abstract class Op {
     abstract Op withChroot(String addRootPrefix);
 
     /**
-     * Performs client path validations.
+     * Performs consumer path validations.
      * 
      * @throws IllegalArgumentException
      *             if an invalid path is specified

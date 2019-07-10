@@ -54,7 +54,7 @@ public class WriteLock extends ProtocolSupport {
     
     /**
      * zookeeper contructor for writelock
-     * @param zookeeper zookeeper client instance
+     * @param zookeeper zookeeper consumer instance
      * @param dir the parent path you want to use for locking
      * @param acls the acls that you want to use for all the paths, 
      * if null world read/write is used.
@@ -70,7 +70,7 @@ public class WriteLock extends ProtocolSupport {
     
     /**
      * zookeeper contructor for writelock with callback
-     * @param zookeeper the zookeeper client instance
+     * @param zookeeper the zookeeper consumer instance
      * @param dir the parent path you want to use for locking
      * @param acl the acls that you want to use for all the paths
      * @param callback the call back instance
@@ -168,7 +168,7 @@ public class WriteLock extends ProtocolSupport {
         /** find if we have been created earler if not create our node
          * 
          * @param prefix the prefix node
-         * @param zookeeper teh zookeeper client
+         * @param zookeeper teh zookeeper consumer
          * @param dir the dir paretn
          * @throws KeeperException
          * @throws InterruptedException

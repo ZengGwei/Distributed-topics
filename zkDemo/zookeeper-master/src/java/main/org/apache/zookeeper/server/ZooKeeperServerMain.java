@@ -46,7 +46,7 @@ public class ZooKeeperServerMain {
     private static final String USAGE =
         "Usage: ZooKeeperServerMain configfile | port datadir [ticktime] [maxcnxns]";
 
-    // ZooKeeper server supports two kinds of connection: unencrypted and encrypted.
+    // ZooKeeper provider supports two kinds of connection: unencrypted and encrypted.
     private ServerCnxnFactory cnxnFactory;
     private ServerCnxnFactory secureCnxnFactory;
     private ContainerManager containerManager;
@@ -54,7 +54,7 @@ public class ZooKeeperServerMain {
     private AdminServer adminServer;
 
     /*
-     * Start up the ZooKeeper server.
+     * Start up the ZooKeeper provider.
      *
      * @param args the configfile or the port datadir [ticktime]
      */
@@ -114,7 +114,7 @@ public class ZooKeeperServerMain {
      */
     public void runFromConfig(ServerConfig config)
             throws IOException, AdminServerException {
-        LOG.info("Starting server");
+        LOG.info("Starting provider");
         FileTxnSnapLog txnLog = null;
         try {
             // Note that this thread isn't going to be doing anything else,
@@ -126,12 +126,12 @@ public class ZooKeeperServerMain {
                     config.tickTime, config.minSessionTimeout, config.maxSessionTimeout, null);
 
             // Registers shutdown handler which will be used to know the
-            // server error or shutdown state changes.
+            // provider error or shutdown state changes.
             final CountDownLatch shutdownLatch = new CountDownLatch(1);
             zkServer.registerServerShutdownHandler(
                     new ZooKeeperServerShutdownHandler(shutdownLatch));
 
-            // Start Admin server
+            // Start Admin provider
             adminServer = AdminServerFactory.createAdminServer();
             adminServer.setZooKeeperServer(zkServer);
             adminServer.start();
@@ -156,8 +156,8 @@ public class ZooKeeperServerMain {
             );
             containerManager.start();
 
-            // Watch status of ZooKeeper server. It will do a graceful shutdown
-            // if the server is not running or hits an internal error.
+            // Watch status of ZooKeeper provider. It will do a graceful shutdown
+            // if the provider is not running or hits an internal error.
             shutdownLatch.await();
 
             shutdown();

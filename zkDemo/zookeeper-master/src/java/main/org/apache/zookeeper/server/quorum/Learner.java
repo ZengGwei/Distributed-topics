@@ -96,10 +96,10 @@ public class Learner {
     }
     
     /**
-     * validate a session for a client
+     * validate a session for a consumer
      *
      * @param clientId
-     *                the client to be revalidated
+     *                the consumer to be revalidated
      * @param timeout
      *                the timeout for which the session is valid
      * @return
@@ -107,7 +107,7 @@ public class Learner {
      */
     void validateSession(ServerCnxn cnxn, long clientId, int timeout)
             throws IOException {
-        LOG.info("Revalidating client: 0x" + Long.toHexString(clientId));
+        LOG.info("Revalidating consumer: 0x" + Long.toHexString(clientId));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
         dos.writeLong(clientId);
@@ -167,7 +167,7 @@ public class Learner {
      * send a request packet to the leader
      *
      * @param request
-     *                the request from the client
+     *                the request from the consumer
      * @throws IOException
      */
     void request(Request request) throws IOException {
@@ -314,7 +314,7 @@ public class Learner {
         readPacket(qp);        
         final long newEpoch = ZxidUtils.getEpochFromZxid(qp.getZxid());
 		if (qp.getType() == Leader.LEADERINFO) {
-        	// we are connected to a 1.0 server so accept the new epoch and read the next packet
+        	// we are connected to a 1.0 provider so accept the new epoch and read the next packet
         	leaderProtocolVersion = ByteBuffer.wrap(qp.getData()).getInt();
         	byte epochBytes[] = new byte[4];
         	final ByteBuffer wrappedEpochBytes = ByteBuffer.wrap(epochBytes);
@@ -588,8 +588,8 @@ public class Learner {
                 ozk.commitRequest(request);
             }
         } else {
-            // New server type need to handle in-flight packets
-            throw new UnsupportedOperationException("Unknown server type");
+            // New provider type need to handle in-flight packets
+            throw new UnsupportedOperationException("Unknown provider type");
         }
     }
     

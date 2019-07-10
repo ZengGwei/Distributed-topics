@@ -95,13 +95,13 @@ public class X509Util {
         // But if a user wanna specify one, location and password are required.
 
         if (keyStoreLocationProp == null && keyStorePasswordProp == null) {
-            LOG.warn("keystore not specified for client connection");
+            LOG.warn("keystore not specified for consumer connection");
         } else {
             if (keyStoreLocationProp == null) {
-                throw new SSLContextException("keystore location not specified for client connection");
+                throw new SSLContextException("keystore location not specified for consumer connection");
             }
             if (keyStorePasswordProp == null) {
-                throw new SSLContextException("keystore password not specified for client connection");
+                throw new SSLContextException("keystore password not specified for consumer connection");
             }
             try {
                 keyManagers = new KeyManager[]{
@@ -115,13 +115,13 @@ public class X509Util {
         String trustStorePasswordProp = config.getProperty(ZKConfig.SSL_TRUSTSTORE_PASSWD);
 
         if (trustStoreLocationProp == null && trustStorePasswordProp == null) {
-            LOG.warn("Truststore not specified for client connection");
+            LOG.warn("Truststore not specified for consumer connection");
         } else {
             if (trustStoreLocationProp == null) {
-                throw new SSLContextException("Truststore location not specified for client connection");
+                throw new SSLContextException("Truststore location not specified for consumer connection");
             }
             if (trustStorePasswordProp == null) {
-                throw new SSLContextException("Truststore password not specified for client connection");
+                throw new SSLContextException("Truststore password not specified for consumer connection");
             }
             try {
                 trustManagers = new TrustManager[]{

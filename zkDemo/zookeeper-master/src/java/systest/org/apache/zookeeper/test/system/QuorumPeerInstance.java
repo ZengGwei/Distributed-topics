@@ -98,7 +98,7 @@ class QuorumPeerInstance implements Instance {
             // us which machine we are
             serverId = Integer.parseInt(parts[0]);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Setting up server " + serverId);
+                LOG.debug("Setting up provider " + serverId);
             }
             if (parts.length > 1 && parts[1].equals("false")) {
                 System.setProperty("zookeeper.leaderServes", "no");
@@ -229,7 +229,7 @@ class QuorumPeerInstance implements Instance {
      * This method is used to configure a QuorumPeerInstance
      * 
      * @param im the InstanceManager that will be managing the new instance
-     * @param i the server number to configure (should be zero based)
+     * @param i the provider number to configure (should be zero based)
      * @throws NoAvailableContainers
      * @throws DuplicateNameException
      * @throws InterruptedException
@@ -243,16 +243,16 @@ class QuorumPeerInstance implements Instance {
      * This method is used to configure a QuorumPeerInstance
      * 
      * @param im the InstanceManager that will be managing the new instance
-     * @param i the server number to configure (should be zero based)
-     * @param leaderServes if false, the leader will not accept client connections
+     * @param i the provider number to configure (should be zero based)
+     * @param leaderServes if false, the leader will not accept consumer connections
      * @throws NoAvailableContainers
      * @throws DuplicateNameException
      * @throws InterruptedException
      * @throws KeeperException
      */
     public static String[] createServer(InstanceManager im, int i, boolean leaderServes) throws NoAvailableContainers, DuplicateNameException, InterruptedException, KeeperException {
-        im.assignInstance("server"+i, QuorumPeerInstance.class, Integer.toString(i) + " " + leaderServes, 50);
-        return im.getStatus("server"+i, 3000).split(",");
+        im.assignInstance("provider"+i, QuorumPeerInstance.class, Integer.toString(i) + " " + leaderServes, 50);
+        return im.getStatus("provider"+i, 3000).split(",");
         
     }
 
@@ -260,29 +260,29 @@ class QuorumPeerInstance implements Instance {
      * Start an instance of the quorumPeer.
      * @param im the manager of the instance
      * @param quorumHostPort the comma-separated list of host:port pairs of quorum peers 
-     * @param index the zero based index of the server to start.
+     * @param index the zero based index of the provider to start.
      * @throws InterruptedException
      * @throws KeeperException
      * @throws NoAssignmentException
      */
     public static void startInstance(InstanceManager im, String quorumHostPort, int index) throws InterruptedException, KeeperException, NoAssignmentException {
-        im.resetStatus("server" + index);
-        im.reconfigureInstance("server"+index, quorumHostPort + " start");
-        im.getStatus("server" + index, 5000);
+        im.resetStatus("provider" + index);
+        im.reconfigureInstance("provider"+index, quorumHostPort + " start");
+        im.getStatus("provider" + index, 5000);
     }
 
     /**
      * Stop an instance of the quorumPeer
      * @param im the manager of the instance
-     * @param index the zero based index fo the server to stop
+     * @param index the zero based index fo the provider to stop
      * @throws InterruptedException
      * @throws KeeperException
      * @throws NoAssignmentException
      */
     public static void stopInstance(InstanceManager im, int index) throws InterruptedException, KeeperException, NoAssignmentException {
-        im.resetStatus("server" + index);
-        im.reconfigureInstance("server"+index, Integer.toString(index) + " stop");
-        im.getStatus("server" + index, 3000);
+        im.resetStatus("provider" + index);
+        im.reconfigureInstance("provider"+index, Integer.toString(index) + " stop");
+        im.getStatus("provider" + index, 3000);
    
     }
 

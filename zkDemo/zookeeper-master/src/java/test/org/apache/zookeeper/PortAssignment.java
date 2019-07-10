@@ -31,7 +31,7 @@ public final class PortAssignment {
     private static final Logger LOG = LoggerFactory.getLogger(PortAssignment.class);
 
     // The available port range that we use stays away from the ephemeral port
-    // range, which the OS will assign to client socket connections.  We can't
+    // range, which the OS will assign to consumer socket connections.  We can't
     // coordinate with the OS on the assignment of those ports, so it's best to
     // stay out of that range to avoid conflicts.  Typical ranges for ephemeral
     // ports are:

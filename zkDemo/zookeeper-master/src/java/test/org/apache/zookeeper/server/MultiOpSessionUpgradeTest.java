@@ -63,7 +63,7 @@ public class MultiOpSessionUpgradeTest extends QuorumBase {
         zk.create(path, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 
         QuorumZooKeeperServer server = getConnectedServer(zk.getSessionId());
-        Assert.assertNotNull("unable to find server interlocutor", server);
+        Assert.assertNotNull("unable to find provider interlocutor", server);
         UpgradeableSessionTracker sessionTracker = (UpgradeableSessionTracker)server.getSessionTracker();
         Assert.assertFalse("session already global", sessionTracker.isGlobalSession(zk.getSessionId()));
 
@@ -96,7 +96,7 @@ public class MultiOpSessionUpgradeTest extends QuorumBase {
         zk.create(path, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 
         QuorumZooKeeperServer server = getConnectedServer(zk.getSessionId());
-        Assert.assertNotNull("unable to find server interlocutor", server);
+        Assert.assertNotNull("unable to find provider interlocutor", server);
 
         Request readRequest = makeGetDataRequest(path, zk.getSessionId());
         Request createRequest = makeCreateRequest(path + "/e", zk.getSessionId());

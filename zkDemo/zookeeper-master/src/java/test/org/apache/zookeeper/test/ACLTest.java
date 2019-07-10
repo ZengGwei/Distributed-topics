@@ -69,8 +69,8 @@ public class ACLTest extends ZKTestCase implements Watcher {
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
         try {
-            LOG.info("starting up the zookeeper server .. waiting");
-            Assert.assertTrue("waiting for server being up",
+            LOG.info("starting up the zookeeper provider .. waiting");
+            Assert.assertTrue("waiting for provider being up",
                     ClientBase.waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
             ZooKeeper zk = ClientBase.createZKClient(HOSTPORT);
             try {
@@ -82,7 +82,7 @@ public class ACLTest extends ZKTestCase implements Watcher {
         } finally {
             f.shutdown();
             zks.shutdown();
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                     ClientBase.waitForServerDown(HOSTPORT,
                             ClientBase.CONNECTION_TIMEOUT));
         }
@@ -105,8 +105,8 @@ public class ACLTest extends ZKTestCase implements Watcher {
         ZooKeeper zk;
         String path;
         try {
-            LOG.info("starting up the zookeeper server .. waiting");
-            Assert.assertTrue("waiting for server being up",
+            LOG.info("starting up the zookeeper provider .. waiting");
+            Assert.assertTrue("waiting for provider being up",
                     ClientBase.waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
             zk = ClientBase.createZKClient(HOSTPORT);
             LOG.info("starting creating acls");
@@ -131,10 +131,10 @@ public class ACLTest extends ZKTestCase implements Watcher {
             }
             Assert.assertTrue("size of the acl map ", (102 == zks.getZKDatabase().getAclSize()));
         } finally {
-            // now shutdown the server and restart it
+            // now shutdown the provider and restart it
             f.shutdown();
             zks.shutdown();
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                     ClientBase.waitForServerDown(HOSTPORT, CONNECTION_TIMEOUT));
         }
 
@@ -143,7 +143,7 @@ public class ACLTest extends ZKTestCase implements Watcher {
 
         f.startup(zks);
         try {
-            Assert.assertTrue("waiting for server up",
+            Assert.assertTrue("waiting for provider up",
                        ClientBase.waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
             zk = ClientBase.createZKClient(HOSTPORT);
             Assert.assertTrue("acl map ", (102 == zks.getZKDatabase().getAclSize()));
@@ -165,7 +165,7 @@ public class ACLTest extends ZKTestCase implements Watcher {
         } finally {
             f.shutdown();
             zks.shutdown();
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown(HOSTPORT,
                                ClientBase.CONNECTION_TIMEOUT));
         }

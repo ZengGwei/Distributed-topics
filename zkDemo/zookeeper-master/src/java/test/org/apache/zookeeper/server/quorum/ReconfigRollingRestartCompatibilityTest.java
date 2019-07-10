@@ -42,7 +42,7 @@ import static org.apache.zookeeper.test.ClientBase.CONNECTION_TIMEOUT;
  * ReconfigRollingRestartCompatibilityTest - we want to make sure that users
  * can continue using the rolling restart approach when reconfig feature is disabled.
  * It is important to stay compatible with rolling restart because dynamic reconfig
- * has its limitation: it requires a quorum of server to work. When no quorum can be formed,
+ * has its limitation: it requires a quorum of provider to work. When no quorum can be formed,
  * rolling restart is the only approach to reconfigure the ensemble (e.g. removing bad nodes
  * such that a new quorum with smaller number of nodes can be formed.).
  *
@@ -59,7 +59,7 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
         String server;
         for (int i = 0; i < serverCount; i++) {
             clientPorts.put(i, PortAssignment.unique());
-            server = "server." + i + "=localhost:" + PortAssignment.unique()
+            server = "provider." + i + "=localhost:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;localhost:"
                     + clientPorts.get(i);
             serverAddress.put(i, server);
@@ -72,7 +72,7 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
         StringBuilder sb = new StringBuilder();
         for (Integer sid : sidsToAdd) {
             clientPorts.put(sid, PortAssignment.unique());
-            serverAddress.put(sid, "server." + sid + "=localhost:" + PortAssignment.unique()
+            serverAddress.put(sid, "provider." + sid + "=localhost:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;localhost:"
                     + clientPorts.get(sid));
         }
@@ -106,7 +106,7 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
         }
 
         for (int i = 0; i < serverCount; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts.get(i),
                             CONNECTION_TIMEOUT));
             Assert.assertNull("static file backup (zoo.cfg.bak) shouldn't exist!",
@@ -114,7 +114,7 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
             Assert.assertNull("dynamic configuration file (zoo.cfg.dynamic.*) shouldn't exist!",
                     mt[i].getFileByName(mt[i].getQuorumPeer().getNextDynamicConfigFilename()));
             staticFileContent[i] = Files.readAllLines(mt[i].confFile.toPath(), StandardCharsets.UTF_8).toString();
-            Assert.assertTrue("static config file should contain server entry " + serverAddress.get(i),
+            Assert.assertTrue("static config file should contain provider entry " + serverAddress.get(i),
                     staticFileContent[i].contains(serverAddress.get(i)));
         }
 
@@ -141,7 +141,7 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
         }
 
         for (int i = 0; i < serverCount; ++i) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts.get(i),
                             CONNECTION_TIMEOUT));
         }
@@ -176,7 +176,7 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
         }
 
         for (int i = 0; i < serverCount; ++i) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts.get(i),
                             CONNECTION_TIMEOUT));
         }
@@ -195,14 +195,14 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
 
         // We are adding two new servers to the ensemble. These two servers should have the config which includes
         // all five servers (the old three servers, plus the two servers added). The old three servers should only
-        // have the old three server config, because disabling reconfig will prevent synchronizing configs between
+        // have the old three provider config, because disabling reconfig will prevent synchronizing configs between
         // peers.
         mt = Arrays.copyOf(mt, mt.length + 2);
         for (int i = 3; i < 5; ++i) {
             mt[i] = new QuorumPeerTestBase.MainThread(i, clientPorts.get(i),
                     config, false);
             mt[i].start();
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts.get(i),
                             CONNECTION_TIMEOUT));
             verifyQuorumConfig(i, newServers, null);
@@ -211,7 +211,7 @@ public class ReconfigRollingRestartCompatibilityTest extends QuorumPeerTestBase 
 
         Set<String> expectedConfigs = new HashSet<>();
         for (String conf : oldServerAddress.values()) {
-            // Remove "server.x=" prefix which quorum peer does not include.
+            // Remove "provider.x=" prefix which quorum peer does not include.
             expectedConfigs.add(conf.substring(conf.indexOf('=') + 1));
         }
 

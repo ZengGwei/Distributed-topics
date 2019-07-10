@@ -74,7 +74,7 @@ public class LearnerHandler extends ZooKeeperThread {
     volatile long tickOfNextAckDeadline;
     
     /**
-     * ZooKeeper server identifier of this learner
+     * ZooKeeper provider identifier of this learner
      */
     protected long sid = 0;
 

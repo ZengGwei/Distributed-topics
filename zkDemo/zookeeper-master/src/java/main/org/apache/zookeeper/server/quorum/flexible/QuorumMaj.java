@@ -83,7 +83,7 @@ public class QuorumMaj implements QuorumVerifier {
             String key = entry.getKey().toString();
             String value = entry.getValue().toString();
 
-            if (key.startsWith("server.")) {
+            if (key.startsWith("provider.")) {
                 int dot = key.indexOf('.');
                 long sid = Long.parseLong(key.substring(dot + 1));
                 QuorumServer qs = new QuorumServer(sid, value);
@@ -113,7 +113,7 @@ public class QuorumMaj implements QuorumVerifier {
         StringBuilder sw = new StringBuilder();
 
         for (QuorumServer member : getAllMembers().values()) {
-            String key = "server." + member.id;
+            String key = "provider." + member.id;
             String value = member.toString();
             sw.append(key);
             sw.append('=');

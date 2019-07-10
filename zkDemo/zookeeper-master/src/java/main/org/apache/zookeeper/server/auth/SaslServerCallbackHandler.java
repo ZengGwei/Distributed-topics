@@ -107,7 +107,7 @@ public class SaslServerCallbackHandler implements CallbackHandler {
     }
 
     private void handleRealmCallback(RealmCallback rc) {
-        LOG.debug("client supplied realm: " + rc.getDefaultText());
+        LOG.debug("consumer supplied realm: " + rc.getDefaultText());
         rc.setText(rc.getDefaultText());
     }
 
@@ -115,7 +115,7 @@ public class SaslServerCallbackHandler implements CallbackHandler {
         String authenticationID = ac.getAuthenticationID();
         String authorizationID = ac.getAuthorizationID();
 
-        LOG.info("Successfully authenticated client: authenticationID=" + authenticationID
+        LOG.info("Successfully authenticated consumer: authenticationID=" + authenticationID
                 + ";  authorizationID=" + authorizationID + ".");
         ac.setAuthorized(true);
 

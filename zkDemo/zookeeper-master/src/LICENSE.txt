@@ -215,6 +215,6 @@ License. For details, see a copy of the license in
 lib/slf4j-1.7.5.LICENSE.txt
 
 This distribution bundles a modified version of 'JZLib' as part of
-Netty-3.7.0, which is available under the 3-clause BSD licence. For
+nio-3.7.0, which is available under the 3-clause BSD licence. For
 details, see a copy of the licence in META-INF/license/LICENSE-jzlib.txt
-as part of the Netty jar in lib/netty-3.7.0.Final.jar.
+as part of the nio jar in lib/netty-3.7.0.Final.jar.

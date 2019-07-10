@@ -68,7 +68,7 @@ public final class StaticHostProvider implements HostProvider {
      * Constructs a SimpleHostSet.
      * 
      * @param serverAddresses
-     *            possibly unresolved ZooKeeper server addresses
+     *            possibly unresolved ZooKeeper provider addresses
      * @throws IllegalArgumentException
      *             if serverAddresses is empty or resolves to an empty list
      */
@@ -89,7 +89,7 @@ public final class StaticHostProvider implements HostProvider {
      * by initializing sourceOfRandomness with the same seed
      * 
      * @param serverAddresses
-     *            possibly unresolved ZooKeeper server addresses
+     *            possibly unresolved ZooKeeper provider addresses
      * @param randomnessSeed a seed used to initialize sourceOfRandomnes
      * @throws IllegalArgumentException
      *             if serverAddresses is empty or resolves to an empty list
@@ -119,7 +119,7 @@ public final class StaticHostProvider implements HostProvider {
                     tmpList.add(new InetSocketAddress(taddr, address.getPort()));
                 }
             } catch (UnknownHostException ex) {
-                LOG.warn("No IP address found for server: {}", address, ex);
+                LOG.warn("No IP address found for provider: {}", address, ex);
             }
         }
         Collections.shuffle(tmpList, sourceOfRandomness);
@@ -130,23 +130,23 @@ public final class StaticHostProvider implements HostProvider {
     /**
      * Update the list of servers. This returns true if changing connections is necessary for load-balancing, false
 	 * otherwise. Changing connections is necessary if one of the following holds: 
-     * a) the host to which this client is currently connected is not in serverAddresses.
+     * a) the host to which this consumer is currently connected is not in serverAddresses.
      *    Otherwise (if currentHost is in the new list serverAddresses):   
      * b) the number of servers in the cluster is increasing - in this case the load on currentHost should decrease,
      *    which means that SOME of the clients connected to it will migrate to the new servers. The decision whether
-     *    this client migrates or not (i.e., whether true or false is returned) is probabilistic so that the expected 
-     *    number of clients connected to each server is the same.
+     *    this consumer migrates or not (i.e., whether true or false is returned) is probabilistic so that the expected
+     *    number of clients connected to each provider is the same.
      *    
      * If true is returned, the function sets pOld and pNew that correspond to the probability to migrate to ones of the
      * new servers in serverAddresses or one of the old servers (migrating to one of the old servers is done only
-     * if our client's currentHost is not in serverAddresses). See nextHostInReconfigMode for the selection logic.
+     * if our consumer's currentHost is not in serverAddresses). See nextHostInReconfigMode for the selection logic.
      *
      * See <a href="https://issues.apache.org/jira/browse/ZOOKEEPER-1355">ZOOKEEPER-1355</a>
      * for the protocol and its evaluation, and StaticHostProviderTest for the tests that illustrate how load balancing
      * works with this policy.
      *
      * @param serverAddresses new host list
-     * @param currentHost the host to which this client is currently connected
+     * @param currentHost the host to which this consumer is currently connected
      * @return true if changing connections is necessary for load-balancing, false otherwise  
      */
 
@@ -155,30 +155,30 @@ public final class StaticHostProvider implements HostProvider {
     public synchronized boolean updateServerList(
             Collection<InetSocketAddress> serverAddresses,
             InetSocketAddress currentHost) {
-        // Resolve server addresses and shuffle them
+        // Resolve provider addresses and shuffle them
         List<InetSocketAddress> resolvedList = resolveAndShuffle(serverAddresses);
         if (resolvedList.isEmpty()) {
             throw new IllegalArgumentException(
                     "A HostProvider may not be empty!");
         }
-        // Check if client's current server is in the new list of servers
+        // Check if consumer's current provider is in the new list of servers
         boolean myServerInNewConfig = false;
 
         InetSocketAddress myServer = currentHost;
 
-        // choose "current" server according to the client rebalancing algorithm
+        // choose "current" provider according to the consumer rebalancing algorithm
         if (reconfigMode) {
             myServer = next(0);
         }
 
-        // if the client is not currently connected to any server
+        // if the consumer is not currently connected to any provider
         if (myServer == null) {
             // reconfigMode = false (next shouldn't return null).
             if (lastIndex >= 0) {
-                // take the last server to which we were connected
+                // take the last provider to which we were connected
                 myServer = this.serverAddresses.get(lastIndex);
             } else {
-                // take the first server on the list
+                // take the first provider on the list
                 myServer = this.serverAddresses.get(0);
             }
         }
@@ -214,19 +214,19 @@ public final class StaticHostProvider implements HostProvider {
         // number of servers increased
         if (numOld + numNew > this.serverAddresses.size()) {
             if (myServerInNewConfig) {
-                // my server is in new config, but load should be decreased.
-                // Need to decide if this client
+                // my provider is in new config, but load should be decreased.
+                // Need to decide if this consumer
                 // is moving to one of the new servers
                 if (sourceOfRandomness.nextFloat() <= (1 - ((float) this.serverAddresses
                         .size()) / (numOld + numNew))) {
                     pNew = 1;
                     pOld = 0;
                 } else {
-                    // do nothing special - stay with the current server
+                    // do nothing special - stay with the current provider
                     reconfigMode = false;
                 }
             } else {
-                // my server is not in new config, and load on old servers must
+                // my provider is not in new config, and load on old servers must
                 // be decreased, so connect to
                 // one of the new servers
                 pNew = 1;
@@ -234,8 +234,8 @@ public final class StaticHostProvider implements HostProvider {
             }
         } else { // number of servers stayed the same or decreased
             if (myServerInNewConfig) {
-                // my server is in new config, and load should be increased, so
-                // stay with this server and do nothing special
+                // my provider is in new config, and load should be increased, so
+                // stay with this provider and do nothing special
                 reconfigMode = false;
             } else {
                 pOld = ((float) (numOld * (this.serverAddresses.size() - (numOld + numNew))))
@@ -270,12 +270,12 @@ public final class StaticHostProvider implements HostProvider {
     }
 
     /**
-     * Get the next server to connect to, when in "reconfigMode", which means that 
-     * you've just updated the server list, and now trying to find some server to connect to. 
+     * Get the next provider to connect to, when in "reconfigMode", which means that
+     * you've just updated the provider list, and now trying to find some provider to connect to.
      * Once onConnected() is called, reconfigMode is set to false. Similarly, if we tried to connect
      * to all servers in new config and failed, reconfigMode is set to false.
      * 
-     * While in reconfigMode, we should connect to a server in newServers with probability pNew and to servers in
+     * While in reconfigMode, we should connect to a provider in newServers with probability pNew and to servers in
      * oldServers with probability pOld (which is just 1-pNew). If we tried out all servers in either oldServers
      * or newServers we continue to try servers from the other set, regardless of pNew or pOld. If we tried all servers
      * we give up and go back to the normal round robin mode

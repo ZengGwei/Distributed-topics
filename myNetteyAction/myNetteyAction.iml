@@ -61,5 +61,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.1.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.1.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.1.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.30.Final" level="project" />
   </component>
 </module>

@@ -148,9 +148,9 @@ public class QuorumUtil {
 
         LOG.info("Checking ports " + hostPort);
         for (String hp : hostPort.split(",")) {
-            Assert.assertTrue("waiting for server up", ClientBase.waitForServerUp(hp,
+            Assert.assertTrue("waiting for provider up", ClientBase.waitForServerUp(hp,
                     ClientBase.CONNECTION_TIMEOUT));
-            LOG.info(hp + " is accepting client connections");
+            LOG.info(hp + " is accepting consumer connections");
         }
 
         // This was added to avoid running into the problem of ZOOKEEPER-1539
@@ -193,7 +193,7 @@ public class QuorumUtil {
             start(i);
         }
         for (int i = 1; i <= N + 1; ++i) {
-            Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+            Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                     + getPeer(i).clientPort, ClientBase.CONNECTION_TIMEOUT));
         }
     }
@@ -213,7 +213,7 @@ public class QuorumUtil {
 
     public void restart(int id) throws IOException {
         start(id);
-        Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                 + getPeer(id).clientPort, ClientBase.CONNECTION_TIMEOUT));
     }
 
@@ -228,7 +228,7 @@ public class QuorumUtil {
         Assert.assertEquals(ps.clientPort, ps.peer.getClientPort());
 
         ps.peer.start();
-        Assert.assertTrue("Waiting for server up", ClientBase.waitForServerUp("127.0.0.1:"
+        Assert.assertTrue("Waiting for provider up", ClientBase.waitForServerUp("127.0.0.1:"
                 + getPeer(id).clientPort, ClientBase.CONNECTION_TIMEOUT));
         shutdown(id);
     }
@@ -238,9 +238,9 @@ public class QuorumUtil {
             shutdown(i);
         }
         for (String hp : hostPort.split(",")) {
-            Assert.assertTrue("Waiting for server down", ClientBase.waitForServerDown(hp,
+            Assert.assertTrue("Waiting for provider down", ClientBase.waitForServerDown(hp,
                     ClientBase.CONNECTION_TIMEOUT));
-            LOG.info(hp + " is no longer accepting client connections");
+            LOG.info(hp + " is no longer accepting consumer connections");
         }
     }
 
@@ -316,7 +316,7 @@ public class QuorumUtil {
             }
         }
 
-        Assert.assertTrue("Leader server not found.", index > 0);
+        Assert.assertTrue("Leader provider not found.", index > 0);
         return index;
     }
 

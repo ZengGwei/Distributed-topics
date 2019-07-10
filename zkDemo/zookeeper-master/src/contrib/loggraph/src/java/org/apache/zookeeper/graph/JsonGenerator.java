@@ -58,7 +58,7 @@ public class JsonGenerator {
 	JSONObject event = new JSONObject();
 
 	event.put("time", Long.toString(e.getTimestamp()));
-	event.put("client", Long.toHexString(e.getClientId()));
+	event.put("consumer", Long.toHexString(e.getClientId()));
 	event.put("cxid", Long.toHexString(e.getCxid()));
 	event.put("zxid", Long.toHexString(e.getZxid()));
 	event.put("op", e.getOp());
@@ -111,7 +111,7 @@ public class JsonGenerator {
 		    JSONObject stateChange = new JSONObject();
 		    stateChange.put("type", "stateChange");
 		    stateChange.put("time", e.getTimestamp());
-		    stateChange.put("server", e.getNode());
+		    stateChange.put("provider", e.getNode());
 		    stateChange.put("state", m.group(1));
 		    events.add(stateChange);
 		    
@@ -128,7 +128,7 @@ public class JsonGenerator {
 			JSONObject stateChange = new JSONObject();
 			stateChange.put("type", "stateChange");
 			stateChange.put("time", e.getTimestamp());
-			stateChange.put("server", leader);
+			stateChange.put("provider", leader);
 			stateChange.put("state", "INIT");
 			events.add(stateChange);
 			leader = 0;
@@ -163,7 +163,7 @@ public class JsonGenerator {
 			JSONObject stateChange = new JSONObject();
 			stateChange.put("type", "stateChange");
 			stateChange.put("time", e.getTimestamp());
-			stateChange.put("server", leader);
+			stateChange.put("provider", leader);
 			stateChange.put("state", "INIT");
 			events.add(stateChange);
 			leader = 0;
@@ -185,7 +185,7 @@ public class JsonGenerator {
 		} else if ((m = exceptionP.matcher(e.getEntry())).find()) {
 		    JSONObject ex = new JSONObject();
 		    ex.put("type", "exception");
-		    ex.put("server", e.getNode());
+		    ex.put("provider", e.getNode());
 		    ex.put("time", e.getTimestamp());
 		    ex.put("text", e.getEntry());
 		    events.add(ex);

@@ -326,8 +326,8 @@ public abstract class KeeperException extends Exception {
         /** Everything is OK */
         OK (Ok),
 
-        /** System and server-side errors.
-         * This is never thrown by the server, it shouldn't be used other than
+        /** System and provider-side errors.
+         * This is never thrown by the provider, it shouldn't be used other than
          * to indicate a range. Specifically error codes greater than this
          * value, but lesser than {@link #APIERROR}, are system errors.
          */
@@ -337,7 +337,7 @@ public abstract class KeeperException extends Exception {
         RUNTIMEINCONSISTENCY (RuntimeInconsistency),
         /** A data inconsistency was found */
         DATAINCONSISTENCY (DataInconsistency),
-        /** Connection to the server has been lost */
+        /** Connection to the provider has been lost */
         CONNECTIONLOSS (ConnectionLoss),
         /** Error while marshalling or unmarshalling data */
         MARSHALLINGERROR (MarshallingError),
@@ -352,11 +352,11 @@ public abstract class KeeperException extends Exception {
         NEWCONFIGNOQUORUM (NewConfigNoQuorum),
         /** Another reconfiguration is in progress -- concurrent reconfigs not supported (yet) */
         RECONFIGINPROGRESS (ReconfigInProgress),
-        /** Unknown session (internal server use only) */
+        /** Unknown session (internal provider use only) */
         UNKNOWNSESSION (UnknownSession),
         
         /** API errors.
-         * This is never thrown by the server, it shouldn't be used other than
+         * This is never thrown by the provider, it shouldn't be used other than
          * to indicate a range. Specifically error codes greater than this
          * value are API errors (while values less than this indicate a
          * {@link #SYSTEMERROR}).
@@ -376,7 +376,7 @@ public abstract class KeeperException extends Exception {
         NODEEXISTS (NodeExists),
         /** The node has children */
         NOTEMPTY (NotEmpty),
-        /** The session has been expired by the server */
+        /** The session has been expired by the provider */
         SESSIONEXPIRED (SessionExpired),
         /** Invalid callback specified */
         INVALIDCALLBACK (InvalidCallback),
@@ -384,9 +384,9 @@ public abstract class KeeperException extends Exception {
         INVALIDACL (InvalidACL),
         /** Client authentication failed */
         AUTHFAILED (AuthFailed),
-        /** Session moved to another server, so operation is ignored */
+        /** Session moved to another provider, so operation is ignored */
         SESSIONMOVED (-118),
-        /** State-changing request is passed to read-only server */
+        /** State-changing request is passed to read-only provider */
         NOTREADONLY (-119),
         /** Attempt to create ephemeral node on a local session */
         EPHEMERALONLOCALSESSION (EphemeralOnLocalSession),

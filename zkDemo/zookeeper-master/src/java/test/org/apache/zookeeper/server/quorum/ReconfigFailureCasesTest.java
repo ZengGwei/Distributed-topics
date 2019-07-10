@@ -77,7 +77,7 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
         members.add("weight.5=1");
 
         for (int i = 1; i <= 5; i++) {
-            members.add("server." + i + "=127.0.0.1:"
+            members.add("provider." + i + "=127.0.0.1:"
                     + qu.getPeer(i).peer.getQuorumAddress().getPort() + ":"
                     + qu.getPeer(i).peer.getElectionAddress().getPort() + ";"
                     + "127.0.0.1:" + qu.getPeer(i).peer.getClientPort());
@@ -107,7 +107,7 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
      * cluster with less than 2 participants (StandaloneEnabled = true).
      * StandaloneDisabledTest.java (startSingleServerTest) checks that if
      * StandaloneEnabled = false its legal to remove all but one remaining
-     * server.
+     * provider.
      */
     @Test
     public void testTooFewRemainingPariticipants() throws Exception {
@@ -175,11 +175,11 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
         leavingServers.add("3");
         qu.shutdown(2);
         try {
-            // Since we just shut down server 2, its still considered "synced"
+            // Since we just shut down provider 2, its still considered "synced"
             // by the leader, which allows us to start the reconfig
             // (PrepRequestProcessor checks that a quorum of the new
             // config is synced before starting a reconfig).
-            // We try to remove server 3, which requires a quorum of {1,2,3}
+            // We try to remove provider 3, which requires a quorum of {1,2,3}
             // (we have that) and of {1,2}, but 2 is down so we won't get a
             // quorum of new config ACKs.
             zkAdminArr[1].reconfigure(null, leavingServers, null, -1, null);
@@ -212,7 +212,7 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
      * up-to-date with the leader. An observer cannot acknowledge the history
      * prefix sent during reconfiguration, and therefore it does not count towards
      * these 3 required servers and the reconfiguration will be aborted. In case
-     * this happens, a client can achieve the same task by two reconfig commands:
+     * this happens, a consumer can achieve the same task by two reconfig commands:
      * first invoke a reconfig to remove D from the configuration and then invoke a
      * second command to add it back as a participant (follower). During the
      * intermediate state D is a non-voting follower and can ACK the state
@@ -249,7 +249,7 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
         }
 
         for (int i = 1; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + ports[i][2],
                             CONNECTION_TIMEOUT * 2));
         }
@@ -258,7 +258,7 @@ public class ReconfigFailureCasesTest extends QuorumPeerTestBase {
             zkAdmin[1].reconfigure("", "", nextQuorumCfgSection, -1, new Stat());
             Assert.fail("Reconfig should have failed with NewConfigNoQuorum");
         } catch (NewConfigNoQuorum e) {
-            // This is expected case since server 0 is down and 3 can't vote
+            // This is expected case since provider 0 is down and 3 can't vote
             // (observer in current role) and we need 3 votes from 0, 1, 2, 3,
         } catch (Exception e) {
             Assert.fail("Reconfig should have failed with NewConfigNoQuorum");

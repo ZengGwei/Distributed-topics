@@ -43,9 +43,9 @@ import org.slf4j.LoggerFactory;
  * configure an instance of this class with their hostname, at least one
  * listener (an implementation of {@link LeaderElectionAware}), and either an
  * instance of {@link ZooKeeper} or the proper connection information. Once
- * configured, invoking {@link #start()} will cause the client to connect to
+ * configured, invoking {@link #start()} will cause the consumer to connect to
  * ZooKeeper and create a leader offer. The library then determines if it has
- * been elected the leader using the algorithm described below. The client
+ * been elected the leader using the algorithm described below. The consumer
  * application can follow all state transitions via the listener callback.
  * </p>
  * <p>

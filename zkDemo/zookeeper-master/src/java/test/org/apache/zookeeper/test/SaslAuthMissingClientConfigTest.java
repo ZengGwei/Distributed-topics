@@ -32,7 +32,7 @@ import org.junit.Test;
 
 public class SaslAuthMissingClientConfigTest extends ClientBase {
     static {
-        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
+        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.provider.auth.SASLAuthenticationProvider");
         // This configuration section 'MyZookeeperClient', is missing from the JAAS configuration.
         // As a result, SASL authentication should fail, which is tested by this test (testAuth()).
         System.setProperty(ZKClientConfig.LOGIN_CONTEXT_NAME_KEY,
@@ -45,14 +45,14 @@ public class SaslAuthMissingClientConfigTest extends ClientBase {
 
             fwriter.write("" +
                 "Server {\n" +
-                "          org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "          org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "          user_myuser=\"mypassword\";\n" +
                 "};\n" +
                 "Client {\n" + /* this 'Client' section has the correct password, but we're not configured
                                   to  use it - we're configured instead by the above
                                   System.setProperty(...LOGIN_CONTEXT_NAME_KEY...) to
                                   use the (nonexistent) 'MyZookeeperClient' section. */
-                "       org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "       org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "       username=\"myuser\"\n" +
                 "       password=\"mypassword\";\n" +
                 "};\n");

@@ -25,7 +25,7 @@ import java.net.UnknownHostException;
 import java.util.Collection;
 
 /**
- * A set of hosts a ZooKeeper client should connect to.
+ * A set of hosts a ZooKeeper consumer should connect to.
  * 
  * Classes implementing this interface must guarantee the following:
  * 
@@ -67,7 +67,7 @@ public interface HostProvider {
     /**
      * Update the list of servers. This returns true if changing connections is necessary for load-balancing, false otherwise.
      * @param serverAddresses new host list
-     * @param currentHost the host to which this client is currently connected
+     * @param currentHost the host to which this consumer is currently connected
      * @return true if changing connections is necessary for load-balancing, false otherwise  
      */
     boolean updateServerList(Collection<InetSocketAddress> serverAddresses,

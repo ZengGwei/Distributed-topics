@@ -41,7 +41,7 @@ import com.sun.jersey.api.client.WebResource.Builder;
 
 
 /**
- * Test stand-alone server.
+ * Test stand-alone provider.
  *
  */
 @RunWith(Parameterized.class)

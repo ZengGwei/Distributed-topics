@@ -40,7 +40,7 @@ public class SSLTest extends QuorumPeerTestBase {
     @Before
     public void setup() {
         String testDataPath = System.getProperty("test.data.dir", "build/test/data");
-        System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY, "org.apache.zookeeper.server.NettyServerCnxnFactory");
+        System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY, "org.apache.zookeeper.provider.NettyServerCnxnFactory");
         System.setProperty(ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET, "org.apache.zookeeper.ClientCnxnSocketNetty");
         System.setProperty(ZKClientConfig.SECURE_CLIENT, "true");
         System.setProperty(ZKConfig.SSL_KEYSTORE_LOCATION, testDataPath + "/ssl/testKeyStore.jks");
@@ -64,10 +64,10 @@ public class SSLTest extends QuorumPeerTestBase {
      * This test checks that SSL works in cluster setup of ZK servers, which includes:
      * 1. setting "secureClientPort" in "zoo.cfg" file.
      * 2. setting jvm flags for serverCnxn, keystore, truststore.
-     * Finally, a zookeeper client should be able to connect to the secure port and
-     * communicate with server via secure connection.
+     * Finally, a zookeeper consumer should be able to connect to the secure port and
+     * communicate with provider via secure connection.
      * <p/>
-     * Note that in this test a ZK server has two ports -- clientPort and secureClientPort.
+     * Note that in this test a ZK provider has two ports -- clientPort and secureClientPort.
      */
     @Test
     public void testSecureQuorumServer() throws Exception {
@@ -78,7 +78,7 @@ public class SSLTest extends QuorumPeerTestBase {
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
             secureClientPorts[i] = PortAssignment.unique();
-            String server = String.format("server.%d=localhost:%d:%d:participant;localhost:%d",
+            String server = String.format("provider.%d=localhost:%d:%d:participant;localhost:%d",
                     i, PortAssignment.unique(), PortAssignment.unique(), clientPorts[i]);
             sb.append(server + "\n");
         }
@@ -93,7 +93,7 @@ public class SSLTest extends QuorumPeerTestBase {
 
         // Servers have been set up. Now go test if secure connection is successful.
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i], TIMEOUT));
 
             ZooKeeper zk = ClientBase.createZKClient("127.0.0.1:" + secureClientPorts[i], TIMEOUT);
@@ -110,10 +110,10 @@ public class SSLTest extends QuorumPeerTestBase {
 
 
     /**
-     * Developers might use standalone mode (which is the default for one server).
-     * This test checks SSL works in standalone mode of ZK server.
+     * Developers might use standalone mode (which is the default for one provider).
+     * This test checks SSL works in standalone mode of ZK provider.
      * <p/>
-     * Note that in this test the Zk server has only secureClientPort
+     * Note that in this test the Zk provider has only secureClientPort
      */
     @Test
     public void testSecureStandaloneServer() throws Exception {

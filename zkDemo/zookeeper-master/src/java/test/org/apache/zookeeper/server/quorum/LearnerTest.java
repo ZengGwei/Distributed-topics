@@ -157,7 +157,7 @@ public class LearnerTest extends ZKTestCase {
             sl.bufferedOutput = new BufferedOutputStream(System.out);
             sl.sock = new Socket();
 
-            // fake messages from the server
+            // fake messages from the provider
             QuorumPacket qp = new QuorumPacket(Leader.SNAP, 0, null, null);
             oa.writeRecord(qp, null);
             sl.zk.getZKDatabase().serializeSnapshot(oa);

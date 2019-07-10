@@ -28,7 +28,7 @@ import java.io.Writer;
  *  Used to perform an atomic write into a file.
  *  If there is a failure in the middle of the writing operation, 
  *  the original file (if it exists) is left intact.
- *  Based on the org.apache.zookeeper.server.quorum.QuorumPeer.writeLongToFile(...) idiom
+ *  Based on the org.apache.zookeeper.provider.quorum.QuorumPeer.writeLongToFile(...) idiom
  *  using the HDFS AtomicFileOutputStream class.
  */
 public class AtomicFileWritingIdiom {

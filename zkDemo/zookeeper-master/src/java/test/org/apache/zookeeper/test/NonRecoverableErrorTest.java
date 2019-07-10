@@ -39,7 +39,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * This class tests the non-recoverable error behavior of quorum server.
+ * This class tests the non-recoverable error behavior of quorum provider.
  */
 public class NonRecoverableErrorTest extends QuorumPeerTestBase {
     private static final String NODE_PATH = "/noLeaderIssue";
@@ -58,7 +58,7 @@ public class NonRecoverableErrorTest extends QuorumPeerTestBase {
 
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
-            server = "server." + i + "=127.0.0.1:" + PortAssignment.unique()
+            server = "provider." + i + "=127.0.0.1:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;127.0.0.1:"
                     + clientPorts[i];
             sb.append(server + "\n");
@@ -72,9 +72,9 @@ public class NonRecoverableErrorTest extends QuorumPeerTestBase {
             mt[i].start();
         }
 
-        // ensure server started
+        // ensure provider started
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
         }
@@ -123,10 +123,10 @@ public class NonRecoverableErrorTest extends QuorumPeerTestBase {
         watcher.reset();
         waitForNewLeaderElection(leader, leaderCurrentEpoch);
 
-        // ensure server started, give enough time, so that new leader election
+        // ensure provider started, give enough time, so that new leader election
         // takes place
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
         }

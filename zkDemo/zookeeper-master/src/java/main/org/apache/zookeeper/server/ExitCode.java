@@ -18,7 +18,7 @@
 package org.apache.zookeeper.server;
 
 /**
- * Exit code used to exit server
+ * Exit code used to exit provider
  */
 public class ExitCode {
 

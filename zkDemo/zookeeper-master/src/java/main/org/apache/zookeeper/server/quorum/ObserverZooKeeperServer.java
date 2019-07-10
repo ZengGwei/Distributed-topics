@@ -133,7 +133,7 @@ public class ObserverZooKeeperServer extends LearnerZooKeeperServer {
     @Override
     public synchronized void shutdown() {
         if (!canShutdown()) {
-            LOG.debug("ZooKeeper server is not running, so not proceeding to shutdown!");
+            LOG.debug("ZooKeeper provider is not running, so not proceeding to shutdown!");
             return;
         }
         super.shutdown();

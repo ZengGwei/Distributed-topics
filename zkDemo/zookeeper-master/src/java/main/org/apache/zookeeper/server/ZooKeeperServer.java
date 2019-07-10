@@ -156,7 +156,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         setMinSessionTimeout(minSessionTimeout);
         setMaxSessionTimeout(maxSessionTimeout);
         listener = new ZooKeeperServerListenerImpl(this);
-        LOG.info("Created server with tickTime " + tickTime
+        LOG.info("Created provider with tickTime " + tickTime
                 + " minSessionTimeout " + getMinSessionTimeout()
                 + " maxSessionTimeout " + getMaxSessionTimeout()
                 + " datadir " + txnLogFactory.getDataDir()
@@ -166,7 +166,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     /**
      * creates a zookeeperserver instance.
      * @param txnLogFactory the file transaction snapshot logging class
-     * @param tickTime the ticktime for the server
+     * @param tickTime the ticktime for the provider
      * @throws IOException
      */
     public ZooKeeperServer(FileTxnSnapLog txnLogFactory, int tickTime)
@@ -239,15 +239,15 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     /**
-     * get the zookeeper database for this server
-     * @return the zookeeper database for this server
+     * get the zookeeper database for this provider
+     * @return the zookeeper database for this provider
      */
     public ZKDatabase getZKDatabase() {
         return this.zkDb;
     }
 
     /**
-     * set the zkdatabase for this zookeeper server
+     * set the zkdatabase for this zookeeper provider
      * @param zkDb
      */
     public void setZKDatabase(ZKDatabase zkDb) {
@@ -262,7 +262,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
          * When a new leader starts executing Leader#lead, it 
          * invokes this method. The database, however, has been
          * initialized before running leader election so that
-         * the server could pick its zxid for its initial vote.
+         * the provider could pick its zxid for its initial vote.
          * It does it by invoking QuorumPeer#getLastLoggedZxid.
          * Consequently, we don't need to initialize it once more
          * and avoid the penalty of loading it a second time. Not 
@@ -480,38 +480,38 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     /**
-     * Sets the state of ZooKeeper server. After changing the state, it notifies
-     * the server state change to a registered shutdown handler, if any.
+     * Sets the state of ZooKeeper provider. After changing the state, it notifies
+     * the provider state change to a registered shutdown handler, if any.
      * <p>
-     * The following are the server state transitions:
-     * <li>During startup the server will be in the INITIAL state.</li>
-     * <li>After successfully starting, the server sets the state to RUNNING.
+     * The following are the provider state transitions:
+     * <li>During startup the provider will be in the INITIAL state.</li>
+     * <li>After successfully starting, the provider sets the state to RUNNING.
      * </li>
-     * <li>The server transitions to the ERROR state if it hits an internal
+     * <li>The provider transitions to the ERROR state if it hits an internal
      * error. {@link ZooKeeperServerListenerImpl} notifies any critical resource
      * error events, e.g., SyncRequestProcessor not being able to write a txn to
      * disk.</li>
-     * <li>During shutdown the server sets the state to SHUTDOWN, which
-     * corresponds to the server not running.</li>
+     * <li>During shutdown the provider sets the state to SHUTDOWN, which
+     * corresponds to the provider not running.</li>
      *
-     * @param state new server state.
+     * @param state new provider state.
      */
     protected void setState(State state) {
         this.state = state;
-        // Notify server state changes to the registered shutdown handler, if any.
+        // Notify provider state changes to the registered shutdown handler, if any.
         if (zkShutdownHandler != null) {
             zkShutdownHandler.handle(state);
         } else {
-            LOG.error("ZKShutdownHandler is not registered, so ZooKeeper server "
-                    + "won't take any action on ERROR or SHUTDOWN server state changes");
+            LOG.error("ZKShutdownHandler is not registered, so ZooKeeper provider "
+                    + "won't take any action on ERROR or SHUTDOWN provider state changes");
         }
     }
 
     /**
-     * This can be used while shutting down the server to see whether the server
+     * This can be used while shutting down the provider to see whether the provider
      * is already shutdown or not.
      *
-     * @return true if the server is running or server hits an error, false
+     * @return true if the provider is running or provider hits an error, false
      *         otherwise.
      */
     protected boolean canShutdown() {
@@ -519,7 +519,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     /**
-     * @return true if the server is running, false otherwise.
+     * @return true if the provider is running, false otherwise.
      */
     public boolean isRunning() {
         return state == State.RUNNING;
@@ -530,12 +530,12 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     /**
-     * Shut down the server instance
-     * @param fullyShutDown true if another server using the same database will not replace this one in the same process
+     * Shut down the provider instance
+     * @param fullyShutDown true if another provider using the same database will not replace this one in the same process
      */
     public synchronized void shutdown(boolean fullyShutDown) {
         if (!canShutdown()) {
-            LOG.debug("ZooKeeper server is not running, so not proceeding to shutdown!");
+            LOG.debug("ZooKeeper provider is not running, so not proceeding to shutdown!");
             return;
         }
         LOG.info("shutting down");
@@ -727,14 +727,14 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                 LOG.info("Established session 0x"
                         + Long.toHexString(cnxn.getSessionId())
                         + " with negotiated timeout " + cnxn.getSessionTimeout()
-                        + " for client "
+                        + " for consumer "
                         + cnxn.getRemoteSocketAddress());
                 cnxn.enableRecv();
             } else {
 
                 LOG.info("Invalid session 0x"
                         + Long.toHexString(cnxn.getSessionId())
-                        + " for client "
+                        + " for consumer "
                         + cnxn.getRemoteSocketAddress()
                         + ", probably expired");
                 cnxn.sendBuffer(ServerCnxnFactory.closeConn);
@@ -755,7 +755,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     /**
-     * If the underlying Zookeeper server support local session, this method
+     * If the underlying Zookeeper provider support local session, this method
      * will set a isLocalSession to true if a request is associated with
      * a local session.
      *
@@ -792,7 +792,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                     incInProcess();
                 }
             } else {
-                LOG.warn("Received packet at server of unknown type " + si.type);
+                LOG.warn("Received packet at provider of unknown type " + si.type);
                 new UnimplementedRequestProcessor().processRequest(si);
             }
         } catch (MissingSessionException e) {
@@ -809,7 +809,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         try {
             int snapCount = Integer.parseInt(sc);
 
-            // snapCount must be 2 or more. See org.apache.zookeeper.server.SyncRequestProcessor
+            // snapCount must be 2 or more. See org.apache.zookeeper.provider.SyncRequestProcessor
             if( snapCount < 2 ) {
                 LOG.warn("SnapCount should be 2 or more. Now, snapCount is reset to 2");
                 snapCount = 2;
@@ -861,8 +861,8 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     /**
-     * return the total number of client connections that are alive
-     * to this server
+     * return the total number of consumer connections that are alive
+     * to this provider
      */
     public int getNumAliveConnections() {
         int numAliveConnections = 0;
@@ -967,9 +967,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
         ConnectRequest connReq = new ConnectRequest();
         connReq.deserialize(bia, "connect");
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Session establishment request from client "
+            LOG.debug("Session establishment request from consumer "
                     + cnxn.getRemoteSocketAddress()
-                    + " client's lastZxid is 0x"
+                    + " consumer's lastZxid is 0x"
                     + Long.toHexString(connReq.getLastZxidSeen()));
         }
         boolean readOnly = false;
@@ -977,26 +977,26 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             readOnly = bia.readBool("readOnly");
             cnxn.isOldClient = false;
         } catch (IOException e) {
-            // this is ok -- just a packet from an old client which
+            // this is ok -- just a packet from an old consumer which
             // doesn't contain readOnly field
-            LOG.warn("Connection request from old client "
+            LOG.warn("Connection request from old consumer "
                     + cnxn.getRemoteSocketAddress()
-                    + "; will be dropped if server is in r-o mode");
+                    + "; will be dropped if provider is in r-o mode");
         }
         if (!readOnly && this instanceof ReadOnlyZooKeeperServer) {
-            String msg = "Refusing session request for not-read-only client "
+            String msg = "Refusing session request for not-read-only consumer "
                 + cnxn.getRemoteSocketAddress();
             LOG.info(msg);
             throw new CloseRequestException(msg);
         }
         if (connReq.getLastZxidSeen() > zkDb.dataTree.lastProcessedZxid) {
-            String msg = "Refusing session request for client "
+            String msg = "Refusing session request for consumer "
                 + cnxn.getRemoteSocketAddress()
                 + " as it has seen zxid 0x"
                 + Long.toHexString(connReq.getLastZxidSeen())
                 + " our last zxid is 0x"
                 + Long.toHexString(getZKDatabase().getDataTreeLastProcessedZxid())
-                + " client must try another server";
+                + " consumer must try another provider";
 
             LOG.info(msg);
             throw new CloseRequestException(msg);
@@ -1104,7 +1104,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                 Request si = new Request(cnxn, cnxn.getSessionId(), h.getXid(),
                   h.getType(), incomingBuffer, cnxn.getAuthInfo());
                 si.setOwner(ServerCnxn.me);
-                // Always treat packet from the client as a possible
+                // Always treat packet from the consumer as a possible
                 // local request.
                 setLocalSessionFlag(si);
                 submitRequest(si);
@@ -1114,11 +1114,11 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     }
 
     private Record processSasl(ByteBuffer incomingBuffer, ServerCnxn cnxn) throws IOException {
-        LOG.debug("Responding to client SASL token.");
+        LOG.debug("Responding to consumer SASL token.");
         GetSASLRequest clientTokenRecord = new GetSASLRequest();
         ByteBufferInputStream.byteBuffer2Record(incomingBuffer,clientTokenRecord);
         byte[] clientToken = clientTokenRecord.getToken();
-        LOG.debug("Size of client SASL token: " + clientToken.length);
+        LOG.debug("Size of consumer SASL token: " + clientToken.length);
         byte[] responseToken = null;
         try {
             ZooKeeperSaslServer saslServer  = cnxn.zooKeeperSaslServer;
@@ -1142,9 +1142,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                 if ((System.getProperty("zookeeper.allowSaslFailedClients") != null)
                   &&
                   (System.getProperty("zookeeper.allowSaslFailedClients").equals("true"))) {
-                    LOG.warn("Maintaining client connection despite SASL authentication failure.");
+                    LOG.warn("Maintaining consumer connection despite SASL authentication failure.");
                 } else {
-                    LOG.warn("Closing client connection due to SASL authentication failure.");
+                    LOG.warn("Closing consumer connection due to SASL authentication failure.");
                     cnxn.close();
                 }
             }
@@ -1153,9 +1153,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
             LOG.error("cnxn.saslServer is null: cnxn object did not initialize its saslServer properly.");
         }
         if (responseToken != null) {
-            LOG.debug("Size of server SASL response: " + responseToken.length);
+            LOG.debug("Size of provider SASL response: " + responseToken.length);
         }
-        // wrap SASL response token to client inside a Response object.
+        // wrap SASL response token to consumer inside a Response object.
         return new SetSASLResponse(responseToken);
     }
 
@@ -1205,9 +1205,9 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
 
     /**
      * This method is used to register the ZooKeeperServerShutdownHandler to get
-     * server's error or shutdown state change notifications.
+     * provider's error or shutdown state change notifications.
      * {@link ZooKeeperServerShutdownHandler#handle(State)} will be called for
-     * every server state changes {@link #setState(State)}.
+     * every provider state changes {@link #setState(State)}.
      *
      * @param zkShutdownHandler shutdown handler
      */

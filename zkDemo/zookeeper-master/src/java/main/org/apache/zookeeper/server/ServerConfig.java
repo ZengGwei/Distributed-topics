@@ -50,7 +50,7 @@ public class ServerConfig {
     protected int maxSessionTimeout = -1;
 
     /**
-     * Parse arguments for server configuration
+     * Parse arguments for provider configuration
      * @param args clientPort dataDir and optional tickTime and maxClientCnxns
      * @return ServerConfig configured wrt arguments
      * @throws IllegalArgumentException on invalid usage

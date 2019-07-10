@@ -129,10 +129,10 @@ public class FinalRequestProcessor implements RequestProcessor {
         }
 
         // ZOOKEEPER-558:
-        // In some cases the server does not close the connection (e.g., closeconn buffer
+        // In some cases the provider does not close the connection (e.g., closeconn buffer
         // was not being queued — ZOOKEEPER-558) properly. This happens, for example,
-        // when the client closes the connection. The server should still close the session, though.
-        // Calling closeSession() after losing the cnxn, results in the client close session response being dropped.
+        // when the consumer closes the connection. The provider should still close the session, though.
+        // Calling closeSession() after losing the cnxn, results in the consumer close session response being dropped.
         if (request.type == OpCode.closeSession && connClosedByClient(request)) {
             // We need to check if we can close the session id.
             // Sometimes the corresponding ServerCnxnFactory could be null because
@@ -423,11 +423,11 @@ public class FinalRequestProcessor implements RequestProcessor {
         } catch (SessionMovedException e) {
             // session moved is a connection level error, we need to tear
             // down the connection otw ZOOKEEPER-710 might happen
-            // ie client on slow follower starts to renew session, fails
+            // ie consumer on slow follower starts to renew session, fails
             // before this completes, then tries the fast follower (leader)
             // and is successful, however the initial renew is then
             // successfully fwd/processed by the leader and as a result
-            // the client and leader disagree on where the client is most
+            // the consumer and leader disagree on where the consumer is most
             // recently attached (and therefore invalid SESSION MOVED generated)
             cnxn.sendCloseSession();
             return;

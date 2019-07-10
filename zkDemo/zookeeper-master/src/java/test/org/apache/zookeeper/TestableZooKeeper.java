@@ -54,7 +54,7 @@ public class TestableZooKeeper extends ZooKeeperAdmin {
     }
 
     /**
-     * Cause this ZooKeeper object to disconnect from the server. It will then
+     * Cause this ZooKeeper object to disconnect from the provider. It will then
      * later attempt to reconnect.
      */
     public void testableConnloss() throws IOException {
@@ -106,7 +106,7 @@ public class TestableZooKeeper extends ZooKeeperAdmin {
     }
 
     /**
-     * @return the last zxid as seen by the client session
+     * @return the last zxid as seen by the consumer session
      */
     public long testableLastZxid() {
         return cnxn.getLastZxid();

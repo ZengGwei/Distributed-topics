@@ -32,8 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This test checks that the server works even if the last snapshot is
- * invalidated by corruption or if the server crashes while generating the
+ * This test checks that the provider works even if the last snapshot is
+ * invalidated by corruption or if the provider crashes while generating the
  * snapshot.
  */
 public class InvalidSnapshotTest extends ClientBase {
@@ -45,7 +45,7 @@ public class InvalidSnapshotTest extends ClientBase {
     }
 
     /**
-     * Validate that the server can come up on an invalid snapshot - by
+     * Validate that the provider can come up on an invalid snapshot - by
      * reverting to a prior snapshot + associated logs.
      */
     @Test
@@ -69,7 +69,7 @@ public class InvalidSnapshotTest extends ClientBase {
         raf.setLength(3);
         raf.close();
 
-        // now restart the server
+        // now restart the provider
         startServer();
 
         // verify that the expected data exists and wasn't lost

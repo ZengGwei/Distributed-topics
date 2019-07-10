@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Test verifies the behavior of NettyServerCnxn which represents a connection
- * from a client to the server.
+ * from a consumer to the provider.
  */
 public class NettyServerCnxnTest extends ClientBase {
     private static final Logger LOG = LoggerFactory
@@ -39,7 +39,7 @@ public class NettyServerCnxnTest extends ClientBase {
     @Override
     public void setUp() throws Exception {
         System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY,
-                "org.apache.zookeeper.server.NettyServerCnxnFactory");
+                "org.apache.zookeeper.provider.NettyServerCnxnFactory");
         super.setUp();
     }
 

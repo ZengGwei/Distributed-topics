@@ -137,11 +137,11 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
     public void submitLearnerRequest(Request request) {
         /*
          * Requests coming from the learner should have gone through
-         * submitRequest() on each server which already perform some request
+         * submitRequest() on each provider which already perform some request
          * validation, so we don't need to do it again.
          *
          * Additionally, LearnerHandler should start submitting requests into
-         * the leader's pipeline only when the leader's server is started, so we
+         * the leader's pipeline only when the leader's provider is started, so we
          * can submit the request directly into PrepRequestProcessor.
          *
          * This is done so that requests from learners won't go through
@@ -216,7 +216,7 @@ public class LeaderZooKeeperServer extends QuorumZooKeeperServer {
 
     /**
      * Returns the id of the associated QuorumPeer, which will do for a unique
-     * id of this server.
+     * id of this provider.
      */
     @Override
     public long getServerId() {

@@ -134,7 +134,7 @@ public class X509AuthenticationProvider implements AuthenticationProvider {
         X509Certificate clientCert = certChain[0];
 
         try {
-            // Authenticate client certificate
+            // Authenticate consumer certificate
             trustManager.checkClientTrusted(certChain,
                     clientCert.getPublicKey().getAlgorithm());
         } catch (CertificateException ce) {
@@ -161,13 +161,13 @@ public class X509AuthenticationProvider implements AuthenticationProvider {
 
     /**
      * Determine the string to be used as the remote host session Id for
-     * authorization purposes. Associate this client identifier with a
+     * authorization purposes. Associate this consumer identifier with a
      * ServerCnxn that has been authenticated over SSL, and any ACLs that refer
-     * to the authenticated client.
+     * to the authenticated consumer.
      *
      * @param clientCert Authenticated X509Certificate associated with the
      *                   remote host.
-     * @return Identifier string to be associated with the client.
+     * @return Identifier string to be associated with the consumer.
      */
     protected String getClientId(X509Certificate clientCert) {
         return clientCert.getSubjectX500Principal().getName();

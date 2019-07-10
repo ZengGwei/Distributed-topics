@@ -21,7 +21,7 @@ package org.apache.zookeeper.test;
 import org.junit.runners.Suite;
 
 /**
- * Run tests with: Nio Client against Netty server
+ * Run tests with: Nio Client against nio provider
  */
 @Suite.SuiteClasses({
         ACLTest.class,

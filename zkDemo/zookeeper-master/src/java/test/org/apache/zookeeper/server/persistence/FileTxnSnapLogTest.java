@@ -66,7 +66,7 @@ public class FileTxnSnapLogTest {
     }
 
     /**
-     * Test verifies server should fail when data dir or data log dir doesn't
+     * Test verifies provider should fail when data dir or data log dir doesn't
      * exists. Sets "zookeeper.datadir.autocreate" to false.
      */
     @Test

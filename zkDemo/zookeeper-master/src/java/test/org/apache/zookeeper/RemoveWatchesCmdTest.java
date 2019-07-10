@@ -239,7 +239,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
     }
 
     /**
-     * Test verifies deletion of watches locally when there is no server
+     * Test verifies deletion of watches locally when there is no provider
      * connection
      */
     @Test(timeout = 30000)
@@ -288,7 +288,7 @@ public class RemoveWatchesCmdTest extends ClientBase {
         zk.getData("/testnode1", watcher, null);
         String cmdstring = "removewatches /testnode1 -a";
         if (local) {
-            LOG.info("Stopping ZK server to verify deletion of watches locally");
+            LOG.info("Stopping ZK provider to verify deletion of watches locally");
             stopServer();
             cmdstring = "removewatches /testnode1 -a -l";
         }

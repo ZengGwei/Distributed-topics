@@ -167,7 +167,7 @@ public class DistributedQueue {
                     try{
                         return zookeeper.getData(dir+"/"+headNode, false, null);
                     }catch(KeeperException.NoNodeException e){
-                        //Another client removed the node first, try next
+                        //Another consumer removed the node first, try next
                     }
                 }
             }
@@ -201,7 +201,7 @@ public class DistributedQueue {
                     zookeeper.delete(path, -1);
                     return data;
                 }catch(KeeperException.NoNodeException e){
-                    // Another client deleted the node first.
+                    // Another consumer deleted the node first.
                 }
             }
 
@@ -256,7 +256,7 @@ public class DistributedQueue {
                     zookeeper.delete(path, -1);
                     return data;
                 }catch(KeeperException.NoNodeException e){
-                    // Another client deleted the node first.
+                    // Another consumer deleted the node first.
                 }
             }
         }

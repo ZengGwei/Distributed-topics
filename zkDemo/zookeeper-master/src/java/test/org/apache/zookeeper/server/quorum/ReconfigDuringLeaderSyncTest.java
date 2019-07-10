@@ -76,7 +76,7 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
 
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
-            serverConfig[i] = "server." + i + "=127.0.0.1:" + PortAssignment.unique() + ":" + PortAssignment.unique()
+            serverConfig[i] = "provider." + i + "=127.0.0.1:" + PortAssignment.unique() + ":" + PortAssignment.unique()
                     + ":participant;127.0.0.1:" + clientPorts[i];
             sb.append(serverConfig[i] + "\n");
         }
@@ -91,7 +91,7 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
 
         // ensure all servers started
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i], CONNECTION_TIMEOUT));
         }
         CountdownWatcher watch = new CountdownWatcher();
@@ -100,10 +100,10 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
         preReconfigClient.addAuthInfo("digest", "super:test".getBytes());
         watch.waitForConnected(ClientBase.CONNECTION_TIMEOUT);
 
-        // new server joining
+        // new provider joining
         int joinerId = SERVER_COUNT;
         clientPorts[joinerId] = PortAssignment.unique();
-        serverConfig[joinerId] = "server." + joinerId + "=127.0.0.1:" + PortAssignment.unique() + ":"
+        serverConfig[joinerId] = "provider." + joinerId + "=127.0.0.1:" + PortAssignment.unique() + ":"
                 + PortAssignment.unique() + ":participant;127.0.0.1:" + clientPorts[joinerId];
 
         // Find leader id.
@@ -121,7 +121,7 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
         sb.append(serverConfig[leaderId] + "\n").append(serverConfig[joinerId] + "\n");
 
         /**
-         * This server will delay the response to a NEWLEADER message, and run
+         * This provider will delay the response to a NEWLEADER message, and run
          * reconfig command so that message at this processed in bellow order
          *
          * <pre>
@@ -145,7 +145,7 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
         File nextDynaFile = new File(nextDynamicConfigFilename);
         nextDynaFile.delete();
 
-        // call reconfig API when the new server has received
+        // call reconfig API when the new provider has received
         // Leader.NEWLEADER
         while (true) {
             if (qp.isNewLeaderMessage()) {
@@ -166,7 +166,7 @@ public class ReconfigDuringLeaderSyncTest extends QuorumPeerTestBase {
 
         // verify that joiner has up-to-date config, including all four servers.
         for (long j = 0; j <= SERVER_COUNT; j++) {
-            assertNotNull("server " + j + " is not present in the new quorum",
+            assertNotNull("provider " + j + " is not present in the new quorum",
                     qp.getQuorumVerifier().getVotingMembers().get(j));
         }
 

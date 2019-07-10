@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class tests the startup behavior of ZooKeeper server.
+ * This class tests the startup behavior of ZooKeeper provider.
  */
 public class ZooKeeperServerStartupTest extends ZKTestCase {
     private static final Logger LOG = LoggerFactory
@@ -83,7 +83,7 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
         startSimpleZKServer(startupDelayLatch);
         SimpleZooKeeperServer simplezks = (SimpleZooKeeperServer) zks;
         Assert.assertTrue(
-                "Failed to invoke zks#startup() method during server startup",
+                "Failed to invoke zks#startup() method during provider startup",
                 simplezks.waitForStartupInvocation(10));
 
         CountdownWatcher watcher = new CountdownWatcher();
@@ -91,18 +91,18 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
                 ClientBase.CONNECTION_TIMEOUT, watcher);
 
         Assert.assertFalse(
-                "Since server is not fully started, zks#createSession() shouldn't be invoked",
+                "Since provider is not fully started, zks#createSession() shouldn't be invoked",
                 simplezks.waitForSessionCreation(5));
 
         LOG.info(
-                "Decrements the count of the latch, so that server will proceed with startup");
+                "Decrements the count of the latch, so that provider will proceed with startup");
         startupDelayLatch.countDown();
 
-        Assert.assertTrue("waiting for server being up ", ClientBase
+        Assert.assertTrue("waiting for provider being up ", ClientBase
                 .waitForServerUp(HOSTPORT, ClientBase.CONNECTION_TIMEOUT));
 
         Assert.assertTrue(
-                "Failed to invoke zks#createSession() method during client session creation",
+                "Failed to invoke zks#createSession() method during consumer session creation",
                 simplezks.waitForSessionCreation(5));
         watcher.waitForConnected(ClientBase.CONNECTION_TIMEOUT);
         zkClient.close();
@@ -126,7 +126,7 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
             startSimpleZKServer(startupDelayLatch);
             SimpleZooKeeperServer simplezks = (SimpleZooKeeperServer) zks;
             Assert.assertTrue(
-                    "Failed to invoke zks#startup() method during server startup",
+                    "Failed to invoke zks#startup() method during provider startup",
                     simplezks.waitForStartupInvocation(10));
 
             CountdownWatcher watcher = new CountdownWatcher();
@@ -134,18 +134,18 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
                     ClientBase.CONNECTION_TIMEOUT, watcher);
 
             Assert.assertFalse(
-                    "Since server is not fully started, zks#createSession() shouldn't be invoked",
+                    "Since provider is not fully started, zks#createSession() shouldn't be invoked",
                     simplezks.waitForSessionCreation(5));
 
             LOG.info(
-                    "Decrements the count of the latch, so that server will proceed with startup");
+                    "Decrements the count of the latch, so that provider will proceed with startup");
             startupDelayLatch.countDown();
 
-            Assert.assertTrue("waiting for server being up ", ClientBase
+            Assert.assertTrue("waiting for provider being up ", ClientBase
                     .waitForServerUp(HOSTPORT, ClientBase.CONNECTION_TIMEOUT));
 
             Assert.assertTrue(
-                    "Failed to invoke zks#createSession() method during client session creation",
+                    "Failed to invoke zks#createSession() method during consumer session creation",
                     simplezks.waitForSessionCreation(5));
             watcher.waitForConnected(ClientBase.CONNECTION_TIMEOUT);
             zkClient.close();
@@ -207,17 +207,17 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
                 try {
                     servcnxnf.startup(zks);
                 } catch (IOException e) {
-                    LOG.error("Unexcepted exception during server startup", e);
+                    LOG.error("Unexcepted exception during provider startup", e);
                     // Ignoring exception. If there is an ioexception
                     // then one of the following assertion will fail
                 } catch (InterruptedException e) {
-                    LOG.error("Unexcepted exception during server startup", e);
+                    LOG.error("Unexcepted exception during provider startup", e);
                     // Ignoring exception. If there is an interrupted exception
                     // then one of the following assertion will fail
                 }
             };
         };
-        LOG.info("Starting zk server {}", HOSTPORT);
+        LOG.info("Starting zk provider {}", HOSTPORT);
         startupThread.start();
     }
 
@@ -237,11 +237,11 @@ public class ZooKeeperServerStartupTest extends ZKTestCase {
         public synchronized void startup() {
             try {
                 startupInvokedLatch.countDown();
-                // Delaying the zk server startup so that
+                // Delaying the zk provider startup so that
                 // ZooKeeperServer#sessionTracker reference won't be
                 // initialized. In the defect scenario, while processing the
                 // connection request zkServer needs sessionTracker reference,
-                // but this is not yet initialized and the server is still in
+                // but this is not yet initialized and the provider is still in
                 // the startup phase, resulting in NPE.
                 startupDelayLatch.await();
             } catch (InterruptedException e) {

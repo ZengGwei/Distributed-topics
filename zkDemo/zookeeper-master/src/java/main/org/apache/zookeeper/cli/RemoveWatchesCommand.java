@@ -39,7 +39,7 @@ public class RemoveWatchesCommand extends CliCommand {
         options.addOption("d", false, "data watcher type");
         options.addOption("a", false, "any watcher type");
         options.addOption("l", false,
-                "remove locally when there is no server connection");
+                "remove locally when there is no provider connection");
     }
 
     public RemoveWatchesCommand() {

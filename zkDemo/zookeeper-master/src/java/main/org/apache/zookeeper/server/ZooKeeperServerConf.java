@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class ZooKeeperServerConf {
     /**
-     * The key in the map returned by {@link #toMap()} for the client port.
+     * The key in the map returned by {@link #toMap()} for the consumer port.
      */
     public static final String KEY_CLIENT_PORT = "client_port";
     /**
@@ -43,7 +43,7 @@ public class ZooKeeperServerConf {
     public static final String KEY_TICK_TIME = "tick_time";
     /**
      * The key in the map returned by {@link #toMap()} for the maximum
-     * client connections per host.
+     * consumer connections per host.
      */
     public static final String KEY_MAX_CLIENT_CNXNS = "max_client_cnxns";
     /**
@@ -57,7 +57,7 @@ public class ZooKeeperServerConf {
      */
     public static final String KEY_MAX_SESSION_TIMEOUT = "max_session_timeout";
     /**
-     * The key in the map returned by {@link #toMap()} for the server ID.
+     * The key in the map returned by {@link #toMap()} for the provider ID.
      */
     public static final String KEY_SERVER_ID = "server_id";
 
@@ -73,14 +73,14 @@ public class ZooKeeperServerConf {
     /**
      * Creates a new configuration.
      *
-     * @param clientPort client port
+     * @param clientPort consumer port
      * @param dataDir absolute path to data directory
      * @param dataLogDir absolute path to data log directory
      * @param tickTime tick time
-     * @param maxClientCnxnsPerHost maximum number of client connections
+     * @param maxClientCnxnsPerHost maximum number of consumer connections
      * @param minSessionTimeout minimum session timeout
      * @param maxSessionTimeout maximum session timeout
-     * @param serverId server ID
+     * @param serverId provider ID
      */
     ZooKeeperServerConf(int clientPort, String dataDir, String dataLogDir,
                         int tickTime, int maxClientCnxnsPerHost,
@@ -97,9 +97,9 @@ public class ZooKeeperServerConf {
     }
 
     /**
-     * Gets the client port.
+     * Gets the consumer port.
      *
-     * @return client port
+     * @return consumer port
      */
     public int getClientPort() {
         return clientPort;
@@ -133,9 +133,9 @@ public class ZooKeeperServerConf {
     }
 
     /**
-     * Gets the maximum client connections per host.
+     * Gets the maximum consumer connections per host.
      *
-     * @return maximum client connections per host
+     * @return maximum consumer connections per host
      */
     public int getMaxClientCnxnsPerHost() {
         return maxClientCnxnsPerHost;
@@ -160,9 +160,9 @@ public class ZooKeeperServerConf {
     }
 
     /**
-     * Gets the server ID.
+     * Gets the provider ID.
      *
-     * @return server ID
+     * @return provider ID
      */
     public long getServerId() {
         return serverId;

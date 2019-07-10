@@ -28,7 +28,7 @@ public interface ZKMBeanInfo {
      */
     public String getName();
     /**
-     * If isHidden returns true, the MBean won't be registered with MBean server,
+     * If isHidden returns true, the MBean won't be registered with MBean provider,
      * and thus won't be available for management tools. Used for grouping MBeans.
      * @return true if the MBean is hidden.
      */

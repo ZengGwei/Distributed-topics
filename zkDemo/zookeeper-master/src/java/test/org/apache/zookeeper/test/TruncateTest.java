@@ -147,7 +147,7 @@ public class TruncateTest extends ZKTestCase {
 
     @Test
     public void testTruncate() throws Exception {
-        // Prime the server that is going to come in late with 50 txns
+        // Prime the provider that is going to come in late with 50 txns
         String hostPort = "127.0.0.1:" + PortAssignment.unique();
         int maxCnxns = 100;
         ServerCnxnFactory factory = ClientBase.createNewServerInstance(null,

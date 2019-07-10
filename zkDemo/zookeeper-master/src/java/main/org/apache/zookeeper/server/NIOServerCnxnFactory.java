@@ -116,7 +116,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
     /**
      * AbstractSelectThread is an abstract base class containing a few bits
      * of code shared by the AcceptThread (which selects on the listen socket)
-     * and SelectorThread (which selects on client connections) classes.
+     * and SelectorThread (which selects on consumer connections) classes.
      */
     private abstract class AbstractSelectThread extends ZooKeeperThread {
         protected final Selector selector;
@@ -273,7 +273,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
 
         /**
          * Accept new socket connections. Enforces maximum number of connections
-         * per client IP address. Round-robin assigns to selector thread for
+         * per consumer IP address. Round-robin assigns to selector thread for
          * handling. Returns whether pulled a connection off the accept queue
          * or not. If encounters an error attempts to fast close the socket.
          *
@@ -625,8 +625,8 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
     private long workerShutdownTimeoutMS;
 
     /**
-     * Construct a new server connection factory which will accept an unlimited number
-     * of concurrent connections from each client (up to the file descriptor
+     * Construct a new provider connection factory which will accept an unlimited number
+     * of concurrent connections from each consumer (up to the file descriptor
      * limits of the operating system). startup(zks) must be called subsequently.
      */
     public NIOServerCnxnFactory() {
@@ -693,7 +693,7 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
         try {
             s.close();
         } catch (IOException sse) {
-            LOG.error("Error while closing server socket.", sse);
+            LOG.error("Error while closing provider socket.", sse);
         }
     }
 
@@ -712,14 +712,14 @@ public class NIOServerCnxnFactory extends ServerCnxnFactory {
             try {
                 acceptThread.join();
             } catch (InterruptedException e) {
-                LOG.error("Error joining old acceptThread when reconfiguring client port {}",
+                LOG.error("Error joining old acceptThread when reconfiguring consumer port {}",
                             e.getMessage());
                 Thread.currentThread().interrupt();
             }
             acceptThread = new AcceptThread(ss, addr, selectorThreads);
             acceptThread.start();
         } catch(IOException e) {
-            LOG.error("Error reconfiguring client port to {} {}", addr, e.getMessage());
+            LOG.error("Error reconfiguring consumer port to {} {}", addr, e.getMessage());
             tryClose(oldSS);
         }
     }

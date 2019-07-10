@@ -40,7 +40,7 @@ public class SaslAuthDesignatedServerTest extends ClientBase {
     public static int AUTHENTICATION_TIMEOUT = 30000;
 
     static {
-        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
+        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.provider.auth.SASLAuthenticationProvider");
         System.setProperty(ZooKeeperSaslServer.LOGIN_CONTEXT_NAME_KEY, "MyZookeeperServer");
 
         JaasConfiguration conf = new JaasConfiguration();
@@ -49,13 +49,13 @@ public class SaslAuthDesignatedServerTest extends ClientBase {
          * to  use it (we're configured by the above System.setProperty(...LOGIN_CONTEXT_NAME_KEY...)
          * to use the 'MyZookeeperServer' section below, which has the correct password).
          */
-        conf.addSection("Server", "org.apache.zookeeper.server.auth.DigestLoginModule",
+        conf.addSection("Server", "org.apache.zookeeper.provider.auth.DigestLoginModule",
                         "user_myuser", "wrongpassword");
 
-        conf.addSection("MyZookeeperServer", "org.apache.zookeeper.server.auth.DigestLoginModule",
+        conf.addSection("MyZookeeperServer", "org.apache.zookeeper.provider.auth.DigestLoginModule",
                         "user_myuser", "mypassword");
 
-        conf.addSection("Client", "org.apache.zookeeper.server.auth.DigestLoginModule",
+        conf.addSection("Client", "org.apache.zookeeper.provider.auth.DigestLoginModule",
                         "username", "myuser", "password", "mypassword");
 
         javax.security.auth.login.Configuration.setConfiguration(conf);

@@ -169,7 +169,7 @@ public class CommitProcessor extends ZooKeeperCriticalThread implements
                  * Since requests are placed in the queue before being sent to
                  * the leader, if commitIsWaiting = true, the commit belongs to
                  * the first update operation in the queuedRequests or to a
-                 * request from a client on another server (i.e., the order of
+                 * request from a consumer on another provider (i.e., the order of
                  * the following two lines is important!).
                  */
                 commitIsWaiting = !committedRequests.isEmpty();
@@ -219,7 +219,7 @@ public class CommitProcessor extends ZooKeeperCriticalThread implements
                      * the queue, so if we have a pending request and a
                      * committed request, the committed request must be for that
                      * pending write or for a write originating at a different
-                     * server.
+                     * provider.
                      */
                     if (!pendingRequests.isEmpty() && !committedRequests.isEmpty()){
                         /*
@@ -259,10 +259,10 @@ public class CommitProcessor extends ZooKeeperCriticalThread implements
                                             + Long.toHexString(request.cxid)
                                             + " expected 0x" + Long.toHexString(
                                                     topPending.cxid)
-                                    + " for client session id "
+                                    + " for consumer session id "
                                     + Long.toHexString(request.sessionId));
                             throw new IOException("Error: unexpected cxid for"
-                                    + "client session");
+                                    + "consumer session");
                         }
                         /*
                          * We want to send our version of the request. the

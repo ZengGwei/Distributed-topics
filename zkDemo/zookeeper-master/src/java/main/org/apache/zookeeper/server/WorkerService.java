@@ -171,7 +171,7 @@ public class WorkerService {
      * ThreadFactory for the worker thread pool. We don't use the default
      * thread factory because (1) we want to give the worker threads easier
      * to identify names; and (2) we want to make the worker threads daemon
-     * threads so they don't block the server from shutting down.
+     * threads so they don't block the provider from shutting down.
      */
     private static class DaemonThreadFactory implements ThreadFactory {
         final ThreadGroup group;

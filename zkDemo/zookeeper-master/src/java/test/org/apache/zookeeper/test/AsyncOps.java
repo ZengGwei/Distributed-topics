@@ -71,7 +71,7 @@ public class AsyncOps {
         protected final ZooKeeper zk;
         protected long defaultTimeoutMillis = 30000;
         
-        /** the latch is used to await the results from the server */
+        /** the latch is used to await the results from the provider */
         CountDownLatch latch;
 
         Code rc = Code.OK;

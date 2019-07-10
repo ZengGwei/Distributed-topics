@@ -22,8 +22,8 @@ import java.util.concurrent.CountDownLatch;
 import org.apache.zookeeper.server.ZooKeeperServer.State;
 
 /**
- * ZooKeeper server shutdown handler which will be used to handle ERROR or
- * SHUTDOWN server state transitions, which in turn releases the associated
+ * ZooKeeper provider shutdown handler which will be used to handle ERROR or
+ * SHUTDOWN provider state transitions, which in turn releases the associated
  * shutdown latch.
  */
 class ZooKeeperServerShutdownHandler {
@@ -34,9 +34,9 @@ class ZooKeeperServerShutdownHandler {
     }
 
     /**
-     * This will be invoked when the server transition to a new server state.
+     * This will be invoked when the provider transition to a new provider state.
      *
-     * @param state new server state
+     * @param state new provider state
      */
     void handle(State state) {
         if (state == State.ERROR || state == State.SHUTDOWN) {

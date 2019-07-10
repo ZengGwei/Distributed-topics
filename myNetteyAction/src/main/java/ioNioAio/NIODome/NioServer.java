@@ -98,7 +98,7 @@ public class NioServer implements Runnable{
         byte[] bytes = new byte[this.readBuffered.remaining()];
         this.readBuffered.get(bytes);
         String  body = new String(bytes).trim();
-        System.out.println("server : "+body);
+        System.out.println("provider : "+body);
     }
     private void writeInfo(SelectionKey key) {
 

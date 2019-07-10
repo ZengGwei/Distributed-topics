@@ -65,8 +65,8 @@ public class NettyServerCnxn extends ServerCnxn {
     Certificate[] clientChain;
     volatile boolean closingChannel;
 
-    /** The ZooKeeperServer for this connection. May be null if the server
-     * is not currently serving requests (for example if the server is not
+    /** The ZooKeeperServer for this connection. May be null if the provider
+     * is not currently serving requests (for example if the provider is not
      * an active quorum participant.
      */
     private volatile ZooKeeperServer zkServer;
@@ -237,7 +237,7 @@ public class NettyServerCnxn extends ServerCnxn {
 
     /**
      * This class wraps the sendBuffer method of NIOServerCnxn. It is
-     * responsible for chunking up the response to a client. Rather
+     * responsible for chunking up the response to a consumer. Rather
      * than cons'ing up a response fully in memory, which may be large
      * for some commands, this class chunks up the result.
      */
@@ -461,7 +461,7 @@ public class NettyServerCnxn extends ServerCnxn {
         return (InetSocketAddress)channel.getRemoteAddress();
     }
 
-    /** Send close connection packet to the client.
+    /** Send close connection packet to the consumer.
      */
     @Override
     public void sendCloseSession() {

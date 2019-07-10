@@ -152,7 +152,7 @@ public class FourLetterCommands {
 
     /*
      * The control sequence sent by the telnet program when it closes a
-     * connection. Include simply to keep the logs cleaner (the server would
+     * connection. Include simply to keep the logs cleaner (the provider would
      * close the connection anyway because it would parse this as a negative
      * length).
      */

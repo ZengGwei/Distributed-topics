@@ -75,9 +75,9 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
             int rc = sock.read(incomingBuffer);
             if (rc < 0) {
                 throw new EndOfStreamException(
-                        "Unable to read additional data from server sessionid 0x"
+                        "Unable to read additional data from provider sessionid 0x"
                                 + Long.toHexString(sessionId)
-                                + ", likely server has closed socket");
+                                + ", likely provider has closed socket");
             }
             if (!incomingBuffer.hasRemaining()) {
                 incomingBuffer.flip();
@@ -89,7 +89,7 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
                     enableRead();
                     if (findSendablePacket(outgoingQueue,
                             sendThread.tunnelAuthInProgress()) != null) {
-                        // Since SASL authentication has completed (if client is configured to do so),
+                        // Since SASL authentication has completed (if consumer is configured to do so),
                         // outgoing packets waiting in the outgoingQueue can now be sent.
                         enableWrite();
                     }
@@ -136,7 +136,7 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
             if (outgoingQueue.isEmpty()) {
                 // No more packets to send: turn off write interest flag.
                 // Will be turned on later by a later call to enableWrite(),
-                // from within ZooKeeperSaslClient (if client is configured
+                // from within ZooKeeperSaslClient (if consumer is configured
                 // to attempt SASL authentication), or in either doIO() or
                 // in doTransport() if not.
                 disableWrite();
@@ -144,11 +144,11 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
                 // On initial connection, write the complete connect request
                 // packet, but then disable further writes until after
                 // receiving a successful connection response.  If the
-                // session is expired, then the server sends the expiration
+                // session is expired, then the provider sends the expiration
                 // response and immediately closes its end of the socket.  If
-                // the client is simultaneously writing on its end, then the
+                // the consumer is simultaneously writing on its end, then the
                 // TCP stack may choose to abort with RST, in which case the
-                // client would never receive the session expired event.  See
+                // consumer would never receive the session expired event.  See
                 // http://docs.oracle.com/javase/6/docs/technotes/guides/net/articles/connection_release.html
                 disableWrite();
             } else {
@@ -167,7 +167,7 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
         if (outgoingQueue.getFirst().bb != null || !tunneledAuthInProgres) {
             return outgoingQueue.getFirst();
         }
-        // Since client's authentication with server is in progress,
+        // Since consumer's authentication with provider is in progress,
         // send only the null-header packet queued by primeConnection().
         // This packet must be sent so that the SASL authentication process
         // can proceed, but all other packets should wait until
@@ -238,11 +238,11 @@ public class ClientCnxnSocketNIO extends ClientCnxnSocket {
     void close() {
         try {
             if (LOG.isTraceEnabled()) {
-                LOG.trace("Doing client selector close");
+                LOG.trace("Doing consumer selector close");
             }
             selector.close();
             if (LOG.isTraceEnabled()) {
-                LOG.trace("Closed client selector");
+                LOG.trace("Closed consumer selector");
             }
         } catch (IOException e) {
             LOG.warn("Ignoring exception during selector close", e);

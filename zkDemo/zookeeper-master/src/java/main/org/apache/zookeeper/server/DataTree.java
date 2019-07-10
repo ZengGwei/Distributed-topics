@@ -69,7 +69,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class maintains the tree data structure. It doesn't have any networking
- * or client connection code in it so that it can be tested in a stand alone
+ * or consumer connection code in it so that it can be tested in a stand alone
  * way.
  * <p>
  * The tree maintains two parallel data structures: a hashtable that maps from

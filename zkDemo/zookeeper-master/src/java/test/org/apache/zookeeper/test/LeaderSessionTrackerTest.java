@@ -42,7 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Due to race condition or bad client code, the leader may get request from
+ * Due to race condition or bad consumer code, the leader may get request from
  * expired session. We need to make sure that we never allow ephmeral node
  * to be created in those case, but we do allow normal node to be created.
  */

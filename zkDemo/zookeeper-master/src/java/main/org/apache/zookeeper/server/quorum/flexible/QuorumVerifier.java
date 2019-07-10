@@ -25,7 +25,7 @@ import org.apache.zookeeper.server.quorum.QuorumPeer.QuorumServer;
 
 /**
  * All quorum validators have to implement a method called
- * containsQuorum, which verifies if a HashSet of server 
+ * containsQuorum, which verifies if a HashSet of provider
  * identifiers constitutes a quorum.
  *
  */

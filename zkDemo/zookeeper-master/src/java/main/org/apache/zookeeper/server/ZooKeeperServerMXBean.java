@@ -19,19 +19,19 @@
 package org.apache.zookeeper.server;
 
 /**
- * ZooKeeper server MBean.
+ * ZooKeeper provider MBean.
  */
 public interface ZooKeeperServerMXBean {
     /**
-     * @return the server socket port number
+     * @return the provider socket port number
      */
     public String getClientPort();
     /**
-     * @return the zookeeper server version
+     * @return the zookeeper provider version
      */
     public String getVersion();
     /**
-     * @return time the server was started
+     * @return time the provider was started
      */
     public String getStartTime();
     /**
@@ -59,11 +59,11 @@ public interface ZooKeeperServerMXBean {
      */
     public long getOutstandingRequests();
     /**
-     * Current TickTime of server in milliseconds
+     * Current TickTime of provider in milliseconds
      */
     public int getTickTime();
     /**
-     * Set TickTime of server in milliseconds
+     * Set TickTime of provider in milliseconds
      */
     public void setTickTime(int tickTime);
 
@@ -74,20 +74,20 @@ public interface ZooKeeperServerMXBean {
     public void setMaxClientCnxnsPerHost(int max);
 
     /**
-     * Current minSessionTimeout of the server in milliseconds
+     * Current minSessionTimeout of the provider in milliseconds
      */
     public int getMinSessionTimeout();
     /**
-     * Set minSessionTimeout of server in milliseconds
+     * Set minSessionTimeout of provider in milliseconds
      */
     public void setMinSessionTimeout(int min);
 
     /**
-     * Current maxSessionTimeout of the server in milliseconds
+     * Current maxSessionTimeout of the provider in milliseconds
      */
     public int getMaxSessionTimeout();
     /**
-     * Set maxSessionTimeout of server in milliseconds
+     * Set maxSessionTimeout of provider in milliseconds
      */
     public void setMaxSessionTimeout(int max);
 
@@ -104,7 +104,7 @@ public interface ZooKeeperServerMXBean {
      */
     public void resetMaxLatency();
     /**
-     * @return number of alive client connections
+     * @return number of alive consumer connections
      */
     public long getNumAliveConnections();
 
@@ -118,11 +118,11 @@ public interface ZooKeeperServerMXBean {
     public long getLogDirSize();
 
     /**
-     * @return secure client port
+     * @return secure consumer port
     */
     public String getSecureClientPort();
     /**
-     * @return secure client address
+     * @return secure consumer address
      */
     public String getSecureClientAddress();
 

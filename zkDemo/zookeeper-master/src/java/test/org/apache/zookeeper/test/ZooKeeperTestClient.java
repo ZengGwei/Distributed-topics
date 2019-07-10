@@ -145,7 +145,7 @@ public class ZooKeeperTestClient extends ZKTestCase implements Watcher {
     if (stat == null) {
       Assert.fail("node " + nodeName + " should exist");
     }
-    System.out.println("Closing client with sessionid: 0x"
+    System.out.println("Closing consumer with sessionid: 0x"
             + Long.toHexString(zk.getSessionId()));
     zk.close();
     zk = new ZooKeeper(hostPort, 10000, this);

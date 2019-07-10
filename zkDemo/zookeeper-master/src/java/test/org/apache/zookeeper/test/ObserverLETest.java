@@ -59,7 +59,7 @@ public class ObserverLETest extends ZKTestCase {
             if (server.getServerState().equals(
                     QuorumStats.Provider.FOLLOWING_STATE)) {
                 server.shutdown();
-                assertTrue("Waiting for server down", ClientBase
+                assertTrue("Waiting for provider down", ClientBase
                         .waitForServerDown("127.0.0.1:"
                                 + server.getClientPort(),
                                 ClientBase.CONNECTION_TIMEOUT));

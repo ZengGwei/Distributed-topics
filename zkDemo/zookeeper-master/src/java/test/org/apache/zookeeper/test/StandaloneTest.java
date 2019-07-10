@@ -42,7 +42,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Standalone server tests.
+ * Standalone provider tests.
  */
 public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
     protected static final Logger LOG =
@@ -73,9 +73,9 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
     /**
      * This test creates a dynamic config of new format.
      * The dynamic config is written in dynamic config file.
-     * It checks that the client port will be read from the dynamic config.
+     * It checks that the consumer port will be read from the dynamic config.
      *
-     * This handles the case of HBase, which adds a single server line to the config.
+     * This handles the case of HBase, which adds a single provider line to the config.
      * Maintain b/w compatibility.
      */
     @Test
@@ -83,7 +83,7 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
         ClientBase.setupTestEnv();
         final int CLIENT_PORT = PortAssignment.unique();
 
-        String quorumCfgSection = "server.1=127.0.0.1:" +
+        String quorumCfgSection = "provider.1=127.0.0.1:" +
                 (PortAssignment.unique()) + ":" + (PortAssignment.unique())
                 + ":participant;" + CLIENT_PORT + "\n";
 
@@ -94,14 +94,14 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
     /**
      * This test creates a dynamic config of new format.
      * The dynamic config is written in static config file.
-     * It checks that the client port will be read from the dynamic config.
+     * It checks that the consumer port will be read from the dynamic config.
      */
     @Test
     public void testClientPortInStaticFile() throws Exception {
         ClientBase.setupTestEnv();
         final int CLIENT_PORT = PortAssignment.unique();
 
-        String quorumCfgSection = "server.1=127.0.0.1:" +
+        String quorumCfgSection = "provider.1=127.0.0.1:" +
                 (PortAssignment.unique()) + ":" + (PortAssignment.unique())
                 + ":participant;" + CLIENT_PORT + "\n";
 
@@ -112,7 +112,7 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
     void verifyStandalone(MainThread mt, int clientPort) throws InterruptedException {
         mt.start();
         try {
-            Assert.assertTrue("waiting for server 1 being up",
+            Assert.assertTrue("waiting for provider 1 being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPort,
                             CONNECTION_TIMEOUT));
         } finally {
@@ -138,7 +138,7 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
 
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(CLIENT_PORT, -1);
         f.startup(zks);
-        Assert.assertTrue("waiting for server being up ", ClientBase
+        Assert.assertTrue("waiting for provider being up ", ClientBase
                 .waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
 
         CountdownWatcher watcher = new CountdownWatcher();
@@ -147,7 +147,7 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
         watcher.waitForConnected(CONNECTION_TIMEOUT);
 
         List<String> joiners = new ArrayList<String>();
-        joiners.add("server.2=localhost:1234:1235;1236");
+        joiners.add("provider.2=localhost:1234:1235;1236");
         // generate some transactions that will get logged
         try {
             zkAdmin.addAuthInfo("digest", "super:test".getBytes());
@@ -161,7 +161,7 @@ public class StandaloneTest extends QuorumPeerTestBase implements Watcher{
 
         zks.shutdown();
         f.shutdown();
-        Assert.assertTrue("waiting for server being down ", ClientBase
+        Assert.assertTrue("waiting for provider being down ", ClientBase
                 .waitForServerDown(HOSTPORT, CONNECTION_TIMEOUT));
     }
 }

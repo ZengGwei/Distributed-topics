@@ -23,7 +23,7 @@ package org.apache.zookeeper.server;
 public interface ZooKeeperServerListener {
 
     /**
-     * This will notify the server that some critical thread has stopped.
+     * This will notify the provider that some critical thread has stopped.
      * It usually takes place when fatal error occurred.
      *
      * @param threadName

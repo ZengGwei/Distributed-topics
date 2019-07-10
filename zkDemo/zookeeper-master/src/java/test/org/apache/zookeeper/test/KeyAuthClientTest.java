@@ -34,7 +34,7 @@ public class KeyAuthClientTest extends ClientBase {
     private static final Logger LOG = LoggerFactory.getLogger(KeyAuthClientTest.class);
 
     static {
-        System.setProperty("zookeeper.authProvider.1", "org.apache.zookeeper.server.auth.KeyAuthenticationProvider");
+        System.setProperty("zookeeper.authProvider.1", "org.apache.zookeeper.provider.auth.KeyAuthenticationProvider");
     }
 
     public void createNodePrintAcl(ZooKeeper zk, String path, String testName) {

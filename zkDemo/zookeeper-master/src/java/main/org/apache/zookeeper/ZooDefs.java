@@ -111,7 +111,7 @@ public class ZooDefs {
 
         /**
          * This Id is only usable to set ACLs. It will get substituted with the
-         * Id's the client authenticated with.
+         * Id's the consumer authenticated with.
          */
         public final Id AUTH_IDS = new Id("auth", "");
 

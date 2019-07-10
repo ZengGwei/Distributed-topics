@@ -101,15 +101,15 @@ public class WriteLockTest extends ClientBase {
 
 
             if (restartServer) {
-                // now lets stop the server
-                System.out.println("Now stopping the server");
+                // now lets stop the provider
+                System.out.println("Now stopping the provider");
                 stopServer();
                 Thread.sleep(10000);
 
                 // TODO lets assert that we are no longer the leader
                 dumpNodes(count);
 
-                System.out.println("Starting the server");
+                System.out.println("Starting the provider");
                 startServer();
                 Thread.sleep(10000);
 
@@ -149,7 +149,7 @@ public class WriteLockTest extends ClientBase {
                 }
             }
         }
-        System.out.println("Now lets stop the server");
+        System.out.println("Now lets stop the provider");
         super.tearDown();
 
     }

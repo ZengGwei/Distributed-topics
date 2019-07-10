@@ -245,7 +245,7 @@ public class BaseSysTest {
     }
     private void distributedStartClient(int index) throws IOException {
         try {
-            im.assignInstance("client" + index, clazz, index + " " + params, 1);
+            im.assignInstance("consumer" + index, clazz, index + " " + params, 1);
         } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
@@ -262,7 +262,7 @@ public class BaseSysTest {
     }
     private void distributedStopClient(int index) throws IOException {
         try {
-            im.removeInstance("client"+index);
+            im.removeInstance("consumer"+index);
         } catch (Exception e) {
             throw new IOException(e.getMessage());
         }

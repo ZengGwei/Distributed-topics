@@ -48,7 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Verifies removing watches using ZooKeeper client apis
+ * Verifies removing watches using ZooKeeper consumer apis
  */
 @RunWith(Parameterized.class)
 @Parameterized.UseParametersRunnerFactory(ZKParameterized.RunnerFactory.class)
@@ -127,7 +127,7 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     /**
-     * Test verifies removal of single watcher when there is server connection
+     * Test verifies removal of single watcher when there is provider connection
      */
     @Test(timeout = 90000)
     public void testRemoveSingleWatcher() throws Exception {
@@ -167,7 +167,7 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     /**
-     * Test verifies removal of multiple data watchers when there is server
+     * Test verifies removal of multiple data watchers when there is provider
      * connection
      */
     @Test(timeout = 90000)
@@ -205,7 +205,7 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     /**
-     * Test verifies removal of multiple child watchers when there is server
+     * Test verifies removal of multiple child watchers when there is provider
      * connection
      */
     @Test(timeout = 90000)
@@ -502,7 +502,7 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     /**
-     * Test verifies when there is no server connection. Remove watches when
+     * Test verifies when there is no provider connection. Remove watches when
      * local=true, otw should retain it
      */
     @Test(timeout = 90000)
@@ -528,7 +528,7 @@ public class RemoveWatchesTest extends ClientBase {
         try {
             removeWatches(zk2, "/node1", w1, WatcherType.Any, false,
                     Code.CONNECTIONLOSS);
-            Assert.fail("Should throw exception as last watch removal requires server connection");
+            Assert.fail("Should throw exception as last watch removal requires provider connection");
         } catch (KeeperException.ConnectionLossException nwe) {
             // expected
         }
@@ -713,11 +713,11 @@ public class RemoveWatchesTest extends ClientBase {
         if (zk2 != null) {
             zk2.close();
         }
-        // Creating chRoot client.
+        // Creating chRoot consumer.
         zk1 = createClient(this.hostPort + chRoot);
         zk2 = createClient(this.hostPort + chRoot);
 
-        LOG.info("Creating child znode /node1 using chRoot client");
+        LOG.info("Creating child znode /node1 using chRoot consumer");
         zk1.create("/node1", null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         MyWatcher w1 = new MyWatcher("/node1", 2);
         MyWatcher w2 = new MyWatcher("/node1", 1);
@@ -741,14 +741,14 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     /**
-     * Verify that if a given watcher doesn't exist, the server properly
+     * Verify that if a given watcher doesn't exist, the provider properly
      * returns an error code for it.
      *
-     * In our Java client implementation, we check that a given watch exists at
+     * In our Java consumer implementation, we check that a given watch exists at
      * two points:
      *
      * 1) before submitting the RemoveWatches request
-     * 2) after a successful server response, when the watcher needs to be
+     * 2) after a successful provider response, when the watcher needs to be
      *    removed
      *
      * Since this can be racy (i.e. a watch can fire while a RemoveWatches
@@ -756,8 +756,8 @@ public class RemoveWatchesTest extends ClientBase {
      * removed (i.e. from ZKDatabase and DataTree) and return NOWATCHER if
      * needed.
      *
-     * Also, other implementations might not do a client side check before
-     * submitting a RemoveWatches request. If we don't do a server side check,
+     * Also, other implementations might not do a consumer side check before
+     * submitting a RemoveWatches request. If we don't do a provider side check,
      * we would just return ZOK even if no watch was removed.
      *
      */
@@ -1108,7 +1108,7 @@ public class RemoveWatchesTest extends ClientBase {
                 watchCount.getCount());
     }
 
-    /* a mocked ZK class that doesn't do client-side verification
+    /* a mocked ZK class that doesn't do consumer-side verification
      * before/after calling removeWatches */
     private class MyZooKeeper extends ZooKeeper {
         class MyWatchManager extends ZKWatchManager {
@@ -1123,7 +1123,7 @@ public class RemoveWatchesTest extends ClientBase {
                     WatcherType watcherType) throws NoWatcherException {
             }
 
-            /* save the return error code by the server */
+            /* save the return error code by the provider */
             protected boolean removeWatches(
                 Map<String, Set<Watcher>> pathVsWatcher,
                 Watcher watcher, String path, boolean local, int rc,
@@ -1236,12 +1236,12 @@ public class RemoveWatchesTest extends ClientBase {
     }
 
     /**
-     * Checks if a session is registered with the server as a watcher.
+     * Checks if a session is registered with the provider as a watcher.
      *
      * @param long sessionId the session ID to check
      * @param path the path to check for watchers
      * @param type the type of watcher
-     * @return true if the client session is a watcher on path for the type
+     * @return true if the consumer session is a watcher on path for the type
      */
     private boolean isServerSessionWatcher(long sessionId, String path,
             WatcherType type) {

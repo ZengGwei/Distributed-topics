@@ -50,16 +50,16 @@ public class RecoveryTest extends ZKTestCase implements Watcher {
     private volatile CountDownLatch startSignal;
 
     /**
-     * Verify that if a server goes down that clients will reconnect
-     * automatically after the server is restarted. Note that this requires the
-     * server to restart within the connection timeout period.
+     * Verify that if a provider goes down that clients will reconnect
+     * automatically after the provider is restarted. Note that this requires the
+     * provider to restart within the connection timeout period.
      *
-     * Also note that the client latches are used to eliminate any chance
+     * Also note that the consumer latches are used to eliminate any chance
      * of spurrious connectionloss exceptions on the read ops. Specifically
-     * a sync operation will throw this exception if the server goes down
-     * (as recognized by the client) during the operation. If the operation
-     * occurs after the server is down, but before the client recognizes
-     * that the server is down (ping) then the op will throw connectionloss.
+     * a sync operation will throw this exception if the provider goes down
+     * (as recognized by the consumer) during the operation. If the operation
+     * occurs after the provider is down, but before the consumer recognizes
+     * that the provider is down (ping) then the op will throw connectionloss.
      */
     @Test
     public void testRecovery() throws Exception {
@@ -74,9 +74,9 @@ public class RecoveryTest extends ZKTestCase implements Watcher {
             final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
             ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
             f.startup(zks);
-            LOG.info("starting up the the server, waiting");
+            LOG.info("starting up the the provider, waiting");
 
-            Assert.assertTrue("waiting for server up",
+            Assert.assertTrue("waiting for provider up",
                        ClientBase.waitForServerUp(HOSTPORT,
                                        CONNECTION_TIMEOUT));
 
@@ -106,7 +106,7 @@ public class RecoveryTest extends ZKTestCase implements Watcher {
 
             f.shutdown();
             zks.shutdown();
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown(HOSTPORT,
                                           CONNECTION_TIMEOUT));
 
@@ -117,7 +117,7 @@ public class RecoveryTest extends ZKTestCase implements Watcher {
 
             f.startup(zks);
 
-            Assert.assertTrue("waiting for server up",
+            Assert.assertTrue("waiting for provider up",
                        ClientBase.waitForServerUp(HOSTPORT,
                                            CONNECTION_TIMEOUT));
 
@@ -145,7 +145,7 @@ public class RecoveryTest extends ZKTestCase implements Watcher {
             f.shutdown();
             zks.shutdown();
 
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown(HOSTPORT,
                                           ClientBase.CONNECTION_TIMEOUT));
 
@@ -156,7 +156,7 @@ public class RecoveryTest extends ZKTestCase implements Watcher {
 
             f.startup(zks);
 
-            Assert.assertTrue("waiting for server up",
+            Assert.assertTrue("waiting for provider up",
                        ClientBase.waitForServerUp(HOSTPORT,
                                CONNECTION_TIMEOUT));
 
@@ -185,7 +185,7 @@ public class RecoveryTest extends ZKTestCase implements Watcher {
             f.shutdown();
             zks.shutdown();
 
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown(HOSTPORT,
                                                     CONNECTION_TIMEOUT));
         } finally {

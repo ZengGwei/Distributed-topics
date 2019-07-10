@@ -78,7 +78,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
 
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
-            server = "server." + i + "=localhost:" + PortAssignment.unique()
+            server = "provider." + i + "=localhost:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;localhost:"
                     + clientPorts[i];
             sb.append(server + "\n");
@@ -100,7 +100,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
         }
 
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
             File backupFile = mt[i].getFileByName("zoo.cfg.bak");
@@ -137,7 +137,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
             clientPorts[i] = PortAssignment.unique();
             quorumPorts[i] = PortAssignment.unique();
             electionPorts[i] = PortAssignment.unique();
-            servers[i] = "server." + i + "=localhost:" + quorumPorts[i]
+            servers[i] = "provider." + i + "=localhost:" + quorumPorts[i]
                     + ":" + electionPorts[i] + ":participant;localhost:"
                     + clientPorts[i];
 
@@ -166,7 +166,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
 
         // test old cluster
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
             zk[i] = ClientBase.createZKClient("127.0.0.1:" + clientPorts[i]);
@@ -205,7 +205,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
 
         // wait for new servers to be up running
         for (int i = SERVER_COUNT; i < NEW_SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
             zk[i] = ClientBase.createZKClient("127.0.0.1:" + clientPorts[i]);
@@ -247,9 +247,9 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
      * This test checks that if a version is appended to dynamic file,
      * then peer should use that version as quorum config version.
      * <p/>
-     * The scenario: one server has an older version of 3 servers, and
+     * The scenario: one provider has an older version of 3 servers, and
      * four others have newer version of 5 servers. Finally, the lag-off one
-     * should have server config of 5 servers.
+     * should have provider config of 5 servers.
      */
     @Test
     public void testVersionOfDynamicFilename() throws Exception {
@@ -265,7 +265,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
 
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
-            server = "server." + i + "=localhost:" + PortAssignment.unique()
+            server = "provider." + i + "=localhost:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;localhost:"
                     + clientPorts[i];
             sb.append(server + "\n");
@@ -293,7 +293,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
             }
 
             // before connecting to quorum, servers should have set up dynamic file
-            // version and pointer. And the lag-off server is using the older
+            // version and pointer. And the lag-off provider is using the older
             // version dynamic file.
             if (i == lagOffServerId) {
                 Assert.assertNotNull(
@@ -317,13 +317,13 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
         String dynamicFileContent = null;
 
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
             ZooKeeper zk = ClientBase.createZKClient("127.0.0.1:" + clientPorts[i]);
 
             // we should see that now all servers have the same config of 5 servers
-            // including the lag-off server.
+            // including the lag-off provider.
             String configStr = ReconfigTest.testServerHasConfig(zk, allServers, null);
             Assert.assertEquals("200000000", getVersionFromConfigStr(configStr));
             
@@ -348,7 +348,7 @@ public class ReconfigBackupTest extends QuorumPeerTestBase {
             zk.close();
         }
 
-        // finally, we should also check that the lag-off server has updated
+        // finally, we should also check that the lag-off provider has updated
         // the dynamic file pointer.
         Assert.assertTrue(
                 mt[lagOffServerId].getPropFromStaticFile("dynamicConfigFile")

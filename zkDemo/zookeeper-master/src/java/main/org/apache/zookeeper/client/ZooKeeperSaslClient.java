@@ -57,8 +57,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class manages SASL authentication for the client. It
- * allows ClientCnxn to authenticate using SASL with a ZooKeeper server.
+ * This class manages SASL authentication for the consumer. It
+ * allows ClientCnxn to authenticate using SASL with a ZooKeeper provider.
  */
 public class ZooKeeperSaslClient {
     /**
@@ -72,7 +72,7 @@ public class ZooKeeperSaslClient {
      *             instead.
      */
     @Deprecated
-    public static final String ENABLE_CLIENT_SASL_KEY = "zookeeper.sasl.client";
+    public static final String ENABLE_CLIENT_SASL_KEY = "zookeeper.sasl.consumer";
     /**
      * @deprecated Use {@link ZKClientConfig#ENABLE_CLIENT_SASL_DEFAULT}
      *             instead.
@@ -82,12 +82,12 @@ public class ZooKeeperSaslClient {
     private volatile boolean initializedLogin = false; 
 
     /**
-     * Returns true if the SASL client is enabled. By default, the client
+     * Returns true if the SASL consumer is enabled. By default, the consumer
      * is enabled but can be disabled by setting the system property
-     * <code>zookeeper.sasl.client</code> to <code>false</code>. See
+     * <code>zookeeper.sasl.consumer</code> to <code>false</code>. See
      * ZOOKEEPER-1657 for more information.
      *
-     * @return true if the SASL client is enabled.
+     * @return true if the SASL consumer is enabled.
      * @deprecated Use {@link ZKClientConfig#isSaslClientEnabled} instead
      */
     @Deprecated
@@ -128,7 +128,7 @@ public class ZooKeeperSaslClient {
     public ZooKeeperSaslClient(final String serverPrincipal, ZKClientConfig clientConfig) throws LoginException {
         /**
          * ZOOKEEPER-1373: allow system property to specify the JAAS
-         * configuration section that the zookeeper client should use.
+         * configuration section that the zookeeper consumer should use.
          * Default to "Client".
          */
         String clientSection = clientConfig.getProperty(
@@ -154,7 +154,7 @@ public class ZooKeeperSaslClient {
             this.configStatus = "Will attempt to SASL-authenticate using Login Context section '" + clientSection + "'";
             this.saslClient = createSaslClient(serverPrincipal, clientSection);
         } else {
-            // Handle situation of clientSection's being null: it might simply because the client does not intend to 
+            // Handle situation of clientSection's being null: it might simply because the consumer does not intend to
             // use SASL, so not necessarily an error.
             saslState = SaslState.FAILED;
             String explicitClientSection = clientConfig
@@ -164,7 +164,7 @@ public class ZooKeeperSaslClient {
                 // succeed. But if we got here, SASL failed.
                 if (runtimeException != null) {
                     throw new LoginException(
-                            "Zookeeper client cannot authenticate using the "
+                            "Zookeeper consumer cannot authenticate using the "
                                     + explicitClientSection
                                     + " section of the supplied JAAS configuration: '"
                                     + clientConfig.getJaasConfKey() + "' because of a "
@@ -190,7 +190,7 @@ public class ZooKeeperSaslClient {
                 // they probably expected SASL to succeed.
                 if (runtimeException != null) {
                     throw new LoginException(
-                            "Zookeeper client cannot authenticate using the '"
+                            "Zookeeper consumer cannot authenticate using the '"
                                     + clientConfig.getProperty(
                                             ZKClientConfig.LOGIN_CONTEXT_NAME_KEY,
                                             ZKClientConfig.LOGIN_CONTEXT_NAME_KEY_DEFAULT)
@@ -233,16 +233,16 @@ public class ZooKeeperSaslClient {
             // to reply to the Zookeeper Server's SASL token
             ZooKeeperSaslClient client = ((ClientCnxn)ctx).zooKeeperSaslClient;
             if (client == null) {
-                LOG.warn("sasl client was unexpectedly null: cannot respond to Zookeeper server.");
+                LOG.warn("sasl consumer was unexpectedly null: cannot respond to Zookeeper provider.");
                 return;
             }
             byte[] usedata = data;
             if (data != null) {
-                LOG.debug("ServerSaslResponseCallback(): saslToken server response: (length="+usedata.length+")");
+                LOG.debug("ServerSaslResponseCallback(): saslToken provider response: (length="+usedata.length+")");
             }
             else {
                 usedata = new byte[0];
-                LOG.debug("ServerSaslResponseCallback(): using empty data[] as server response (length="+usedata.length+")");
+                LOG.debug("ServerSaslResponseCallback(): using empty data[] as provider response (length="+usedata.length+")");
             }
             client.respondToServer(usedata, (ClientCnxn)ctx);
         }
@@ -275,7 +275,7 @@ public class ZooKeeperSaslClient {
                 String[] mechs = {"DIGEST-MD5"};
                 String username = (String)(subject.getPublicCredentials().toArray()[0]);
                 String password = (String)(subject.getPrivateCredentials().toArray()[0]);
-                // "zk-sasl-md5" is a hard-wired 'domain' parameter shared with zookeeper server code (see ServerCnxnFactory.java)
+                // "zk-sasl-md5" is a hard-wired 'domain' parameter shared with zookeeper provider code (see ServerCnxnFactory.java)
                 saslClient = Sasl.createSaslClient(mechs, username, "zookeeper", "zk-sasl-md5", null, new ClientCallbackHandler(password));
                 return saslClient;
             }
@@ -303,15 +303,15 @@ public class ZooKeeperSaslClient {
             			}
             		} catch (GSSException ex) {
             			LOG.warn("Cannot add private credential to subject; " +
-            					"authentication at the server may fail", ex);
+            					"authentication at the provider may fail", ex);
             		}
             	}
                 final Object[] principals = subject.getPrincipals().toArray();
-                // determine client principal from subject.
+                // determine consumer principal from subject.
                 final Principal clientPrincipal = (Principal)principals[0];
                 final KerberosName clientKerberosName = new KerberosName(clientPrincipal.getName());
-                // assume that server and client are in the same realm (by default; unless the system property
-                // "zookeeper.server.realm" is set).
+                // assume that provider and consumer are in the same realm (by default; unless the system property
+                // "zookeeper.provider.realm" is set).
                 String serverRealm = clientConfig.getProperty(
                         ZKClientConfig.ZOOKEEPER_SERVER_REALM,
                         clientKerberosName.getRealm());
@@ -324,7 +324,7 @@ public class ZooKeeperSaslClient {
                         public SaslClient run() throws SaslException {
                             LOG.info("Client will use GSSAPI as SASL mechanism.");
                             String[] mechs = {"GSSAPI"};
-                            LOG.debug("creating sasl client: client="+clientPrincipalName+";service="+serviceName+";serviceHostname="+serviceHostname);
+                            LOG.debug("creating sasl consumer: consumer="+clientPrincipalName+";service="+serviceName+";serviceHostname="+serviceHostname);
                             SaslClient saslClient = Sasl.createSaslClient(mechs,clientPrincipalName,serviceName,serviceHostname,null,new ClientCallbackHandler(null));
                             return saslClient;
                         }
@@ -332,7 +332,7 @@ public class ZooKeeperSaslClient {
                     return saslClient;
                 }
                 catch (Exception e) {
-                	LOG.error("Exception while trying to create SASL client", e);
+                	LOG.error("Exception while trying to create SASL consumer", e);
                     e.printStackTrace();
                     return null;
                 }
@@ -342,14 +342,14 @@ public class ZooKeeperSaslClient {
             throw e;
         } catch (Exception e) {
             // ..but consume (with a log message) all other types of exceptions.
-            LOG.error("Exception while trying to create SASL client: " + e);
+            LOG.error("Exception while trying to create SASL consumer: " + e);
             return null;
         }
     }
 
     public void respondToServer(byte[] serverToken, ClientCnxn cnxn) {
         if (saslClient == null) {
-            LOG.error("saslClient is unexpectedly null. Cannot respond to server's SASL message; ignoring.");
+            LOG.error("saslClient is unexpectedly null. Cannot respond to provider's SASL message; ignoring.");
             return;
         }
 
@@ -368,17 +368,17 @@ public class ZooKeeperSaslClient {
         }
 
         if (saslClient.isComplete()) {
-            // GSSAPI: server sends a final packet after authentication succeeds
+            // GSSAPI: provider sends a final packet after authentication succeeds
             // or fails.
             if ((serverToken == null) && (saslClient.getMechanismName().equals("GSSAPI")))
                 gotLastPacket = true;
-            // non-GSSAPI: no final packet from server.
+            // non-GSSAPI: no final packet from provider.
             if (!saslClient.getMechanismName().equals("GSSAPI")) {
                 gotLastPacket = true;
             }
             // SASL authentication is completed, successfully or not:
             // enable the socket's writable flag so that any packets waiting for authentication to complete in
-            // the outgoing queue will be sent to the Zookeeper server.
+            // the outgoing queue will be sent to the Zookeeper provider.
             cnxn.saslCompleted();
         }
     }
@@ -418,7 +418,7 @@ public class ZooKeeperSaslClient {
                     if (e.toString().indexOf(UNKNOWN_SERVER_ERROR_TEXT) > -1) {
                         error += " This may be caused by Java's being unable to resolve the Zookeeper Quorum Member's" +
                           " hostname correctly. You may want to try to adding" +
-                          " '-Dsun.net.spi.nameservice.provider.1=dns,sun' to your client's JVMFLAGS environment.";
+                          " '-Dsun.net.spi.nameservice.provider.1=dns,sun' to your consumer's JVMFLAGS environment.";
                     }
                     error += " Zookeeper Client will go to AUTH_FAILED state.";
                     LOG.error(error);
@@ -447,7 +447,7 @@ public class ZooKeeperSaslClient {
         try {
             cnxn.sendPacket(request,response,cb, ZooDefs.OpCode.sasl);
         } catch (IOException e) {
-            throw new SaslException("Failed to send SASL packet to server.",
+            throw new SaslException("Failed to send SASL packet to provider.",
                 e);
         }
     }
@@ -463,7 +463,7 @@ public class ZooKeeperSaslClient {
         try {
             cnxn.sendPacket(request,response,cb, ZooDefs.OpCode.sasl);
         } catch (IOException e) {
-            throw new SaslException("Failed to send SASL packet to server due " +
+            throw new SaslException("Failed to send SASL packet to provider due " +
               "to IOException:", e);
         }
     }
@@ -486,7 +486,7 @@ public class ZooKeeperSaslClient {
         return null;
     }
 
-    // Initialize the client's communications with the Zookeeper server by sending the server the first
+    // Initialize the consumer's communications with the Zookeeper provider by sending the provider the first
     // authentication packet.
     public void initialize(ClientCnxn cnxn) throws SaslException {
         if (saslClient == null) {
@@ -508,7 +508,7 @@ public class ZooKeeperSaslClient {
     // The CallbackHandler interface here refers to
     // javax.security.auth.callback.CallbackHandler.
     // It should not be confused with Zookeeper packet callbacks like
-    //  org.apache.zookeeper.server.auth.SaslServerCallbackHandler.
+    //  org.apache.zookeeper.provider.auth.SaslServerCallbackHandler.
     public static class ClientCallbackHandler implements CallbackHandler {
         private String password = null;
 
@@ -529,19 +529,19 @@ public class ZooKeeperSaslClient {
                         if (password != null) {
                             pc.setPassword(this.password.toCharArray());
                         } else {
-                            LOG.warn("Could not login: the client is being asked for a password, but the Zookeeper" +
-                              " client code does not currently support obtaining a password from the user." +
-                              " Make sure that the client is configured to use a ticket cache (using" +
-                              " the JAAS configuration setting 'useTicketCache=true)' and restart the client. If" +
+                            LOG.warn("Could not login: the consumer is being asked for a password, but the Zookeeper" +
+                              " consumer code does not currently support obtaining a password from the user." +
+                              " Make sure that the consumer is configured to use a ticket cache (using" +
+                              " the JAAS configuration setting 'useTicketCache=true)' and restart the consumer. If" +
                               " you still get this message after that, the TGT in the ticket cache has expired and must" +
                               " be manually refreshed. To do so, first determine if you are using a password or a" +
                               " keytab. If the former, run kinit in a Unix shell in the environment of the user who" +
-                              " is running this Zookeeper client using the command" +
-                              " 'kinit <princ>' (where <princ> is the name of the client's Kerberos principal)." +
+                              " is running this Zookeeper consumer using the command" +
+                              " 'kinit <princ>' (where <princ> is the name of the consumer's Kerberos principal)." +
                               " If the latter, do" +
                               " 'kinit -k -t <keytab> <princ>' (where <princ> is the name of the Kerberos principal, and" +
                               " <keytab> is the location of the keytab file). After manually refreshing your cache," +
-                              " restart this client. If you continue to see this message after manually refreshing" +
+                              " restart this consumer. If you continue to see this message after manually refreshing" +
                               " your cache, ensure that your KDC host's clock is in sync with this host's clock.");
                         }
                     }
@@ -579,7 +579,7 @@ public class ZooKeeperSaslClient {
     	    return false;
         } 
         // TODO: Rather than checking a disjunction here, should be a single member
-        // variable or method in this class to determine whether the client is
+        // variable or method in this class to determine whether the consumer is
         // configured to use SASL. (see also ZOOKEEPER-1455).
         try {
             if ((clientConfig.getJaasConfKey() != null)
@@ -599,14 +599,14 @@ public class ZooKeeperSaslClient {
                 if (isComplete() || isFailed()) {
                     if (gotLastPacket == false) {
                         // ..but still in progress, because there is a final SASL
-                        // message from server which must be received.
+                        // message from provider which must be received.
                     return true;
                     }
                 }
             }
-            // Either client is not configured to use a tunnelled authentication
+            // Either consumer is not configured to use a tunnelled authentication
             // scheme, or tunnelled authentication has completed (successfully or
-            // not), and all server SASL messages have been received.
+            // not), and all provider SASL messages have been received.
             return false;
         } catch (SecurityException e) {
             // Thrown if the caller does not have permission to retrieve the Configuration.

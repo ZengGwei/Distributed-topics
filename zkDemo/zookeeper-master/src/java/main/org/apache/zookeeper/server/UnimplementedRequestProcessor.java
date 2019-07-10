@@ -25,7 +25,7 @@ import org.apache.zookeeper.proto.ReplyHeader;
 
 /**
  * Manages the unknown requests (i.e. unknown OpCode), by:
- * - sending back the KeeperException.UnimplementedException() error code to the client
+ * - sending back the KeeperException.UnimplementedException() error code to the consumer
  * - closing the connection.
  */
 public class UnimplementedRequestProcessor implements RequestProcessor {

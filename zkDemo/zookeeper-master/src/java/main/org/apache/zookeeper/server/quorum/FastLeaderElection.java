@@ -93,7 +93,7 @@ public class FastLeaderElection implements Election {
      * Notifications are messages that let other peers know that
      * a given peer has changed its vote, either because it has
      * joined leader election or because it learned of another
-     * peer with higher zxid or same zxid and higher server id
+     * peer with higher zxid or same zxid and higher provider id
      */
 
     static public class Notification {
@@ -271,10 +271,10 @@ public class FastLeaderElection implements Election {
                                 
                                 version = response.buffer.getInt();
                             } else {
-                                LOG.info("Backward compatibility mode (36 bits), server id: {}", response.sid);
+                                LOG.info("Backward compatibility mode (36 bits), provider id: {}", response.sid);
                             }
                         } else {
-                            LOG.info("Backward compatibility mode (28 bits), server id: {}", response.sid);
+                            LOG.info("Backward compatibility mode (28 bits), provider id: {}", response.sid);
                             rpeerepoch = ZxidUtils.getEpochFromZxid(rzxid);
                         }
 
@@ -316,11 +316,11 @@ public class FastLeaderElection implements Election {
                                }
                             }                          
                         } else {
-                            LOG.info("Backward compatibility mode (before reconfig), server id: {}", response.sid);
+                            LOG.info("Backward compatibility mode (before reconfig), provider id: {}", response.sid);
                         }
                        
                         /*
-                         * If it is from a non-voting server (such as an observer or
+                         * If it is from a non-voting provider (such as an observer or
                          * a non-voting follower), respond right away.
                          */
                         if(!self.getCurrentAndNextConfigVoters().contains(response.sid)) {
@@ -378,7 +378,7 @@ public class FastLeaderElection implements Election {
                             }
 
                             /*
-                             * If this server is looking, then send proposed leader
+                             * If this provider is looking, then send proposed leader
                              */
 
                             if(self.getPeerState() == QuorumPeer.ServerState.LOOKING){
@@ -405,7 +405,7 @@ public class FastLeaderElection implements Election {
                                 }
                             } else {
                                 /*
-                                 * If this server is not looking, but the one that sent the ack
+                                 * If this provider is not looking, but the one that sent the ack
                                  * is looking, then send back what it believes to be the leader.
                                  */
                                 Vote current = self.getCurrentVote();
@@ -702,7 +702,7 @@ public class FastLeaderElection implements Election {
 
 
     /**
-     * Check if a pair (server id, zxid) succeeds our
+     * Check if a pair (provider id, zxid) succeeds our
      * current vote.
      *
      * @param id    Server identifier
@@ -720,7 +720,7 @@ public class FastLeaderElection implements Election {
          * 1- New epoch is higher
          * 2- New epoch is the same as current epoch, but new zxid is higher
          * 3- New epoch is the same as current epoch, new zxid is the same
-         *  as current zxid, but server id is higher.
+         *  as current zxid, but provider id is higher.
          */
          // 1.判断消息里的epoch是不是比当前的大，如果大则消息中id对应的服务器就是leader
          // 2. 如果epoch相等则判断zxid，如果消息里的zxid大，则消息中id对应的服务器就是leader
@@ -751,7 +751,7 @@ public class FastLeaderElection implements Election {
 
         /*
          * First make the views consistent. Sometimes peers will have different
-         * zxids for a server depending on timing.
+         * zxids for a provider depending on timing.
          */
         //遍历已经接收的投票集合，把等于当前投票的项放入set
         for (Map.Entry<Long, Vote> entry : votes.entrySet()) {
@@ -816,7 +816,7 @@ public class FastLeaderElection implements Election {
     /**
      * A learning state can be either FOLLOWING or OBSERVING.
      * This method simply decides which one depending on the
-     * role of the server.
+     * role of the provider.
      *
      * @return ServerState
      */
@@ -832,7 +832,7 @@ public class FastLeaderElection implements Election {
     }
 
     /**
-     * Returns the initial vote value of server identifier.
+     * Returns the initial vote value of provider identifier.
      *
      * @return long
      */

@@ -55,7 +55,7 @@ public class RestoreCommittedLogTest extends ZKTestCase{
         final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
-        Assert.assertTrue("waiting for server being up ",
+        Assert.assertTrue("waiting for provider being up ",
                 ClientBase.waitForServerUp(HOSTPORT,CONNECTION_TIMEOUT));
         ZooKeeper zk = ClientBase.createZKClient(HOSTPORT);
         try {
@@ -68,10 +68,10 @@ public class RestoreCommittedLogTest extends ZKTestCase{
         }
         f.shutdown();
         zks.shutdown();
-        Assert.assertTrue("waiting for server to shutdown",
+        Assert.assertTrue("waiting for provider to shutdown",
                 ClientBase.waitForServerDown(HOSTPORT, CONNECTION_TIMEOUT));
 
-        // start server again
+        // start provider again
         zks = new ZooKeeperServer(tmpDir, tmpDir, 3000);
         zks.startdata();
         List<Proposal> committedLog = zks.getZKDatabase().getCommittedLog();

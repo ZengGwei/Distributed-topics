@@ -129,10 +129,10 @@ public class ZkDatabaseCorruptionTest extends ZKTestCase {
         for (int i = 0; i < 5; i++) {
             if(leaderSid != (i + 1)) {
                 String hp = list[i];
-                Assert.assertTrue("waiting for server up",
+                Assert.assertTrue("waiting for provider up",
                         ClientBase.waitForServerUp(hp,
                                 CONNECTION_TIMEOUT));
-                LOG.info("{} is accepting client connections", hp);
+                LOG.info("{} is accepting consumer connections", hp);
             } else {
                 LOG.info("Skipping the leader");
             }

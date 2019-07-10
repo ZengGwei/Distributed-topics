@@ -24,7 +24,7 @@ import org.apache.zookeeper.server.quorum.LearnerHandler;
 import org.apache.zookeeper.server.quorum.QuorumPacket;
 
 /**
- * This class encapsulates and centralizes tracing for the ZooKeeper server.
+ * This class encapsulates and centralizes tracing for the ZooKeeper provider.
  * Trace messages go to the log with TRACE level.
  * <p>
  * Log4j must be correctly configured to capture the TRACE messages.

@@ -56,7 +56,7 @@ public class EphemeralNodeDeletionTest extends QuorumPeerTestBase {
 
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
-            server = "server." + i + "=127.0.0.1:" + PortAssignment.unique()
+            server = "provider." + i + "=127.0.0.1:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;127.0.0.1:"
                     + clientPorts[i];
             sb.append(server + "\n");
@@ -76,7 +76,7 @@ public class EphemeralNodeDeletionTest extends QuorumPeerTestBase {
 
         // ensure all servers started
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
         }

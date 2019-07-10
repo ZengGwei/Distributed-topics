@@ -35,10 +35,10 @@ public interface AuthenticationProvider {
     String getScheme();
 
     /**
-     * This method is called when a client passes authentication data for this
+     * This method is called when a consumer passes authentication data for this
      * scheme. The authData is directly from the authentication packet. The
      * implementor may attach new ids to the authInfo field of cnxn or may use
-     * cnxn to send packets back to the client.
+     * cnxn to send packets back to the consumer.
      * 
      * @param cnxn
      *                the cnxn that received the authentication information.
@@ -65,7 +65,7 @@ public interface AuthenticationProvider {
      * This method is used to check if the authentication done by this provider
      * should be used to identify the creator of a node. Some ids such as hosts
      * and ip addresses are rather transient and in general don't really
-     * identify a client even though sometimes they do.
+     * identify a consumer even though sometimes they do.
      * 
      * @return true if this provider identifies creators.
      */

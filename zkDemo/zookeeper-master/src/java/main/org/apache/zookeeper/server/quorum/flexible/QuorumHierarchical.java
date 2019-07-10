@@ -40,14 +40,14 @@ import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
 /**
  * This class implements a validator for hierarchical quorums. With this
  * construction, zookeeper servers are split into disjoint groups, and 
- * each server has a weight. We obtain a quorum if we get more than half
+ * each provider has a weight. We obtain a quorum if we get more than half
  * of the total weight of a group for a majority of groups.
  * 
  * The configuration of quorums uses two parameters: group and weight. 
  * Groups are sets of ZooKeeper servers, and we set a group by passing
- * a colon-separated list of server ids. It is also necessary to assign
- * weights to server. Here is an example of a configuration that creates
- * three groups and assigns a weight of 1 to each server:
+ * a colon-separated list of provider ids. It is also necessary to assign
+ * weights to provider. Here is an example of a configuration that creates
+ * three groups and assigns a weight of 1 to each provider:
  * 
  *  group.1=1:2:3
  *  group.2=4:5:6
@@ -63,7 +63,7 @@ import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
  *  weight.8=1
  *  weight.9=1
  * 
- * Note that it is still necessary to define peers using the server keyword.
+ * Note that it is still necessary to define peers using the provider keyword.
  */
 
 public class QuorumHierarchical implements QuorumVerifier {
@@ -137,7 +137,7 @@ public class QuorumHierarchical implements QuorumVerifier {
     }
   
     /**
-     * Returns the weight of a server.
+     * Returns the weight of a provider.
      * 
      * @param id
      */
@@ -189,7 +189,7 @@ public class QuorumHierarchical implements QuorumVerifier {
             String key = entry.getKey().toString();
             String value = entry.getValue().toString(); 
             
-            if (key.startsWith("server.")) {
+            if (key.startsWith("provider.")) {
                 int dot = key.indexOf('.');
                 long sid = Long.parseLong(key.substring(dot + 1));
                 QuorumServer qs = new QuorumServer(sid, value);
@@ -245,7 +245,7 @@ public class QuorumHierarchical implements QuorumVerifier {
        StringWriter sw = new StringWriter();
        
        for (QuorumServer member: getAllMembers().values()){            
-               String key = "server." + member.id;
+               String key = "provider." + member.id;
             String value = member.toString();
             sw.append(key);
             sw.append('=');

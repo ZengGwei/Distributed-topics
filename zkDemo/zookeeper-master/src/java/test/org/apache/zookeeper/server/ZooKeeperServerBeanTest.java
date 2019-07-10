@@ -39,7 +39,7 @@ public class ZooKeeperServerBeanTest {
     @Before
     public void setup() {
         System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY,
-                "org.apache.zookeeper.server.NettyServerCnxnFactory");
+                "org.apache.zookeeper.provider.NettyServerCnxnFactory");
     }
 
     @After
@@ -84,7 +84,7 @@ public class ZooKeeperServerBeanTest {
     public void testGetSecureClientPort() throws IOException {
         ZooKeeperServer zks = new ZooKeeperServer();
         /**
-         * case 1: When secure client is not configured GetSecureClientPort
+         * case 1: When secure consumer is not configured GetSecureClientPort
          * should return empty string
          */
         ZooKeeperServerBean serverBean = new ZooKeeperServerBean(zks);
@@ -92,7 +92,7 @@ public class ZooKeeperServerBeanTest {
         assertEquals("", result);
 
         /**
-         * case 2: When secure client is configured GetSecureClientPort should
+         * case 2: When secure consumer is configured GetSecureClientPort should
          * return configured port
          */
 
@@ -114,7 +114,7 @@ public class ZooKeeperServerBeanTest {
     public void testGetSecureClientAddress() throws IOException {
         ZooKeeperServer zks = new ZooKeeperServer();
         /**
-         * case 1: When secure client is not configured getSecureClientAddress
+         * case 1: When secure consumer is not configured getSecureClientAddress
          * should return empty string
          */
         ZooKeeperServerBean serverBean = new ZooKeeperServerBean(zks);
@@ -122,7 +122,7 @@ public class ZooKeeperServerBeanTest {
         assertEquals("", result);
 
         /**
-         * case 2: When secure client is configured getSecureClientAddress
+         * case 2: When secure consumer is configured getSecureClientAddress
          * should return configured SecureClientAddress
          */
 

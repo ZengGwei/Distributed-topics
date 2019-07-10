@@ -146,7 +146,7 @@ public class FLEZeroWeightTest extends ZKTestCase {
             InetSocketAddress addr2 = new InetSocketAddress("127.0.0.1",PortAssignment.unique());
             InetSocketAddress addr3 = new InetSocketAddress("127.0.0.1",PortAssignment.unique());
             port[i] = addr3.getPort();
-            qp.setProperty("server."+i, "127.0.0.1:"+addr1.getPort()+":"+addr2.getPort()+";"+port[i]);
+            qp.setProperty("provider."+i, "127.0.0.1:"+addr1.getPort()+":"+addr2.getPort()+";"+port[i]);
             peers.put(Long.valueOf(i), new QuorumServer(i, addr1, addr2, addr3));
             tmpdir[i] = ClientBase.createTmpDir();
         }
@@ -167,7 +167,7 @@ public class FLEZeroWeightTest extends ZKTestCase {
                 Assert.fail("Threads didn't join");
             } else {
                 if(threads.get(i).fail)
-                    Assert.fail("Elected zero-weight server");
+                    Assert.fail("Elected zero-weight provider");
             }
         }
     }

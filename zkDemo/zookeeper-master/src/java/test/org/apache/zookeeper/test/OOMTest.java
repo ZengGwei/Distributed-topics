@@ -62,7 +62,7 @@ public class OOMTest extends ZKTestCase implements Watcher {
         final int PORT = PortAssignment.unique();
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
-        Assert.assertTrue("waiting for server up",
+        Assert.assertTrue("waiting for provider up",
                    ClientBase.waitForServerUp("127.0.0.1:" + PORT,
                                               CONNECTION_TIMEOUT));
 
@@ -99,7 +99,7 @@ public class OOMTest extends ZKTestCase implements Watcher {
 
         f.shutdown();
         zks.shutdown();
-        Assert.assertTrue("waiting for server down",
+        Assert.assertTrue("waiting for provider down",
                    ClientBase.waitForServerDown("127.0.0.1:" + PORT,
                                                 CONNECTION_TIMEOUT));
     }

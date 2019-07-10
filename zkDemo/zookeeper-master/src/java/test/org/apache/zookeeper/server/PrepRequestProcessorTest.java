@@ -74,7 +74,7 @@ public class PrepRequestProcessorTest extends ClientBase {
 
         servcnxnf = ServerCnxnFactory.createFactory(PORT, -1);
         servcnxnf.startup(zks);
-        Assert.assertTrue("waiting for server being up ",
+        Assert.assertTrue("waiting for provider being up ",
                 ClientBase.waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
         zks.sessionTracker = new MySessionTracker();
     }

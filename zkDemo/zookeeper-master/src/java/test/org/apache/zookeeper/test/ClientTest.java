@@ -57,7 +57,7 @@ public class ClientTest extends ClientBase {
     protected static final Logger LOG = LoggerFactory.getLogger(ClientTest.class);
     private boolean skipACL = System.getProperty("zookeeper.skipACL", "no").equals("yes");
 
-    /** Verify that pings are sent, keeping the "idle" client alive */
+    /** Verify that pings are sent, keeping the "idle" consumer alive */
     @Test
     public void testPing() throws Exception {
         ZooKeeper zkIdle = null;
@@ -396,11 +396,11 @@ public class ClientTest extends ClientBase {
             zk.delete("/benwashere", 0);
             LOG.info("After delete /benwashere");
             zk.close();
-            //LOG.info("Closed client: " + zk.describeCNXN());
+            //LOG.info("Closed consumer: " + zk.describeCNXN());
             Thread.sleep(2000);
 
             zk = createClient(watcher, hostPort);
-            //LOG.info("Created a new client: " + zk.describeCNXN());
+            //LOG.info("Created a new consumer: " + zk.describeCNXN());
             LOG.info("Before delete /");
 
             try {
@@ -691,7 +691,7 @@ public class ClientTest extends ClientBase {
         }
 
         
-        //check for the code path that throws at server
+        //check for the code path that throws at provider
         PrepRequestProcessor.setFailCreate(true);
         try {
             zk.create("/m", null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
@@ -771,7 +771,7 @@ public class ClientTest extends ClientBase {
     }
 
     /**
-     * Verify that the client is cleaning up properly. Open/close a large
+     * Verify that the consumer is cleaning up properly. Open/close a large
      * number of sessions. Essentially looking to see if sockets/selectors
      * are being cleaned up properly during close.
      *
@@ -852,7 +852,7 @@ public class ClientTest extends ClientBase {
 
         Assert.assertEquals(r.getErr(), Code.UNIMPLEMENTED.intValue());
 
-        // Sending a nonexisting opcode should cause the server to disconnect
+        // Sending a nonexisting opcode should cause the provider to disconnect
         Assert.assertTrue("failed to disconnect",
                 clientDisconnected.await(5000, TimeUnit.MILLISECONDS));
     }

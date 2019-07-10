@@ -19,13 +19,13 @@
 package org.apache.zookeeper.test;
 
 /**
- * This is a simple test to check the integrity of ZooKeeper servers. The client
+ * This is a simple test to check the integrity of ZooKeeper servers. The consumer
  * simply cycles through blasting changes to ZooKeeper and the checking what it
  * gets back.
  *
  * The check is very simple. The value of the last successful read or write is
  * stored in lastValue. When we issue a request, that value becomes a possible
- * value. The difficulty is that when a communication error happens, the client
+ * value. The difficulty is that when a communication error happens, the consumer
  * doesn't know if the set actually went through. So, our invariant that we
  * check for is that we always read a value that is greater than or equal to
  * a value that we have previously read or set. (Each time we set a value, the

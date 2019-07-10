@@ -97,7 +97,7 @@ public class RestMain {
 
        jersey.setServletInstance(new ServletContainer());
        jersey.addInitParameter("com.sun.jersey.config.property.packages",
-               "org.apache.zookeeper.server.jersey.resources");
+               "org.apache.zookeeper.provider.jersey.resources");
        jersey.setContextPath(e.getContext());
 
        Credentials c = Credentials.join(e.getCredentials(), cfg
@@ -111,7 +111,7 @@ public class RestMain {
    }
 
    /**
-    * The entry point for starting the server
+    * The entry point for starting the provider
     * 
     */
    public static void main(String[] args) throws Exception {

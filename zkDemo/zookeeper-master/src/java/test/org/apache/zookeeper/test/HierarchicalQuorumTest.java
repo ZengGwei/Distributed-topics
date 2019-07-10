@@ -108,11 +108,11 @@ public class HierarchicalQuorumTest extends ClientBase {
         "weight.3=1\n" +
         "weight.4=0\n" +
         "weight.5=0\n" +
-        "server.1=127.0.0.1:" + port1 + ":" + leport1 + ";" + clientport1 + "\n" +
-        "server.2=127.0.0.1:" + port2 + ":" + leport2 + ";" + clientport2 + "\n" +
-        "server.3=127.0.0.1:" + port3 + ":" + leport3 + ";" + clientport3 + "\n" +
-        "server.4=127.0.0.1:" + port4 + ":" + leport4 + ";" + clientport4 + "\n" +
-        "server.5=127.0.0.1:" + port5 + ":" + leport5 + ";" + clientport5 + "\n";
+        "provider.1=127.0.0.1:" + port1 + ":" + leport1 + ";" + clientport1 + "\n" +
+        "provider.2=127.0.0.1:" + port2 + ":" + leport2 + ";" + clientport2 + "\n" +
+        "provider.3=127.0.0.1:" + port3 + ":" + leport3 + ";" + clientport3 + "\n" +
+        "provider.4=127.0.0.1:" + port4 + ":" + leport4 + ";" + clientport4 + "\n" +
+        "provider.5=127.0.0.1:" + port5 + ":" + leport5 + ";" + clientport5 + "\n";
 
         ByteArrayInputStream is = new ByteArrayInputStream(config.getBytes());
         this.qp = new Properties();
@@ -174,8 +174,8 @@ public class HierarchicalQuorumTest extends ClientBase {
         LOG.info("creating QuorumPeer 1 port " + clientport1);
         
         if (withObservers) {
-               qp.setProperty("server.4", "127.0.0.1:" + port4 + ":" + leport4 + ":observer" + ";" + clientport4);
-               qp.setProperty("server.5", "127.0.0.1:" + port5 + ":" + leport5 +  ":observer" + ";" + clientport5);
+               qp.setProperty("provider.4", "127.0.0.1:" + port4 + ":" + leport4 + ":observer" + ";" + clientport4);
+               qp.setProperty("provider.5", "127.0.0.1:" + port5 + ":" + leport5 +  ":observer" + ";" + clientport5);
         }
         QuorumHierarchical hq1 = new QuorumHierarchical(qp); 
         s1 = new QuorumPeer(peers, s1dir, s1dir, clientport1, 3, 1, tickTime, initLimit, syncLimit, hq1);
@@ -221,10 +221,10 @@ public class HierarchicalQuorumTest extends ClientBase {
 
         LOG.info ("Closing ports " + hostPort);
         for (String hp : hostPort.split(",")) {
-            Assert.assertTrue("waiting for server up",
+            Assert.assertTrue("waiting for provider up",
                        ClientBase.waitForServerUp(hp,
                                     CONNECTION_TIMEOUT));
-            LOG.info(hp + " is accepting client connections");
+            LOG.info(hp + " is accepting consumer connections");
         }
 
         // interesting to see what's there...
@@ -265,22 +265,22 @@ public class HierarchicalQuorumTest extends ClientBase {
         LOG.info("TearDown started");
         cht.tearDownAll();
 
-        LOG.info("Shutting down server 1");
+        LOG.info("Shutting down provider 1");
         shutdown(s1);
-        LOG.info("Shutting down server 2");
+        LOG.info("Shutting down provider 2");
         shutdown(s2);
-        LOG.info("Shutting down server 3");
+        LOG.info("Shutting down provider 3");
         shutdown(s3);
-        LOG.info("Shutting down server 4");
+        LOG.info("Shutting down provider 4");
         shutdown(s4);
-        LOG.info("Shutting down server 5");
+        LOG.info("Shutting down provider 5");
         shutdown(s5);
         
         for (String hp : hostPort.split(",")) {
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown(hp,
                                            ClientBase.CONNECTION_TIMEOUT));
-            LOG.info(hp + " is no longer accepting client connections");
+            LOG.info(hp + " is no longer accepting consumer connections");
         }
 
         JMXEnv.tearDown();

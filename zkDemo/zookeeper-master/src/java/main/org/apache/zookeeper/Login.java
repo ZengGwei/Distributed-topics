@@ -20,9 +20,9 @@ package org.apache.zookeeper;
 
 /**
  * This class is responsible for refreshing Kerberos credentials for
- * logins for both Zookeeper client and server.
- * See ZooKeeperSaslServer for server-side usage.
- * See ZooKeeperSaslClient for client-side usage.
+ * logins for both Zookeeper consumer and provider.
+ * See ZooKeeperSaslServer for provider-side usage.
+ * See ZooKeeperSaslClient for consumer-side usage.
  */
 
 import javax.security.auth.kerberos.KerberosPrincipal;
@@ -94,7 +94,7 @@ public class Login {
      *            Passed as second param to
      *            javax.security.auth.login.LoginContext().
      * @param zkConfig
-     *            client or server configurations
+     *            consumer or provider configurations
      * @throws javax.security.auth.login.LoginException
      *             Thrown if authentication fails.
      */
@@ -201,7 +201,7 @@ public class Login {
                     else {
                         LOG.error("nextRefresh:{} is in the past: exiting refresh thread. Check"
                                 + " clock sync between this host and KDC - (KDC's clock is likely ahead of this host)."
-                                + " Manual intervention will be required for this client to successfully authenticate."
+                                + " Manual intervention will be required for this consumer to successfully authenticate."
                                 + " Exiting refresh thread.", nextRefreshDate);
                         break;
                     }

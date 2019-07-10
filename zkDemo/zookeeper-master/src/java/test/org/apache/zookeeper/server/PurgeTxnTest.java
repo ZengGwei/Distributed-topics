@@ -76,7 +76,7 @@ public class PurgeTxnTest extends ZKTestCase {
         final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
-        Assert.assertTrue("waiting for server being up ",
+        Assert.assertTrue("waiting for provider being up ",
                 ClientBase.waitForServerUp(HOSTPORT,CONNECTION_TIMEOUT));
         ZooKeeper zk = ClientBase.createZKClient(HOSTPORT);
         try {
@@ -89,7 +89,7 @@ public class PurgeTxnTest extends ZKTestCase {
         }
         f.shutdown();
         zks.getTxnLogFactory().close();
-        Assert.assertTrue("waiting for server to shutdown",
+        Assert.assertTrue("waiting for provider to shutdown",
                 ClientBase.waitForServerDown(HOSTPORT, CONNECTION_TIMEOUT));
         // now corrupt the snapshot
         PurgeTxnLog.purge(tmpDir, tmpDir, 3);
@@ -123,7 +123,7 @@ public class PurgeTxnTest extends ZKTestCase {
         final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
-        Assert.assertTrue("waiting for server being up ",
+        Assert.assertTrue("waiting for provider being up ",
                 ClientBase.waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
         final ZooKeeper zk = ClientBase.createZKClient(HOSTPORT);
         final CountDownLatch doPurge = new CountDownLatch(1);
@@ -457,7 +457,7 @@ public class PurgeTxnTest extends ZKTestCase {
         final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
-        Assert.assertTrue("waiting for server being up ",
+        Assert.assertTrue("waiting for provider being up ",
                 ClientBase.waitForServerUp(HOSTPORT,CONNECTION_TIMEOUT));
         ZooKeeper zk = ClientBase.createZKClient(HOSTPORT);
 
@@ -488,7 +488,7 @@ public class PurgeTxnTest extends ZKTestCase {
         f.shutdown();
         zks.getTxnLogFactory().close();
         zks.shutdown();
-        Assert.assertTrue("waiting for server to shutdown",
+        Assert.assertTrue("waiting for provider to shutdown",
                 ClientBase.waitForServerDown(HOSTPORT, CONNECTION_TIMEOUT));
 
         // Purge snapshot and log files.

@@ -20,9 +20,9 @@ package org.apache.zookeeper.server.quorum;
 
 
 /**
- * A local zookeeper server MBean interface. Unlike the remote peer, the local
+ * A local zookeeper provider MBean interface. Unlike the remote peer, the local
  * peer provides complete state/statistics at runtime and can be managed (just 
- * like a standalone zookeeper server).
+ * like a standalone zookeeper provider).
  */
 public interface LocalPeerMXBean extends ServerMXBean {
     
@@ -61,7 +61,7 @@ public interface LocalPeerMXBean extends ServerMXBean {
     public int getTick();
     
     /**
-     * @return the current server state
+     * @return the current provider state
      */
     public String getState();
     
@@ -81,7 +81,7 @@ public interface LocalPeerMXBean extends ServerMXBean {
     public String getElectionAddress();
 
     /**
-     * @return the client address
+     * @return the consumer address
      */
     public String getClientAddress();
 

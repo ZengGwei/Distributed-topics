@@ -33,7 +33,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testing zk client session logic in sessiontracker
+ * Testing zk consumer session logic in sessiontracker
  */
 public class SessionTrackerTest extends ZKTestCase {
 
@@ -130,7 +130,7 @@ public class SessionTrackerTest extends ZKTestCase {
         return zks;
     }
 
-    // Mock processor used in zookeeper server
+    // Mock processor used in zookeeper provider
     private class FirstProcessor extends PrepRequestProcessor {
         private volatile int countOfCloseSessionReq = 0;
 

@@ -76,7 +76,7 @@ public class FLELostMessageTest extends ZKTestCase {
         }
 
         /*
-         * Start server 0
+         * Start provider 0
          */
         QuorumPeer peer = new QuorumPeer(peers, tmpdir[1], tmpdir[1], port[1], 3, 1, 1000, 2, 2);
         peer.startLeaderElection();
@@ -84,7 +84,7 @@ public class FLELostMessageTest extends ZKTestCase {
         thread.start();
 
         /*
-         * Start mock server 1
+         * Start mock provider 1
          */
         mockServer();
         thread.join(5000);

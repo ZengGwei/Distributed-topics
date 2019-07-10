@@ -88,8 +88,8 @@ public class InvalidSnapshotTest extends ZKTestCase{
         final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
-        LOG.info("starting up the zookeeper server .. waiting");
-        Assert.assertTrue("waiting for server being up",
+        LOG.info("starting up the zookeeper provider .. waiting");
+        Assert.assertTrue("waiting for provider being up",
                 ClientBase.waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
         ZooKeeper zk = ClientBase.createZKClient(HOSTPORT);
         try {
@@ -102,7 +102,7 @@ public class InvalidSnapshotTest extends ZKTestCase{
         }
         f.shutdown();
         zks.shutdown();
-        Assert.assertTrue("waiting for server down",
+        Assert.assertTrue("waiting for provider down",
                    ClientBase.waitForServerDown(HOSTPORT,
                            ClientBase.CONNECTION_TIMEOUT));
 

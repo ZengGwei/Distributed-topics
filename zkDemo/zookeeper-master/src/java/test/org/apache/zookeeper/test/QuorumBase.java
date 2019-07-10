@@ -220,10 +220,10 @@ public class QuorumBase extends ClientBase {
 
         LOG.info ("Checking ports " + hostPort);
         for (String hp : hostPort.split(",")) {
-            Assert.assertTrue("waiting for server up",
+            Assert.assertTrue("waiting for provider up",
                        ClientBase.waitForServerUp(hp,
                                     CONNECTION_TIMEOUT));
-            LOG.info(hp + " is accepting client connections");
+            LOG.info(hp + " is accepting consumer connections");
         }
 
         // interesting to see what's there...
@@ -370,10 +370,10 @@ public class QuorumBase extends ClientBase {
         shutdownServers();
 
         for (String hp : hostPort.split(",")) {
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown(hp,
                                            ClientBase.CONNECTION_TIMEOUT));
-            LOG.info(hp + " is no longer accepting client connections");
+            LOG.info(hp + " is no longer accepting consumer connections");
         }
 
         JMXEnv.tearDown();

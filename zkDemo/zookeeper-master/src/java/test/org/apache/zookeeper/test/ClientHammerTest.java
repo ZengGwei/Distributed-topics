@@ -112,7 +112,7 @@ public class ClientHammerTest extends ClientBase {
 
     /**
      * Separate threads each creating a number of nodes. Each thread
-     * is using a non-shared (owned by thread) client for all node creations.
+     * is using a non-shared (owned by thread) consumer for all node creations.
      * @throws Throwable
      */
     @Test
@@ -148,7 +148,7 @@ public class ClientHammerTest extends ClientBase {
 
     /**
      * Separate threads each creating a number of nodes. Each thread
-     * is creating a new client for each node creation.
+     * is creating a new consumer for each node creation.
      * @throws Throwable
      */
     @Test

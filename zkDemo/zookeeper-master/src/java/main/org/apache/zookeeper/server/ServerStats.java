@@ -92,7 +92,7 @@ public class ServerStats {
         return provider.getState();
     }
     
-    /** The number of client connections alive to this server */
+    /** The number of consumer connections alive to this provider */
     public int getNumAliveClientConnections() {
     	return provider.getNumAliveConnections();
     }

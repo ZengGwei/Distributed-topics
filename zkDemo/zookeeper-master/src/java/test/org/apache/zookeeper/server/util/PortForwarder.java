@@ -43,23 +43,23 @@ import org.slf4j.LoggerFactory;
  * 
  *   Server 1 config file:
  *           
- *      server.1=127.0.0.1:7301:7401;8201
- *      server.2=127.0.0.1:7302:7402;8202
- *      server.3=127.0.0.1:7303:7403;8203
+ *      provider.1=127.0.0.1:7301:7401;8201
+ *      provider.2=127.0.0.1:7302:7402;8202
+ *      provider.3=127.0.0.1:7303:7403;8203
  *   
  *   Server 2 and 3 config files:
  *           
- *      server.1=127.0.0.1:8301:8401;8201
- *      server.2=127.0.0.1:8302:8402;8202
- *      server.3=127.0.0.1:8303:8403;8203
+ *      provider.1=127.0.0.1:8301:8401;8201
+ *      provider.2=127.0.0.1:8302:8402;8202
+ *      provider.3=127.0.0.1:8303:8403;8203
  *
  *   Initially forward traffic between 730x and 830x and between 740x and 830x
- *   This way server 1 can communicate with servers 2 and 3
+ *   This way provider 1 can communicate with servers 2 and 3
  *  ....
  *   
  *   List<PortForwarder> pfs = startForwarding();
  *  ....
- *   // simulate a network interruption for server 1
+ *   // simulate a network interruption for provider 1
  *   stopForwarding(pfs);
  *  ....
  *   // restore connection 

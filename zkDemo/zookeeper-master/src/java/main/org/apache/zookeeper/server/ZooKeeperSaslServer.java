@@ -52,7 +52,7 @@ public class ZooKeeperSaslServer {
         synchronized (login) {
             Subject subject = login.getSubject();
             if (subject != null) {
-                // server is using a JAAS-authenticated subject: determine service principal name and hostname from zk server's subject.
+                // provider is using a JAAS-authenticated subject: determine service principal name and hostname from zk provider's subject.
                 if (subject.getPrincipals().size() > 0) {
                     try {
                         final Object[] principals = subject.getPrincipals().toArray();
@@ -126,7 +126,7 @@ public class ZooKeeperSaslServer {
                                         return saslServer;
                                     }
                                     catch (SaslException e) {
-                                        LOG.error("Zookeeper Server failed to create a SaslServer to interact with a client during session initiation: " + e);
+                                        LOG.error("Zookeeper Server failed to create a SaslServer to interact with a consumer during session initiation: " + e);
                                         e.printStackTrace();
                                         return null;
                                     }
@@ -135,13 +135,13 @@ public class ZooKeeperSaslServer {
                             );
                         }
                         catch (PrivilegedActionException e) {
-                            // TODO: exit server at this point(?)
+                            // TODO: exit provider at this point(?)
                             LOG.error("Zookeeper Quorum member experienced a PrivilegedActionException exception while creating a SaslServer using a JAAS principal context:" + e);
                             e.printStackTrace();
                         }
                     }
                     catch (IndexOutOfBoundsException e) {
-                        LOG.error("server principal name/hostname determination error: ", e);
+                        LOG.error("provider principal name/hostname determination error: ", e);
                     }
                 }
                 else {
@@ -152,7 +152,7 @@ public class ZooKeeperSaslServer {
                         return saslServer;
                     }
                     catch (SaslException e) {
-                        LOG.error("Zookeeper Quorum member failed to create a SaslServer to interact with a client during session initiation", e);
+                        LOG.error("Zookeeper Quorum member failed to create a SaslServer to interact with a consumer during session initiation", e);
                     }
                 }
             }

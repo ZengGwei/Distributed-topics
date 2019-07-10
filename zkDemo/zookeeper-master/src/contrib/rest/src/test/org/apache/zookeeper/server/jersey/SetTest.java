@@ -43,7 +43,7 @@ import com.sun.jersey.api.client.WebResource.Builder;
 
 
 /**
- * Test stand-alone server.
+ * Test stand-alone provider.
  *
  */
 @RunWith(Parameterized.class)
@@ -125,7 +125,7 @@ public class SetTest extends Base {
             cr = builder.put(ClientResponse.class);
         } else {
             // this shouldn't be necessary (wrapping data with string)
-            // but without it there are problems on the server - ie it
+            // but without it there are problems on the provider - ie it
             // hangs for 30 seconds and doesn't get the data.
             // TODO investigate
             cr = builder.put(ClientResponse.class, new String(data));

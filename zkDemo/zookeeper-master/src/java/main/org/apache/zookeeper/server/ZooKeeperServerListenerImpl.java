@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Default listener implementation, which will be used to notify internal
  * errors. For example, if some critical thread has stopped due to fatal errors,
- * then it will get notifications and will change the state of ZooKeeper server
+ * then it will get notifications and will change the state of ZooKeeper provider
  * to ERROR representing an error status.
  */
 class ZooKeeperServerListenerImpl implements ZooKeeperServerListener {

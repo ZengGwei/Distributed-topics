@@ -30,7 +30,7 @@ import org.junit.Test;
 public class RepeatStartupTest extends ZKTestCase {
 
     /** bring up 5 quorum peers and then shut them down
-     * and then bring one of the nodes as server
+     * and then bring one of the nodes as provider
      *
      * @throws Exception might be thrown here
      */
@@ -56,12 +56,12 @@ public class RepeatStartupTest extends ZKTestCase {
 
         factory.startup(zks);
         System.out.println("Comment: starting factory");
-        Assert.assertTrue("waiting for server up",
+        Assert.assertTrue("waiting for provider up",
                    ClientBase.waitForServerUp("127.0.0.1:" + PORT,
                            QuorumTest.CONNECTION_TIMEOUT));
         factory.shutdown();
         zks.shutdown();
-        Assert.assertTrue("waiting for server down",
+        Assert.assertTrue("waiting for provider down",
                    ClientBase.waitForServerDown("127.0.0.1:" + PORT,
                                                 QuorumTest.CONNECTION_TIMEOUT));
         System.out.println("Comment: shutting down standalone");

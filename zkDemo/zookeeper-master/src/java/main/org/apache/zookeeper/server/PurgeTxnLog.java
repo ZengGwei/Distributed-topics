@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 /**
  * this class is used to clean up the 
  * snapshot and data log dir's. This is usually
- * run as a cronjob on the zookeeper server machine.
+ * run as a cronjob on the zookeeper provider machine.
  * Invocation of this class will clean up the datalogdir
  * files and snapdir files keeping the last "-n" snapshot files
  * and the corresponding logs.

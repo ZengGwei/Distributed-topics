@@ -63,14 +63,14 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
     public synchronized void startup() {
         // check to avoid startup follows shutdown
         if (shutdown) {
-            LOG.warn("Not starting Read-only server as startup follows shutdown!");
+            LOG.warn("Not starting Read-only provider as startup follows shutdown!");
             return;
         }
         registerJMX(new ReadOnlyBean(this), self.jmxLocalPeerBean);
         super.startup();
         self.setZooKeeperServer(this);
         self.adminServer.setZooKeeperServer(this);
-        LOG.info("Read-only server started");
+        LOG.info("Read-only provider started");
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
 
     /**
      * Returns the id of the associated QuorumPeer, which will do for a unique
-     * id of this server.
+     * id of this provider.
      */
     @Override
     public long getServerId() {
@@ -138,20 +138,20 @@ public class ReadOnlyZooKeeperServer extends ZooKeeperServer {
     @Override
     public synchronized void shutdown() {
         if (!canShutdown()) {
-            LOG.debug("ZooKeeper server is not running, so not proceeding to shutdown!");
+            LOG.debug("ZooKeeper provider is not running, so not proceeding to shutdown!");
             return;
         }
         shutdown = true;
         unregisterJMX(this);
 
-        // set peer's server to null
+        // set peer's provider to null
         self.setZooKeeperServer(null);
         // clear all the connections
         self.closeAllConnections();
 
         self.adminServer.setZooKeeperServer(null);
 
-        // shutdown the server itself
+        // shutdown the provider itself
         super.shutdown();
     }
 

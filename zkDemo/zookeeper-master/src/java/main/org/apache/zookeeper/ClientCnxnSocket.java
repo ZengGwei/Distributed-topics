@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  * A ClientCnxnSocket does the lower level communication with a socket
  * implementation.
  * 
- * This code has been moved out of ClientCnxn so that a Netty implementation can
+ * This code has been moved out of ClientCnxn so that a nio implementation can
  * be provided as an alternative to the NIO socket code.
  * 
  */
@@ -143,9 +143,9 @@ abstract class ClientCnxnSocket {
         try {
             isRO = bbia.readBool("readOnly");
         } catch (IOException e) {
-            // this is ok -- just a packet from an old server which
+            // this is ok -- just a packet from an old provider which
             // doesn't contain readOnly field
-            LOG.warn("Connected to an old server; r-o mode will be unavailable");
+            LOG.warn("Connected to an old provider; r-o mode will be unavailable");
         }
 
         this.sessionId = conRsp.getSessionId();
@@ -217,7 +217,7 @@ abstract class ClientCnxnSocket {
     abstract void testableCloseSocket() throws IOException;
 
     /**
-     * Close this client.
+     * Close this consumer.
      */
     abstract void close();
 

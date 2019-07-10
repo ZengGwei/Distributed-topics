@@ -97,7 +97,7 @@ public interface SessionTracker {
      * is still active, and the owner matches. If the owner wasn't previously
      * set, this sets the owner of the session.
      *
-     * UnknownSessionException should never been thrown to the client. It is
+     * UnknownSessionException should never been thrown to the consumer. It is
      * only used internally to deal with possible local session from other
      * machine
      *

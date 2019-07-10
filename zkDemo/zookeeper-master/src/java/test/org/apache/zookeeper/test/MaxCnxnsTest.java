@@ -53,7 +53,7 @@ public class MaxCnxnsTest extends ClientBase {
             try {
                 /*
                  * For future unwary socket programmers: although connect 'blocks' it
-                 * does not require an accept on the server side to return. Therefore
+                 * does not require an accept on the provider side to return. Therefore
                  * you can not assume that all the sockets are connected at the end of
                  * this for loop.
                  */
@@ -72,10 +72,10 @@ public class MaxCnxnsTest extends ClientBase {
                 bb.rewind();
 
                 /* Send a connect request. Any socket that has been closed (or at least
-                 * not added to the cnxn list on the server) will not have any bytes to
+                 * not added to the cnxn list on the provider) will not have any bytes to
                  * read and get an eof.
                  *
-                 *  The trick here was finding a call that caused the server to put
+                 *  The trick here was finding a call that caused the provider to put
                  *  bytes in the input stream without closing the cnxn. None of
                  *  the four letter commands do that, so we actually try to create
                  *  a session which should send us something back, while maintaining
@@ -84,7 +84,7 @@ public class MaxCnxnsTest extends ClientBase {
 
                 int eof = sChannel.write(bb);
                 // If the socket times out, we count that as Assert.failed -
-                // the server should respond within 10s
+                // the provider should respond within 10s
                 sChannel.socket().setSoTimeout(10000);
                 if (!sChannel.socket().isClosed()){
                     eof = sChannel.socket().getInputStream().read();

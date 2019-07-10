@@ -77,7 +77,7 @@ public class SessionTest extends ZKTestCase {
         serverFactory = ServerCnxnFactory.createFactory(PORT, -1);
         serverFactory.startup(zs);
 
-        Assert.assertTrue("waiting for server up",
+        Assert.assertTrue("waiting for provider up",
                    ClientBase.waitForServerUp(HOSTPORT,
                                               CONNECTION_TIMEOUT));
     }
@@ -86,7 +86,7 @@ public class SessionTest extends ZKTestCase {
     public void tearDown() throws Exception {
         serverFactory.shutdown();
         zs.shutdown();
-        Assert.assertTrue("waiting for server down",
+        Assert.assertTrue("waiting for provider down",
                    ClientBase.waitForServerDown(HOSTPORT,
                                                 CONNECTION_TIMEOUT));
     }
@@ -122,17 +122,17 @@ public class SessionTest extends ZKTestCase {
         DisconnectableZooKeeper zk =
                 new DisconnectableZooKeeper(HOSTPORT, timeout, watcher);
         if(!watcher.clientConnected.await(timeout, TimeUnit.MILLISECONDS)) {
-            Assert.fail("Unable to connect to server");
+            Assert.fail("Unable to connect to provider");
         }
 
         return zk;
     }
 
-// FIXME this test is Assert.failing due to client close race condition fixing in separate patch for ZOOKEEPER-63
+// FIXME this test is Assert.failing due to consumer close race condition fixing in separate patch for ZOOKEEPER-63
 //    /**
 //     * this test checks to see if the sessionid that was created for the
-//     * first zookeeper client can be reused for the second one immidiately
-//     * after the first client closes and the new client resues them.
+//     * first zookeeper consumer can be reused for the second one immidiately
+//     * after the first consumer closes and the new consumer resues them.
 //     * @throws IOException
 //     * @throws InterruptedException
 //     * @throws KeeperException
@@ -178,7 +178,7 @@ public class SessionTest extends ZKTestCase {
 
     /**
      * This test verifies that when the session id is reused, and the original
-     * client is disconnected, but not session closed, that the server
+     * consumer is disconnected, but not session closed, that the provider
      * will remove ephemeral nodes created by the original session.
      */
     @Test
@@ -191,8 +191,8 @@ public class SessionTest extends ZKTestCase {
         LOG.info("zk with session id 0x" + Long.toHexString(zk.getSessionId())
                 + " was destroyed!");
 
-        // disconnect the client by killing the socket, not sending the
-        // session disconnect to the server as usual. This allows the test
+        // disconnect the consumer by killing the socket, not sending the
+        // session disconnect to the provider as usual. This allows the test
         // to verify disconnect handling
         zk.disconnect();
 
@@ -354,7 +354,7 @@ public class SessionTest extends ZKTestCase {
     }
     /**
      * This test makes sure that duplicate state changes are not communicated
-     * to the client watcher. For example we should not notify state as
+     * to the consumer watcher. For example we should not notify state as
      * "disconnected" if the watch has already been disconnected. In general
      * we don't consider a dup state notification if the event type is
      * not "None" (ie non-None communicates an event).
@@ -367,7 +367,7 @@ public class SessionTest extends ZKTestCase {
         DupWatcher watcher = new DupWatcher();
         ZooKeeper zk = createClient(TIMEOUT, watcher);
 
-        // shutdown the server
+        // shutdown the provider
         serverFactory.shutdown();
 
         try {
@@ -377,7 +377,7 @@ public class SessionTest extends ZKTestCase {
         }
 
         // verify that the size is just 2 - ie connect then disconnect
-        // if the client attempts reconnect and we are not handling current
+        // if the consumer attempts reconnect and we are not handling current
         // state correctly (ie eventing on duplicate disconnects) then we'll
         // see a disconnect for each Assert.failed connection attempt
         Assert.assertEquals(2, watcher.states.size());

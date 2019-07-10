@@ -111,7 +111,7 @@ public class WatcherFuncTest extends ClientBase {
     {
         ZooKeeper zk = new ZooKeeper(hostPort, CONNECTION_TIMEOUT, watcher);
         if(!latch.await(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS)){
-            Assert.fail("Unable to connect to server");
+            Assert.fail("Unable to connect to provider");
         }
         return zk;
     }

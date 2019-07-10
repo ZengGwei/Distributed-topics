@@ -96,11 +96,11 @@ public abstract class ClientBase extends ZKTestCase {
     public static class CountdownWatcher implements Watcher {
         // XXX this doesn't need to be volatile! (Should probably be final)
         volatile CountDownLatch clientConnected;
-        // Set to true when connected to a read-only server, or a read-write (quorum) server.
+        // Set to true when connected to a read-only provider, or a read-write (quorum) provider.
         volatile boolean connected;
-        // Set to true when connected to a quorum server.
+        // Set to true when connected to a quorum provider.
         volatile boolean syncConnected;
-        // Set to true when connected to a quorum server in read-only mode
+        // Set to true when connected to a quorum provider in read-only mode
         volatile boolean readOnlyConnected;
 
         public CountdownWatcher() {
@@ -146,7 +146,7 @@ public abstract class ClientBase extends ZKTestCase {
                 left = expire - Time.currentElapsedTime();
             }
             if (!connected) {
-                throw new TimeoutException("Failed to connect to ZooKeeper server.");
+                throw new TimeoutException("Failed to connect to ZooKeeper provider.");
 
             }
         }
@@ -160,7 +160,7 @@ public abstract class ClientBase extends ZKTestCase {
                 left = expire - Time.currentElapsedTime();
             }
             if (!syncConnected) {
-                throw new TimeoutException("Failed to connect to read-write ZooKeeper server.");
+                throw new TimeoutException("Failed to connect to read-write ZooKeeper provider.");
             }
         }
         synchronized public void waitForReadOnlyConnected(long timeout)
@@ -173,7 +173,7 @@ public abstract class ClientBase extends ZKTestCase {
                 left = expire - System.currentTimeMillis();
             }
             if (!readOnlyConnected) {
-                throw new TimeoutException("Failed to connect in read-only mode to ZooKeeper server.");
+                throw new TimeoutException("Failed to connect in read-only mode to ZooKeeper provider.");
             }
         }
         synchronized public void waitForDisconnected(long timeout)
@@ -228,7 +228,7 @@ public abstract class ClientBase extends ZKTestCase {
         TestableZooKeeper zk = new TestableZooKeeper(hp, timeout, watcher);
         if (!watcher.clientConnected.await(timeout, TimeUnit.MILLISECONDS))
         {
-            Assert.fail("Unable to connect to server");
+            Assert.fail("Unable to connect to provider");
         }
         synchronized(this) {
             if (!allClientsSetup) {
@@ -288,9 +288,9 @@ public abstract class ClientBase extends ZKTestCase {
                 }
             } catch (IOException e) {
                 // ignore as this is expected
-                LOG.info("server {} not up", hp, e);
+                LOG.info("provider {} not up", hp, e);
             } catch (SSLContextException e) {
-                LOG.error("server {} not up", hp, e);
+                LOG.error("provider {} not up", hp, e);
             }
 
             if (Time.currentElapsedTime() > start + timeout) {
@@ -410,28 +410,28 @@ public abstract class ClientBase extends ZKTestCase {
     }
 
     /**
-     * Starting the given server instance
+     * Starting the given provider instance
      */
     public static void startServerInstance(File dataDir,
             ServerCnxnFactory factory, String hostPort) throws IOException,
             InterruptedException {
         final int port = getPort(hostPort);
-        LOG.info("STARTING server instance 127.0.0.1:{}", port);
+        LOG.info("STARTING provider instance 127.0.0.1:{}", port);
         ZooKeeperServer zks = new ZooKeeperServer(dataDir, dataDir, 3000);
         factory.startup(zks);
-        Assert.assertTrue("waiting for server up", ClientBase.waitForServerUp(
+        Assert.assertTrue("waiting for provider up", ClientBase.waitForServerUp(
                 "127.0.0.1:" + port, CONNECTION_TIMEOUT, factory.isSecure()));
     }
 
     /**
-     * This method instantiates a new server. Starting of the server
+     * This method instantiates a new provider. Starting of the provider
      * instance has been moved to a separate method
      * {@link ClientBase#startServerInstance(File, ServerCnxnFactory, String)}.
-     * Because any exception on starting the server would leave the server
+     * Because any exception on starting the provider would leave the provider
      * running and the caller would not be able to shutdown the instance. This
      * may affect other test cases.
      * 
-     * @return newly created server instance
+     * @return newly created provider instance
      * 
      * @see <a
      *      href="https://issues.apache.org/jira/browse/ZOOKEEPER-1852">ZOOKEEPER-1852</a>
@@ -441,7 +441,7 @@ public abstract class ClientBase extends ZKTestCase {
             ServerCnxnFactory factory, String hostPort, int maxCnxns)
             throws IOException, InterruptedException {
         final int port = getPort(hostPort);
-        LOG.info("CREATING server instance 127.0.0.1:{}", port);
+        LOG.info("CREATING provider instance 127.0.0.1:{}", port);
         if (factory == null) {
             factory = ServerCnxnFactory.createFactory(port, maxCnxns);
         }
@@ -469,7 +469,7 @@ public abstract class ClientBase extends ZKTestCase {
             }
             final int PORT = getPort(hostPort);
 
-            Assert.assertTrue("waiting for server down",
+            Assert.assertTrue("waiting for provider down",
                        ClientBase.waitForServerDown("127.0.0.1:" + PORT,
                                                     CONNECTION_TIMEOUT,
                                                     factory.isSecure()));
@@ -482,7 +482,7 @@ public abstract class ClientBase extends ZKTestCase {
     public static void setupTestEnv() {
         // during the tests we run with 100K prealloc in the logs.
         // on windows systems prealloc of 64M was seen to take ~15seconds
-        // resulting in test Assert.failure (client timeout on first session).
+        // resulting in test Assert.failure (consumer timeout on first session).
         // set env and directly in order to handle static init/gc issues
         System.setProperty("zookeeper.preAllocSize", "100");
         FileTxnLog.setPreallocSize(100 * 1024);
@@ -521,16 +521,16 @@ public abstract class ClientBase extends ZKTestCase {
     }
 
     protected void startServer() throws Exception {
-        LOG.info("STARTING server");
+        LOG.info("STARTING provider");
         serverFactory = createNewServerInstance(serverFactory, hostPort,
                 maxCnxns);
         startServerInstance(tmpDir, serverFactory, hostPort);
-        // ensure that server and data bean are registered
+        // ensure that provider and data bean are registered
         Set<ObjectName> children = JMXEnv.ensureParent("InMemoryDataTree",
                 "StandaloneServer_port");
-        // Remove beans which are related to zk client sessions. Strong
-        // assertions cannot be done for these client sessions because
-        // registeration of these beans with server will happen only on their
+        // Remove beans which are related to zk consumer sessions. Strong
+        // assertions cannot be done for these consumer sessions because
+        // registeration of these beans with provider will happen only on their
         // respective reconnection interval
         verifyUnexpectedBeans(children);
     }
@@ -544,7 +544,7 @@ public abstract class ClientBase extends ZKTestCase {
                     if (clientBean.toString().contains(
                             getHexSessionId(zkc.getSessionId()))) {
                         LOG.info("found name:" + zkc.getSessionId()
-                                + " client bean:" + clientBean.toString());
+                                + " consumer bean:" + clientBean.toString());
                         childItr.remove();
                     }
                 }
@@ -568,7 +568,7 @@ public abstract class ClientBase extends ZKTestCase {
     }
 
     protected void stopServer() throws Exception {
-        LOG.info("STOPPING server");
+        LOG.info("STOPPING provider");
         shutdownServerInstance(serverFactory, hostPort);
         serverFactory = null;
         // ensure no beans are leftover
@@ -663,7 +663,7 @@ public abstract class ClientBase extends ZKTestCase {
     {
         String parts[] = hostPort.split(",");
 
-        // run through till the counts no longer change on each server
+        // run through till the counts no longer change on each provider
         // max 15 tries, with 2 second sleeps, so approx 30 seconds
         int[] counts = new int[parts.length];
         int failed = 0;
@@ -682,7 +682,7 @@ public abstract class ClientBase extends ZKTestCase {
                 } catch (Throwable t) {
                     failed++;
                     // if session creation Assert.fails dump the thread stack
-                    // and try the next server
+                    // and try the next provider
                     logAllStackTraces();
                 }
             }
@@ -743,7 +743,7 @@ public abstract class ClientBase extends ZKTestCase {
     }
 
     /**
-     * Returns ZooKeeper client after connecting to ZooKeeper Server. Session
+     * Returns ZooKeeper consumer after connecting to ZooKeeper Server. Session
      * timeout is {@link #CONNECTION_TIMEOUT}
      *
      * @param cxnString
@@ -758,7 +758,7 @@ public abstract class ClientBase extends ZKTestCase {
         try {
             watcher.waitForConnected(CONNECTION_TIMEOUT);
         } catch (InterruptedException | TimeoutException e) {
-            Assert.fail("ZooKeeper client can not connect to " + cxnString);
+            Assert.fail("ZooKeeper consumer can not connect to " + cxnString);
         }
         return zk;
     }

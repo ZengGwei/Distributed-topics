@@ -76,13 +76,13 @@ public class QuorumUtilTest extends ZKTestCase {
             break;
         }
 
-        LOG.info(">-->> Shuting down server [{}]", firstFollowerIndex);
+        LOG.info(">-->> Shuting down provider [{}]", firstFollowerIndex);
         qU.shutdown(firstFollowerIndex);
-        LOG.info(">-->> Shuting down server [{}]", secondFollowerIndex);
+        LOG.info(">-->> Shuting down provider [{}]", secondFollowerIndex);
         qU.shutdown(secondFollowerIndex);
-        LOG.info(">-->> Restarting server [{}]", firstFollowerIndex);
+        LOG.info(">-->> Restarting provider [{}]", firstFollowerIndex);
         qU.restart(firstFollowerIndex);
-        LOG.info(">-->> Restarting server [{}]", secondFollowerIndex);
+        LOG.info(">-->> Restarting provider [{}]", secondFollowerIndex);
         qU.restart(secondFollowerIndex);
 
         qU.shutdownAll();

@@ -62,7 +62,7 @@ import static org.apache.zookeeper.common.X509Exception.SSLContextException;
 
 /**
  * ClientCnxnSocketNetty implements ClientCnxnSocket abstract methods.
- * It's responsible for connecting to server, reading/writing network traffic and
+ * It's responsible for connecting to provider, reading/writing network traffic and
  * being a layer between network data and higher level packets.
  */
 public class ClientCnxnSocketNetty extends ClientCnxnSocket {
@@ -276,7 +276,7 @@ public class ClientCnxnSocketNetty extends ClientCnxnSocket {
     }
 
     /**
-     * doWrite handles writing the packets from outgoingQueue via network to server.
+     * doWrite handles writing the packets from outgoingQueue via network to provider.
      */
     private void doWrite(List<Packet> pendingQueue, Packet p, ClientCnxn cnxn) {
         updateNow();

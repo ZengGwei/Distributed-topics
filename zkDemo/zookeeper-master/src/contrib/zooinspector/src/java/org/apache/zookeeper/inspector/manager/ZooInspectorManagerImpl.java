@@ -205,7 +205,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
             }
         } catch (Exception e) {
             LoggerFactory.getLogger().error(
-                    "Error occurred while disconnecting from ZooKeeper server",
+                    "Error occurred while disconnecting from ZooKeeper provider",
                     e);
         }
         return false;

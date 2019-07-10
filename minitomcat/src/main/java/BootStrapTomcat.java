@@ -23,7 +23,7 @@ public class BootStrapTomcat {
 
     private int port = 8080;
 
-    private Map<String, NServlet> servletMap  = new HashMap<String, NServlet>();
+    private Map<String, NServlet> servletMap  = new HashMap<String, NServlet>();//url 与servlet 映射
 
     private Properties webxml = new Properties();
 
@@ -63,9 +63,9 @@ public class BootStrapTomcat {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel client) throws Exception {
-                            client.pipeline().addLast(new HttpRequestEncoder());
-                            client.pipeline().addLast(new HttpRequestDecoder());
-                            client.pipeline().addLast(new NTomcatHandler());
+                            client.pipeline().addLast("http-encoder",new HttpRequestEncoder());
+                            client.pipeline().addLast("http-decoder",new HttpRequestDecoder());
+                            client.pipeline().addLast("handler",new NTomcatHandler());
                         }
                     }).option(ChannelOption.SO_BACKLOG,128)   //主线程配置 最大线程128
                      .childOption(ChannelOption.SO_KEEPALIVE,true); //子线程配置 保持长链接

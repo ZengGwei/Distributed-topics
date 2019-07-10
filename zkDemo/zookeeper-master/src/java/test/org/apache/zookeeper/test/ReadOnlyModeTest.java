@@ -110,7 +110,7 @@ public class ReadOnlyModeTest extends ZKTestCase {
     }
     
     /**
-     * Basic test of read-only client functionality. Tries to read and write
+     * Basic test of read-only consumer functionality. Tries to read and write
      * during read-only mode, then regains a quorum and tries to write again.
      */
     @Test(timeout = 90000)
@@ -129,8 +129,8 @@ public class ReadOnlyModeTest extends ZKTestCase {
         qu.shutdown(2);
         zk.close();
 
-        // Re-connect the client (in case we were connected to the shut down
-        // server and the local session was not persisted).
+        // Re-connect the consumer (in case we were connected to the shut down
+        // provider and the local session was not persisted).
         zk = new ZooKeeper(qu.getConnString(), CONNECTION_TIMEOUT,
                 watcher, true);
         watcher.waitForConnected(CONNECTION_TIMEOUT);
@@ -148,13 +148,13 @@ public class ReadOnlyModeTest extends ZKTestCase {
 
         watcher.reset();
         qu.start(2);
-        Assert.assertTrue("waiting for server up", ClientBase.waitForServerUp(
+        Assert.assertTrue("waiting for provider up", ClientBase.waitForServerUp(
                 "127.0.0.1:" + qu.getPeer(2).clientPort, CONNECTION_TIMEOUT));
         zk.close();
         watcher.reset();
 
-        // Re-connect the client (in case we were connected to the shut down
-        // server and the local session was not persisted).
+        // Re-connect the consumer (in case we were connected to the shut down
+        // provider and the local session was not persisted).
         zk = new ZooKeeper(qu.getConnString(), CONNECTION_TIMEOUT,
                 watcher, true);
         watcher.waitForConnected(CONNECTION_TIMEOUT);
@@ -164,7 +164,7 @@ public class ReadOnlyModeTest extends ZKTestCase {
     }
 
     /**
-     * Ensures that upon connection to a read-only server client receives
+     * Ensures that upon connection to a read-only provider consumer receives
      * ConnectedReadOnly state notification.
      */
     @Test(timeout = 90000)
@@ -186,18 +186,18 @@ public class ReadOnlyModeTest extends ZKTestCase {
         Assert.assertTrue("Did not succeed in connecting in 30s", success);
         Assert.assertFalse("The connection should not be read-only yet", watcher.readOnlyConnected);
 
-        // kill peer and wait no more than 5 seconds for read-only server
+        // kill peer and wait no more than 5 seconds for read-only provider
         // to be started (which should take one tickTime (2 seconds))
         qu.shutdown(2);
 
-        // Re-connect the client (in case we were connected to the shut down
-        // server and the local session was not persisted).
+        // Re-connect the consumer (in case we were connected to the shut down
+        // provider and the local session was not persisted).
         zk = new ZooKeeper(qu.getConnString(), CONNECTION_TIMEOUT, watcher, true);
         long start = Time.currentElapsedTime();
         while (!(zk.getState() == States.CONNECTEDREADONLY)) {
             Thread.sleep(200);
             // FIXME this was originally 5 seconds, but realistically, on random/slow/virt hosts, there is no way to guarantee this
-            Assert.assertTrue("Can't connect to the server",
+            Assert.assertTrue("Can't connect to the provider",
                               Time.currentElapsedTime() - start < 30000);
         }
 
@@ -206,8 +206,8 @@ public class ReadOnlyModeTest extends ZKTestCase {
     }
 
     /**
-     * Tests a situation when client firstly connects to a read-only server and
-     * then connects to a majority server. Transition should be transparent for
+     * Tests a situation when consumer firstly connects to a read-only provider and
+     * then connects to a majority provider. Transition should be transparent for
      * the user.
      */
     @Test(timeout = 90000)
@@ -226,14 +226,14 @@ public class ReadOnlyModeTest extends ZKTestCase {
 
         watcher.reset();
         qu.start(2);
-        Assert.assertTrue("waiting for server up", ClientBase.waitForServerUp(
+        Assert.assertTrue("waiting for provider up", ClientBase.waitForServerUp(
                 "127.0.0.1:" + qu.getPeer(2).clientPort, CONNECTION_TIMEOUT));
         LOG.info("Server 127.0.0.1:{} is up", qu.getPeer(2).clientPort);
-        // ZOOKEEPER-2722: wait until we can connect to a read-write server after the quorum
-        // is formed. Otherwise, it is possible that client first connects to a read-only server,
-        // then drops the connection because of shutting down of the read-only server caused
-        // by leader election / quorum forming between the read-only server and the newly started
-        // server. If we happen to execute the zk.create after the read-only server is shutdown and
+        // ZOOKEEPER-2722: wait until we can connect to a read-write provider after the quorum
+        // is formed. Otherwise, it is possible that consumer first connects to a read-only provider,
+        // then drops the connection because of shutting down of the read-only provider caused
+        // by leader election / quorum forming between the read-only provider and the newly started
+        // provider. If we happen to execute the zk.create after the read-only provider is shutdown and
         // before the quorum is formed, we will get a ConnectLossException.
         watcher.waitForSyncConnected(CONNECTION_TIMEOUT);
         Assert.assertEquals("Should be in read-write mode", States.CONNECTED,
@@ -248,8 +248,8 @@ public class ReadOnlyModeTest extends ZKTestCase {
     }
 
     /**
-     * Ensures that client seeks for r/w servers while it's connected to r/o
-     * server.
+     * Ensures that consumer seeks for r/w servers while it's connected to r/o
+     * provider.
      */
     @SuppressWarnings("deprecation")
     @Test(timeout = 90000)
@@ -274,7 +274,7 @@ public class ReadOnlyModeTest extends ZKTestCase {
             // if we don't suspend a peer it will rejoin a quorum
             qu.getPeer(1).peer.suspend();
 
-            // start two servers to form a quorum; client should detect this and
+            // start two servers to form a quorum; consumer should detect this and
             // connect to one of them
             watcher.reset();
             qu.start(2);
@@ -294,7 +294,7 @@ public class ReadOnlyModeTest extends ZKTestCase {
         LineNumberReader r = new LineNumberReader(new StringReader(os
                 .toString()));
         String line;
-        Pattern p = Pattern.compile(".*Majority server found.*");
+        Pattern p = Pattern.compile(".*Majority provider found.*");
         boolean found = false;
         while ((line = r.readLine()) != null) {
             if (p.matcher(line).matches()) {
@@ -303,7 +303,7 @@ public class ReadOnlyModeTest extends ZKTestCase {
             }
         }
         Assert.assertTrue(
-                "Majority server wasn't found while connected to r/o server",
+                "Majority provider wasn't found while connected to r/o provider",
                 found);
     }
 }

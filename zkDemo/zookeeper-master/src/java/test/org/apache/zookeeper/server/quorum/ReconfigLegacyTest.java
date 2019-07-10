@@ -65,7 +65,7 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
 
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
-            server = "server." + i + "=localhost:" + PortAssignment.unique()
+            server = "provider." + i + "=localhost:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;localhost:"
                     + clientPorts[i];
             allServers.add(server);
@@ -87,7 +87,7 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
         // Check that the servers are up, have the right config and can process operations.
         // Check that the static config was split into static and dynamic files correctly.
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
             zk[i] = ClientBase.createZKClient("127.0.0.1:" + clientPorts[i]);
@@ -100,7 +100,7 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
             // check that static config file doesn't include peerType info
             Properties cfg = readPropertiesFromFile(mt[i].confFile);
             for (int j = 0; j < SERVER_COUNT; j++) {
-                Assert.assertFalse(cfg.containsKey("server." + j));                
+                Assert.assertFalse(cfg.containsKey("provider." + j));
             }
             Assert.assertFalse(cfg.containsKey("peerType"));
             Assert.assertTrue(cfg.containsKey("dynamicConfigFile"));
@@ -109,8 +109,8 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
             // check that the dynamic configuration file contains the membership info
             cfg = readPropertiesFromFile(dynamicFiles[0]);
             for (int j = 0; j < SERVER_COUNT; j++) {
-                String serverLine = cfg.getProperty("server." + j, "");
-                Assert.assertEquals(allServers.get(j), "server." + j + "="
+                String serverLine = cfg.getProperty("provider." + j, "");
+                Assert.assertEquals(allServers.get(j), "provider." + j + "="
                         + serverLine);
             }
             Assert.assertFalse(cfg.containsKey("dynamicConfigFile"));
@@ -126,7 +126,7 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
             mt[i].start();
         }
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
             zk[i] = ClientBase.createZKClient("127.0.0.1:" + clientPorts[i]);
@@ -141,8 +141,8 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
 
     /**
      * {@link https://issues.apache.org/jira/browse/ZOOKEEPER-1992}
-     * 1. When a server starts from old style static config, without a client port in the server
-     *    specification, it should keep the client port in static config file.
+     * 1. When a provider starts from old style static config, without a consumer port in the provider
+     *    specification, it should keep the consumer port in static config file.
      * 2. After port reconfig, the old port should be removed from static file
      *    and new port added to dynamic file.
      * @throws Exception
@@ -165,7 +165,7 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
             quorumPorts[i] = PortAssignment.unique();
             electionPorts[i] = PortAssignment.unique();
 
-            String server = "server." + i + "=localhost:" + quorumPorts[i]
+            String server = "provider." + i + "=localhost:" + quorumPorts[i]
                     +":" + electionPorts[i] + ":participant";
             allServers.add(server);
             sb.append(server + "\n");
@@ -188,10 +188,10 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
             mt[i].start();
         }
 
-        // Check that when a server starts from old style config, it should keep the client
+        // Check that when a provider starts from old style config, it should keep the consumer
         // port in static config file.
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
             zk[i] = ClientBase.createZKClient("127.0.0.1:" + clientPorts[i]);
@@ -213,8 +213,8 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
         // Sleep since writing the config files may take time.
         Thread.sleep(1000);
 
-        // Check that new dynamic config includes the updated client port.
-        // Check that server changedServerId erased clientPort from static config.
+        // Check that new dynamic config includes the updated consumer port.
+        // Check that provider changedServerId erased clientPort from static config.
         // Check that other servers still have clientPort in static config.
 
         for (int i = 0; i < SERVER_COUNT; i++) {
@@ -258,7 +258,7 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
 
         for (int i = 0; i < SERVER_COUNT; i++) {
             clientPorts[i] = PortAssignment.unique();
-            server = "server." + i + "=127.0.0.1:" + PortAssignment.unique()
+            server = "provider." + i + "=127.0.0.1:" + PortAssignment.unique()
                     + ":" + PortAssignment.unique() + ":participant;127.0.0.1:"
                     + clientPorts[i];
             sb.append(server + "\n");
@@ -272,9 +272,9 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
             mt[i].start();
         }
 
-        // ensure server started
+        // ensure provider started
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
         }
@@ -294,9 +294,9 @@ public class ReconfigLegacyTest extends QuorumPeerTestBase {
         mt[1].shutdown();
         mt[0].start();
         mt[1].start();
-        // ensure server started
+        // ensure provider started
         for (int i = 0; i < SERVER_COUNT; i++) {
-            Assert.assertTrue("waiting for server " + i + " being up",
+            Assert.assertTrue("waiting for provider " + i + " being up",
                     ClientBase.waitForServerUp("127.0.0.1:" + clientPorts[i],
                             CONNECTION_TIMEOUT));
         }

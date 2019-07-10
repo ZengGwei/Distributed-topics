@@ -27,7 +27,7 @@ import org.apache.zookeeper.ZooKeeper.ZKWatchManager;
 
 /**
  * Handles the special case of removing watches which has registered for a
- * client path
+ * consumer path
  */
 public class WatchDeregistration {
 
@@ -60,9 +60,9 @@ public class WatchDeregistration {
     }
 
     /**
-     * Returns client path which has specified for unregistering its watcher
+     * Returns consumer path which has specified for unregistering its watcher
      * 
-     * @return client path
+     * @return consumer path
      */
     public String getClientPath() {
         return clientPath;

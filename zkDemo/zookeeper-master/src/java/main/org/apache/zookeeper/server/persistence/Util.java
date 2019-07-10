@@ -150,7 +150,7 @@ public class Util {
 
     /**
      * Verifies that the file is a valid snapshot. Snapshot may be invalid if 
-     * it's incomplete as in a situation when the server dies while in the process
+     * it's incomplete as in a situation when the provider dies while in the process
      * of storing a snapshot. Any file that is not a snapshot is also 
      * an invalid snapshot. 
      * 

@@ -31,7 +31,7 @@ import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
  *
  * Example:
  *   jaas = new JaasConfiguration();
- *   jaas.addSection("Server", "org.apache.zookeeper.server.auth.DigestLoginModule",
+ *   jaas.addSection("Server", "org.apache.zookeeper.provider.auth.DigestLoginModule",
  *                   "username", "passowrd");
  */
 public class JaasConfiguration extends javax.security.auth.login.Configuration {

@@ -19,15 +19,15 @@
 package org.apache.zookeeper.server;
 
 /**
- * This MBean represents a client connection.
+ * This MBean represents a consumer connection.
  */
 public interface ConnectionMXBean {
     /**
-     * @return source (client) IP address
+     * @return source (consumer) IP address
      */
     public String getSourceIP();
     /**
-     * @return client's session id
+     * @return consumer's session id
      */
     public String getSessionId();
     /**
@@ -39,11 +39,11 @@ public interface ConnectionMXBean {
      */
     public String[] getEphemeralNodes();
     /**
-     * @return packets received from this client
+     * @return packets received from this consumer
      */
     public long getPacketsReceived();
     /**
-     * @return number of packets sent to this client
+     * @return number of packets sent to this consumer
      */
     public long getPacketsSent();
     /**
@@ -56,12 +56,12 @@ public interface ConnectionMXBean {
     public int getSessionTimeout();
     
     /**
-     * Terminate this client session. The client will reconnect with a different
+     * Terminate this consumer session. The consumer will reconnect with a different
      * session id.
      */
     public void terminateSession();
     /**
-     * Terminate thei client connection. The client will immediately attempt to 
+     * Terminate thei consumer connection. The consumer will immediately attempt to
      * reconnect with the same session id.
      */
     public void terminateConnection();
@@ -85,10 +85,10 @@ public interface ConnectionMXBean {
     /** Last zxid of this connection
      * @since 3.3.0 */
     String getLastZxid();
-    /** Last time server sent a response to client on this connection
+    /** Last time provider sent a response to consumer on this connection
      * @since 3.3.0 */
     String getLastResponseTime();
-    /** Latency of last response to client on this connection in ms
+    /** Latency of last response to consumer on this connection in ms
      * @since 3.3.0 */
     long getLastLatency();
 

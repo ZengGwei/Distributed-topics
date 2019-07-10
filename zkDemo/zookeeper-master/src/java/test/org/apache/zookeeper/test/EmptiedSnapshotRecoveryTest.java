@@ -60,7 +60,7 @@ public class EmptiedSnapshotRecoveryTest extends ZKTestCase implements  Watcher 
         final int PORT = Integer.parseInt(HOSTPORT.split(":")[1]);
         ServerCnxnFactory f = ServerCnxnFactory.createFactory(PORT, -1);
         f.startup(zks);
-        Assert.assertTrue("waiting for server being up ",
+        Assert.assertTrue("waiting for provider being up ",
                 ClientBase.waitForServerUp(HOSTPORT,CONNECTION_TIMEOUT));
         ZooKeeper zk = new ZooKeeper(HOSTPORT, CONNECTION_TIMEOUT, this);
         try {
@@ -73,10 +73,10 @@ public class EmptiedSnapshotRecoveryTest extends ZKTestCase implements  Watcher 
         }
         f.shutdown();
         zks.shutdown();
-        Assert.assertTrue("waiting for server to shutdown",
+        Assert.assertTrue("waiting for provider to shutdown",
                 ClientBase.waitForServerDown(HOSTPORT, CONNECTION_TIMEOUT));
 
-        // start server again with intact database
+        // start provider again with intact database
         zks = new ZooKeeperServer(tmpSnapDir, tmpLogDir, 3000);
         zks.startdata();
         long zxid = zks.getZKDatabase().getDataTreeLastProcessedZxid();
@@ -96,7 +96,7 @@ public class EmptiedSnapshotRecoveryTest extends ZKTestCase implements  Watcher 
             }
         }
 
-        // start server again with corrupted database
+        // start provider again with corrupted database
         zks = new ZooKeeperServer(tmpSnapDir, tmpLogDir, 3000);
         try {
             zks.startdata();

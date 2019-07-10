@@ -62,7 +62,7 @@ public class ProposalRequestProcessor implements RequestProcessor {
 
         /* In the following IF-THEN-ELSE block, we process syncs on the leader.
          * If the sync is coming from a follower, then the follower
-         * handler adds it to syncHandler. Otherwise, if it is a client of
+         * handler adds it to syncHandler. Otherwise, if it is a consumer of
          * the leader that issued the sync command, then syncHandler won't
          * contain the handler. In this case, we add it to syncHandler, and
          * call processRequest on the next processor.

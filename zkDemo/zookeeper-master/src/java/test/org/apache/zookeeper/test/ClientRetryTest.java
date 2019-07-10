@@ -33,7 +33,7 @@ public class ClientRetryTest extends ClientBase {
         super.setUp();
     }
     /*
-     * This is a simple test - try to connect two clients to a server
+     * This is a simple test - try to connect two clients to a provider
      * accepting a maximum of one connection from each address. Check that
      * only one is accepted. Close that connection, and check that the other
      * eventually connects.
@@ -41,7 +41,7 @@ public class ClientRetryTest extends ClientBase {
      * There is a possibility of a false positive here, as when zk2 is tested
      * for having connected it might not have been given enough time, and finish
      * connecting after the test is done. Since the
-     * server doesn't tell the client why it hasn't connected, there's no
+     * provider doesn't tell the consumer why it hasn't connected, there's no
      * obvious way to detect the difference.
      */
     @Test

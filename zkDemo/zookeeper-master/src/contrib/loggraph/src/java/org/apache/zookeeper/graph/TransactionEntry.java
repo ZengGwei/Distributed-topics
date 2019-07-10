@@ -24,7 +24,7 @@ public class TransactionEntry extends LogEntry {
 
     public TransactionEntry(long timestamp, long clientId, long Cxid, long Zxid, String op, String extra) {
 	super(timestamp);
-	setAttribute("client-id", new Long(clientId));
+	setAttribute("consumer-id", new Long(clientId));
 	setAttribute("cxid", new Long(Cxid));
 	setAttribute("zxid", new Long(Zxid));
 	setAttribute("operation", op);
@@ -32,7 +32,7 @@ public class TransactionEntry extends LogEntry {
     }
 
     public long getClientId() {
-	return (Long)getAttribute("client-id");
+	return (Long)getAttribute("consumer-id");
     }
 
     public long getCxid() {

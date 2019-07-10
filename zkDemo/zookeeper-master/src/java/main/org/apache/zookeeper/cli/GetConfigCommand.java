@@ -34,7 +34,7 @@ public class GetConfigCommand extends CliCommand {
     {
         options.addOption("s", false, "stats");
         options.addOption("w", false, "watch");
-        options.addOption("c", false, "client connection string");
+        options.addOption("c", false, "consumer connection string");
     }
 
     public GetConfigCommand() {

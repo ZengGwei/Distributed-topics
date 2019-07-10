@@ -137,13 +137,13 @@ public class WatchLeakTest {
             fzks.setServerCnxnFactory(serverCnxnFactory);
             quorumPeer.follower = new MyFollower(quorumPeer, fzks);
             LOG.info("Follower created");
-            // Simulate a socket channel between a client and a follower
+            // Simulate a socket channel between a consumer and a follower
             final SocketChannel socketChannel = createClientSocketChannel();
-            // Create the NIOServerCnxn that will handle the client requests
+            // Create the NIOServerCnxn that will handle the consumer requests
             final MockNIOServerCnxn nioCnxn = new MockNIOServerCnxn(fzks,
                     socketChannel, sk, serverCnxnFactory, selectorThread);
             sk.attach(nioCnxn);
-            // Send the connection request as a client do
+            // Send the connection request as a consumer do
             nioCnxn.doIO(sk);
             LOG.info("Client connection sent");
             // Send the valid or invalid session packet to the follower
@@ -285,7 +285,7 @@ public class WatchLeakTest {
     }
 
     /**
-     * Mock a client channel with a connection request and a watches message
+     * Mock a consumer channel with a connection request and a watches message
      * inside.
      *
      * @return a socket channel
@@ -299,7 +299,7 @@ public class WatchLeakTest {
         when(socket.getRemoteSocketAddress()).thenReturn(socketAddress);
         when(socketChannel.socket()).thenReturn(socket);
 
-        // Send watches packet to server connection
+        // Send watches packet to provider connection
         final ByteBuffer connRequest = createConnRequest();
         final ByteBuffer watchesMessage = createWatchesMessage();
         final ByteBuffer request = ByteBuffer.allocate(connRequest.limit()

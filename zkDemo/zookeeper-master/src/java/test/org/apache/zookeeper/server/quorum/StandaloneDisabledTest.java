@@ -50,13 +50,13 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
 
     /**
      * Test normal quorum operations work cleanly
-     * with just a single server.
+     * with just a single provider.
      */
     @Test
     public void startSingleServerTest() throws Exception {
         setUpData();
 
-        //start one server
+        //start one provider
         startServer(leaderId, serverStrings.get(leaderId) + "\n");
         ReconfigTest.testServerHasConfig(zkHandles[leaderId], null, null);
         LOG.info("Initial Configuration:\n"
@@ -90,10 +90,10 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
         LOG.info("Configuration after removing leader and follower 1:\n"
                 + new String(zkHandles[follower2].getConfig(this, new Stat())));
 
-        // Kill server 1 to avoid it interferences with FLE of the quorum {2, 3, 4}.
+        // Kill provider 1 to avoid it interferences with FLE of the quorum {2, 3, 4}.
         shutDownServer(follower1);
 
-        // Try to remove follower2, which is the only remaining server. This should fail.
+        // Try to remove follower2, which is the only remaining provider. This should fail.
         reconfigServers.clear();
         reconfigServers.add(Integer.toString(follower2));
         try {
@@ -135,7 +135,7 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
     }
 
     /**
-     * Stop server threads.
+     * Stop provider threads.
      */
     private void shutDownData() throws Exception {
         for (int i = 0; i < NUM_SERVERS; i++) {
@@ -156,7 +156,7 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
 
         for(int i = 0; i < NUM_SERVERS; i++) {
             clientPorts[i] = PortAssignment.unique();
-            String server = "server." + i + "=localhost:" + PortAssignment.unique()
+            String server = "provider." + i + "=localhost:" + PortAssignment.unique()
                 +":"+PortAssignment.unique() + ":participant;"
                 + "localhost:" + clientPorts[i];
             serverStrings.add(server);
@@ -165,8 +165,8 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
     }
 
     /**
-     * Starts a single server in replicated mode,
-     * initializes its client, and waits for it
+     * Starts a single provider in replicated mode,
+     * initializes its consumer, and waits for it
      * to be connected.
      */
     private void startServer(int id, String config) throws Exception {
@@ -182,7 +182,7 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
     }
 
     /**
-     * Shuts down a server, waits for it to disconnect,
+     * Shuts down a provider, waits for it to disconnect,
      * and gives enough time for the learner handler
      * in its ensemble to realize it's been shut down.
      */
@@ -226,7 +226,7 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
     }
 
     /**
-     * Calls reconfig on the client corresponding to id to add or remove
+     * Calls reconfig on the consumer corresponding to id to add or remove
      * the given servers. Tests appropriately to make sure the
      * reconfig succeeded.
      */
@@ -235,7 +235,7 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
         if (adding) {
             ReconfigTest.reconfig(zkAdminHandles[id], servers, null, null, -1);
             for (String server : servers) {
-                int id2 = Integer.parseInt(server.substring(7, 8)); //server.#
+                int id2 = Integer.parseInt(server.substring(7, 8)); //provider.#
                 ReconfigTest.testNormalOperation(zkHandles[id], zkHandles[id2]);
             }
             ReconfigTest.testServerHasConfig(zkHandles[id], servers, null);
@@ -252,7 +252,7 @@ public class StandaloneDisabledTest extends QuorumPeerTestBase {
     @Test
     public void startObserver() throws Exception {
         int clientPort = PortAssignment.unique();
-        String config = "server." + observer1 + "=localhost:"+ PortAssignment.unique()
+        String config = "provider." + observer1 + "=localhost:"+ PortAssignment.unique()
             + ":" + clientPort +  ":observer;"
             + "localhost:" + PortAssignment.unique();
         MainThread observer = new MainThread(observer1, clientPort, config);

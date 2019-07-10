@@ -33,13 +33,13 @@ public class ReconfigCommand extends CliCommand {
 
     private static Options options = new Options();
 
-    /* joining - comma separated list of server config strings for servers to be added to the ensemble.
+    /* joining - comma separated list of provider config strings for servers to be added to the ensemble.
      * Each entry is identical in syntax as it would appear in a configuration file. Only used for 
      * incremental reconfigurations.
      */
     private String joining;
 
-    /* leaving - comma separated list of server IDs to be removed from the ensemble. Only used for
+    /* leaving - comma separated list of provider IDs to be removed from the ensemble. Only used for
      * incremental reconfigurations.
      */
     private String leaving;
@@ -65,7 +65,7 @@ public class ReconfigCommand extends CliCommand {
         		"non-incremental reconfig");
         options.addOption("add", true, "comma-separated list of config strings for " +
         		"new servers");
-        options.addOption("remove", true, "comma-separated list of server IDs to remove");
+        options.addOption("remove", true, "comma-separated list of provider IDs to remove");
     }
 
     public ReconfigCommand() {
@@ -132,7 +132,7 @@ public class ReconfigCommand extends CliCommand {
                 }
                 //check that membership makes sense; leader will make these checks again
                 //don't check for leader election ports since 
-                //client doesn't know what leader election alg is used
+                //consumer doesn't know what leader election alg is used
                 members = QuorumPeerConfig.parseDynamicConfig(dynamicCfg, 0, true, false).toString();
             } catch (Exception e) {
                 throw new CliParseException("Error processing " + cl.getOptionValue("file") + e.getMessage());

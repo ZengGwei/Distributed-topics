@@ -34,7 +34,7 @@ public class SSLAuthTest extends ClientBase {
     @Before
     public void setUp() throws Exception {
         String testDataPath = System.getProperty("test.data.dir", "build/test/data");
-        System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY, "org.apache.zookeeper.server.NettyServerCnxnFactory");
+        System.setProperty(ServerCnxnFactory.ZOOKEEPER_SERVER_CNXN_FACTORY, "org.apache.zookeeper.provider.NettyServerCnxnFactory");
         System.setProperty(ZKClientConfig.ZOOKEEPER_CLIENT_CNXN_SOCKET, "org.apache.zookeeper.ClientCnxnSocketNetty");
         System.setProperty(ZKClientConfig.SECURE_CLIENT, "true");
         System.setProperty(ZKConfig.SSL_AUTHPROVIDER, "x509");
@@ -43,7 +43,7 @@ public class SSLAuthTest extends ClientBase {
         System.setProperty(ZKConfig.SSL_TRUSTSTORE_LOCATION, testDataPath + "/ssl/testTrustStore.jks");
         System.setProperty(ZKConfig.SSL_TRUSTSTORE_PASSWD, "testpass");
         System.setProperty("javax.net.debug", "ssl");
-        System.setProperty("zookeeper.authProvider.x509", "org.apache.zookeeper.server.auth.X509AuthenticationProvider");
+        System.setProperty("zookeeper.authProvider.x509", "org.apache.zookeeper.provider.auth.X509AuthenticationProvider");
 
         String host = "localhost";
         int port = PortAssignment.unique();
@@ -73,7 +73,7 @@ public class SSLAuthTest extends ClientBase {
     public void testRejection() throws Exception {
         String testDataPath = System.getProperty("test.data.dir", "build/test/data");
 
-        // Replace trusted keys with a valid key that is not trusted by the server
+        // Replace trusted keys with a valid key that is not trusted by the provider
         System.setProperty(ZKConfig.SSL_KEYSTORE_LOCATION, testDataPath + "/ssl/testUntrustedKeyStore.jks");
         System.setProperty(ZKConfig.SSL_KEYSTORE_PASSWD, "testpass");
 

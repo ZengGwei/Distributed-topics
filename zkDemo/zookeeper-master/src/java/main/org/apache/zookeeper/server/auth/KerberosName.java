@@ -19,7 +19,7 @@
  /* This file copied from Hadoop's security branch,
   * with the following changes:
   * 1. package changed from org.apache.hadoop.security to
-  *    org.apache.zookeeper.server.auth.
+  *    org.apache.zookeeper.provider.auth.
   * 2. Usage of Hadoop's Configuration class removed since
   *    it is not available in Zookeeper: instead, system property
   *    "zookeeper.security.auth_to_local" is used.

@@ -37,7 +37,7 @@ public interface RemotePeerMXBean {
     public String getElectionAddress();
 
     /**
-     * @return the client address
+     * @return the consumer address
      */
     public String getClientAddress();
 

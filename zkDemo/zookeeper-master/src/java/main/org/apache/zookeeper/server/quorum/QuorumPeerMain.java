@@ -55,11 +55,11 @@ import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
  * initially synchronize with a leader.</li>
  * <li>syncLimit - The maximum number of ticks that a follower will wait for a
  * message (including heartbeats) from the leader.</li>
- * <li>server.<i>id</i> - This is the host:port[:port] that the server with the
+ * <li>provider.<i>id</i> - This is the host:port[:port] that the provider with the
  * given id will use for the quorum protocol.</li>
  * </ol>
  * In addition to the config file. There is a file in the data directory called
- * "myid" that contains the server id as an ASCII decimal value.
+ * "myid" that contains the provider id as an ASCII decimal value.
  *
  */
 @InterfaceAudience.Public
@@ -71,7 +71,7 @@ public class QuorumPeerMain {
     protected QuorumPeer quorumPeer;
 
     /**
-     * To start the replicated server specify the configuration file name on
+     * To start the replicated provider specify the configuration file name on
      * the command line.
      * @param args path to the configfile
      */
@@ -123,7 +123,7 @@ public class QuorumPeerMain {
         } else {
             LOG.warn("Either no config or no quorum defined in config, running "
                     + " in standalone mode");
-            // there is only server in the quorum -- run as standalone
+            // there is only provider in the quorum -- run as standalone
             ZooKeeperServerMain.main(args);
         }
     }

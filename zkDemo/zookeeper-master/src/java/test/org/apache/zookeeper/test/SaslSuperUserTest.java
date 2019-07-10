@@ -47,7 +47,7 @@ public class SaslSuperUserTest extends ClientBase {
 
     @BeforeClass
     public static void setupStatic() throws Exception {
-        oldAuthProvider = System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
+        oldAuthProvider = System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.provider.auth.SASLAuthenticationProvider");
 
         File tmpDir = createTmpDir();
         File saslConfFile = new File(tmpDir, "jaas.conf");
@@ -55,11 +55,11 @@ public class SaslSuperUserTest extends ClientBase {
 
         fwriter.write("" +
                 "Server {\n" +
-                "          org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "          org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "          user_super_duper=\"test\";\n" +
                 "};\n" +
                 "Client {\n" +
-                "       org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "       org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "       username=\"super_duper\"\n" +
                 "       password=\"test\";\n" +
                 "};" + "\n");

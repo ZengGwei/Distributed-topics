@@ -38,7 +38,7 @@ import org.junit.Test;
 
 public class SaslAuthDesignatedClientTest extends ClientBase {
     static {
-        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
+        System.setProperty("zookeeper.authProvider.1","org.apache.zookeeper.provider.auth.SASLAuthenticationProvider");
         System.setProperty(ZKClientConfig.LOGIN_CONTEXT_NAME_KEY,
                 "MyZookeeperClient");
 
@@ -49,18 +49,18 @@ public class SaslAuthDesignatedClientTest extends ClientBase {
 
             fwriter.write("" +
                 "Server {\n" +
-                "          org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "          org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "          user_myuser=\"mypassword\";\n" +
                 "};\n" +
                 "Client {\n" + /* this 'Client' section has an incorrect password, but we're not configured
                                   to  use it (we're configured by the above System.setProperty(...LOGIN_CONTEXT_NAME_KEY...) to 
                                   use the 'MyZookeeperClient' section below, which has the correct password).*/
-                "       org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "       org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "       username=\"myuser\"\n" +
                 "       password=\"wrongpassword\";\n" +
                 "};" +
                 "MyZookeeperClient {\n" +
-                "       org.apache.zookeeper.server.auth.DigestLoginModule required\n" +
+                "       org.apache.zookeeper.provider.auth.DigestLoginModule required\n" +
                 "       username=\"myuser\"\n" +
                 "       password=\"mypassword\";\n" +
                 "};" + "\n");

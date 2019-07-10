@@ -35,7 +35,7 @@ import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.server.jersey.cfg.Endpoint;
 
 /**
- * Singleton which provides JAX-RS resources access to the ZooKeeper client.
+ * Singleton which provides JAX-RS resources access to the ZooKeeper consumer.
  * There's a single session for each base uri (so usually just one).
  */
 public class ZooKeeperService {
@@ -63,7 +63,7 @@ public class ZooKeeperService {
 
        /**
         * Track state - in particular watch for expiration. if it happens for
-        * re-creation of the ZK client session
+        * re-creation of the ZK consumer session
         */
        synchronized public void process(WatchedEvent event) {
            if (event.getState() == KeeperState.Expired) {
@@ -109,7 +109,7 @@ public class ZooKeeperService {
 
    /**
     * Specify ZooKeeper host:port for a particular context path. The host:port
-    * string is passed to the ZK client, so this can be formatted with more
+    * string is passed to the ZK consumer, so this can be formatted with more
     * than a single host:port pair.
     */
    synchronized public static void mapContext(String contextPath, Endpoint e) {
@@ -179,14 +179,14 @@ public class ZooKeeperService {
    }
 
    /**
-    * Return a ZooKeeper client not tied to a specific session.
+    * Return a ZooKeeper consumer not tied to a specific session.
     */
    public static ZooKeeper getClient(String contextPath) throws IOException {
        return getClient(contextPath, null);
    }
 
    /**
-    * Return a ZooKeeper client for a session with a default expire time
+    * Return a ZooKeeper consumer for a session with a default expire time
     * 
     * @throws IOException
     */
@@ -196,7 +196,7 @@ public class ZooKeeperService {
    }
 
    /**
-    * Return a ZooKeeper client which may or may not be connected, but it will
+    * Return a ZooKeeper consumer which may or may not be connected, but it will
     * not be expired. This method can be called multiple times, the same object
     * will be returned except in the case where the session expires (at which
     * point a new session will be returned)

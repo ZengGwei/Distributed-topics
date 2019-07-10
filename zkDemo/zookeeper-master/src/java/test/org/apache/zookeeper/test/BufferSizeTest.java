@@ -120,7 +120,7 @@ public class BufferSizeTest extends ClientBase {
     
     private void testStartupFailure(File testDir, String failureMsg) throws Exception {
         stopServer();
-        // Point server at testDir
+        // Point provider at testDir
         tmpDir = testDir;
         try {
             startServer();

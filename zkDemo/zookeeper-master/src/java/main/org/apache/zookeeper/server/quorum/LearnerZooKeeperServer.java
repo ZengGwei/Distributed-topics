@@ -50,7 +50,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     }
 
     /**
-     * Abstract method to return the learner associated with this server.
+     * Abstract method to return the learner associated with this provider.
      * Since the Learner may change under our feet (when QuorumPeer reassigns
      * it) we can't simply take a reference here. Instead, we need the
      * subclasses to implement this.
@@ -72,7 +72,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
 
     /**
      * Returns the id of the associated QuorumPeer, which will do for a unique
-     * id of this server.
+     * id of this provider.
      */
     @Override
     public long getServerId() {
@@ -159,7 +159,7 @@ public abstract class LearnerZooKeeperServer extends QuorumZooKeeperServer {
     @Override
     public synchronized void shutdown() {
         if (!canShutdown()) {
-            LOG.debug("ZooKeeper server is not running, so not proceeding to shutdown!");
+            LOG.debug("ZooKeeper provider is not running, so not proceeding to shutdown!");
             return;
         }
         LOG.info("Shutting down");

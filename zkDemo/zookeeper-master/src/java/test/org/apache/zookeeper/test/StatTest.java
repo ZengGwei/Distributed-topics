@@ -47,7 +47,7 @@ public class StatTest extends ClientBase {
 
     /**
      * Create a new Stat, fill in dummy values trying to catch Assert.failure
-     * to copy in client or server code.
+     * to copy in consumer or provider code.
      *
      * @return a new stat with dummy values
      */

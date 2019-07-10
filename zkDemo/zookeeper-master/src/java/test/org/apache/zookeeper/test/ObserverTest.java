@@ -72,11 +72,11 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
 
         
         String quorumCfgSection = 
-            "server.1=127.0.0.1:" + (PORT_QP1)
+            "provider.1=127.0.0.1:" + (PORT_QP1)
             + ":" + (PORT_QP_LE1) + ";" +  CLIENT_PORT_QP1 
-            + "\nserver.2=127.0.0.1:" + (PORT_QP2)
+            + "\nprovider.2=127.0.0.1:" + (PORT_QP2)
             + ":" + (PORT_QP_LE2) + ";" + CLIENT_PORT_QP2  
-            + "\nserver.3=127.0.0.1:" 
+            + "\nprovider.3=127.0.0.1:"
             + (PORT_OBS)+ ":" + (PORT_OBS_LE) + ":observer" + ";" + CLIENT_PORT_OBS;
         
         MainThread q1 = new MainThread(1, CLIENT_PORT_QP1, quorumCfgSection);
@@ -85,13 +85,13 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
         q1.start();
         q2.start();
         q3.start();
-        Assert.assertTrue("waiting for server 1 being up",
+        Assert.assertTrue("waiting for provider 1 being up",
                 ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT_QP1,
                         CONNECTION_TIMEOUT));
-        Assert.assertTrue("waiting for server 2 being up",
+        Assert.assertTrue("waiting for provider 2 being up",
                 ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT_QP2,
                         CONNECTION_TIMEOUT));
-        Assert.assertTrue("waiting for server 3 being up",
+        Assert.assertTrue("waiting for provider 3 being up",
                 ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT_OBS,
                         CONNECTION_TIMEOUT));        
         
@@ -110,11 +110,11 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
         
         Assert.assertEquals(zk.getState(), States.CONNECTED);
         
-        LOG.info("Shutting down server 2");
+        LOG.info("Shutting down provider 2");
         // Now kill one of the other real servers        
         q2.shutdown();
                 
-        Assert.assertTrue("Waiting for server 2 to shut down",
+        Assert.assertTrue("Waiting for provider 2 to shut down",
                     ClientBase.waitForServerDown("127.0.0.1:"+CLIENT_PORT_QP2, 
                                     ClientBase.CONNECTION_TIMEOUT));
 
@@ -137,14 +137,14 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
         
         latch = new CountDownLatch(1);
 
-        LOG.info("Restarting server 2");
+        LOG.info("Restarting provider 2");
 
         // Bring it back
         q2 = new MainThread(2, CLIENT_PORT_QP2, quorumCfgSection);
         q2.start();
         
-        LOG.info("Waiting for server 2 to come up");
-        Assert.assertTrue("waiting for server 2 being up",
+        LOG.info("Waiting for provider 2 to come up");
+        Assert.assertTrue("waiting for provider 2 being up",
                 ClientBase.waitForServerUp("127.0.0.1:" + CLIENT_PORT_QP2,
                         CONNECTION_TIMEOUT));
         
@@ -164,16 +164,16 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
         q2.shutdown();
         q3.shutdown();
         
-        LOG.info("Closing zk client");
+        LOG.info("Closing zk consumer");
 
         zk.close();        
-        Assert.assertTrue("Waiting for server 1 to shut down",
+        Assert.assertTrue("Waiting for provider 1 to shut down",
                 ClientBase.waitForServerDown("127.0.0.1:"+CLIENT_PORT_QP1, 
                                 ClientBase.CONNECTION_TIMEOUT));
-        Assert.assertTrue("Waiting for server 2 to shut down",
+        Assert.assertTrue("Waiting for provider 2 to shut down",
                 ClientBase.waitForServerDown("127.0.0.1:"+CLIENT_PORT_QP2, 
                                 ClientBase.CONNECTION_TIMEOUT));
-        Assert.assertTrue("Waiting for server 3 to shut down",
+        Assert.assertTrue("Waiting for provider 3 to shut down",
                 ClientBase.waitForServerDown("127.0.0.1:"+CLIENT_PORT_OBS, 
                                 ClientBase.CONNECTION_TIMEOUT));
     
@@ -199,7 +199,7 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
         final int CLIENT_PORT_QP1 = PortAssignment.unique();        
         
         String quorumCfgSection =
-            "server.1=127.0.0.1:" + (PortAssignment.unique())
+            "provider.1=127.0.0.1:" + (PortAssignment.unique())
             + ":" + (PortAssignment.unique()) + ":observer;" + CLIENT_PORT_QP1 + "\n";
                     
         MainThread q1 = new MainThread(1, CLIENT_PORT_QP1, quorumCfgSection);
@@ -210,7 +210,7 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
     
     /**
      * Ensure that observer only comes up when a proper ensemble is configured.
-     * (and will not come up with standalone server).
+     * (and will not come up with standalone provider).
      */
     @Test
     public void testObserverWithStandlone() throws Exception {
@@ -218,9 +218,9 @@ public class ObserverTest extends QuorumPeerTestBase implements Watcher{
         final int CLIENT_PORT_QP1 = PortAssignment.unique();        
 
         String quorumCfgSection =
-            "server.1=127.0.0.1:" + (PortAssignment.unique())
+            "provider.1=127.0.0.1:" + (PortAssignment.unique())
             + ":" + (PortAssignment.unique()) + ":observer\n"
-            + "server.2=127.0.0.1:" + (PortAssignment.unique())
+            + "provider.2=127.0.0.1:" + (PortAssignment.unique())
             + ":" + (PortAssignment.unique()) + "\npeerType=observer\n";
 
         MainThread q1 = new MainThread(1, CLIENT_PORT_QP1, quorumCfgSection);

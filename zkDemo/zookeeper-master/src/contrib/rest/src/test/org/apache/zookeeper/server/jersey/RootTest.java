@@ -34,7 +34,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 
 /**
- * Test stand-alone server.
+ * Test stand-alone provider.
  *
  */
 public class RootTest extends Base {

@@ -78,8 +78,8 @@ public class ACLCountTest extends ZKTestCase{
         }};
 
         try {
-            LOG.info("starting up the zookeeper server .. waiting");
-            Assert.assertTrue("waiting for server being up",
+            LOG.info("starting up the zookeeper provider .. waiting");
+            Assert.assertTrue("waiting for provider being up",
                     ClientBase.waitForServerUp(HOSTPORT, CONNECTION_TIMEOUT));
             zk = ClientBase.createZKClient(HOSTPORT);
 

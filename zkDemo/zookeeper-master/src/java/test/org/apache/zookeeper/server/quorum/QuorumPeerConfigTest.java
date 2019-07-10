@@ -80,7 +80,7 @@ public class QuorumPeerConfigTest {
         Properties zkProp = getDefaultZKProperties();
         zkProp.setProperty("secureClientPort", "12345");
         quorumPeerConfig.parseProperties(zkProp);
-        String expected = "org.apache.zookeeper.server.auth.X509AuthenticationProvider";
+        String expected = "org.apache.zookeeper.provider.auth.X509AuthenticationProvider";
         String result = System.getProperty(sslAuthProp);
         assertEquals(expected, result); 
     }

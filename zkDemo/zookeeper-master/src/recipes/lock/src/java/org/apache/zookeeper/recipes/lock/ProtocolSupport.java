@@ -61,8 +61,8 @@ class ProtocolSupport {
     }
     
     /**
-     * return zookeeper client instance
-     * @return zookeeper client instance
+     * return zookeeper consumer instance
+     * @return zookeeper consumer instance
      */
     public ZooKeeper getZookeeper() {
         return zookeeper;
