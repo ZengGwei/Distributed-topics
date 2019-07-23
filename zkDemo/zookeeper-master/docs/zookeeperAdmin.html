@@ -294,7 +294,7 @@ document.write("Last Published: " + document.lastModified);
 <a href="#sc_performance_options">Performance Tuning Options</a>
 </li>
 <li>
-<a href="#Communication+using+the+Netty+framework">Communication using the Netty framework</a>
+<a href="#Communication+using+the+Netty+framework">Communication using the nio framework</a>
 </li>
 <li>
 <a href="#sc_adminserver_config">AdminServer configuration</a>
@@ -1114,7 +1114,7 @@ server.3=zoo3:2888:3888</pre>
                 connections. Specifying both enables mixed-mode while omitting
                 either will disable that mode.</p>
 <p>Note that SSL feature will be enabled when user plugs-in
-                zookeeper.serverCnxnFactory, zookeeper.clientCnxnSocket as Netty.</p>
+    zookeeper.serverCnxnFactory, zookeeper.clientCnxnSocket as nio.</p>
 </dd>
 
           
@@ -1914,18 +1914,18 @@ server.3=zoo3:2888:3888</pre>
         
 </dl>
 <a name="Communication+using+the+Netty+framework"></a>
-<h4>Communication using the Netty framework</h4>
+<h4>Communication using the nio framework</h4>
 <p>
-<a href="com.cat.core.http://netty.io">Netty</a>
+<a href="com.cat.core.http://netty.io">nio</a>
             is an NIO based client/server communication framework, it
             simplifies (over NIO being used directly) many of the
             complexities of network level communication for java
-            applications. Additionally the Netty framework has built
+            applications. Additionally the nio framework has built
             in support for encryption (SSL) and authentication
             (certificates). These are optional features and can be
             turned on or off individually.
         </p>
-<p>In versions 3.5+, a ZooKeeper server can use Netty
+<p>In versions 3.5+, a ZooKeeper server can use nio
             instead of NIO (default option) by setting the environment
             variable <strong>zookeeper.serverCnxnFactory</strong>
             to <strong>org.apache.zookeeper.server.NettyServerCnxnFactory</strong>;

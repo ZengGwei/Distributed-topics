@@ -28,7 +28,7 @@ public class RpcProxy {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-           if()
+           return null;
         }
     }
 
